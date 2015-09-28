@@ -55,3 +55,16 @@ docs/_build/
 
 # PyBuilder
 target/
+nshipping/secrets.json
+
+nshipping/apps/ingreso/migrations/
+
+nshipping/apps/ingreso/migrations/*
+
+nshipping/apps/manifiesto/migrations/
+
+nshipping/apps/manifiesto/migrations/*
+
+nshipping/apps/users/migrations/
+
+nshipping/apps/users/migrations/*
