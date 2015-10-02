@@ -1,0 +1,26 @@
+{% extends "users/base_users.html" %}
+
+{% block title %}login Quilla Cargo S.A.C{% endblock title %}
+
+{% block content %}
+
+    {% if form.errors %}
+    <div class="container">
+        
+        <div class="alert alert-danger" role="alert">
+            {{ form.non_field_errors }}
+        </div>
+    </div>
+    {% endif %}
+    <div class="container">
+        <form method="post" class="form-signin">{% csrf_token %}
+            <h3 class="form-signin-heading">Iniciar Sesión</h3>
+            {{ form.username.label_tag }}
+            {{ form.username }}
+            {{ form.password.label_tag }}
+            {{ form.password }}
+            <button class="btn btn-lg btn-primary btn-block form-btn-signin" type="submit">Ingresar</button>
+        </form>
+    </div><!-- /container -->
+    
+{% endblock content %}
