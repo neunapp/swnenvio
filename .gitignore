@@ -65,6 +65,10 @@ nshipping/apps/manifiesto/migrations/
 
 nshipping/apps/manifiesto/migrations/*
 
+nshipping/apps/salida/migrations/
+
+nshipping/apps/salida/migrations/*
+
 nshipping/apps/users/migrations/
 
 nshipping/apps/users/migrations/*
