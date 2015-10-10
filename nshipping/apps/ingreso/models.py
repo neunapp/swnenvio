@@ -36,7 +36,7 @@ class DepositSlip(models.Model):
     sender = models.ForeignKey(Client)
     addressee = models.ForeignKey(Client, related_name="Client_addressee")
     date = models.DateField()
-    total_amount = models.DecimalField('Monto Total', max_digits=5, decimal_places=2)
+    total_amount = models.DecimalField('Monto Total', max_digits=12, decimal_places=5, default=0)
 
     class Meta:
         verbose_name = "NotaIngreso"
@@ -64,12 +64,12 @@ class Dues(models.Model):
         ('boleta', 'Boleta'),
         ('factura', 'Factura'),
     )
-    amount = models.DecimalField('Importe', max_digits=5, decimal_places=3)
+    amount = models.DecimalField('Importe', max_digits=12, decimal_places=3, default=0)
     deposit_slip = models.ForeignKey(DepositSlip)
     date = models.DateField()
     proof_type = models.CharField('Tipo de Comprobate',max_length=10, choices=TIPO_COMPROBANTE)
-    igv = models.DecimalField('Igv', max_digits=5, decimal_places=3)
-    sub_total = models.DecimalField('Sub Total', max_digits=5, decimal_places=2)
+    igv = models.DecimalField('Igv',max_digits=12, decimal_places=3, default=0)
+    sub_total = models.DecimalField('Sub Total', max_digits=12, decimal_places=3, default=0)
     class Meta:
         verbose_name = "cuota"
         verbose_name_plural = "cuotas"
