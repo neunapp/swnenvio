@@ -1,7 +1,8 @@
 from django import forms 
 from django.forms.formsets import formset_factory
 
-from .models import Branch, Client, DepositSlip, DetailDeposit, Dues, Profile 
+from .models import Branch, Client, DepositSlip, DetailDeposit, Dues
+from apps.profiles.models import Profile 
 
 class ClientForm(forms.ModelForm):
     class Meta:
@@ -55,7 +56,7 @@ class NotaIngresoForm(forms.Form):
     def __init__(self,*args, **kwargs):
         #sobre escribios metodo init
         super(NotaIngresoForm, self).__init__(*args, **kwargs)
-        self.fields['origin'].queryset = Profile.objects.filter(user=request.user)
+        self.fields['origin'].queryset = Branch.objects.all()
         self.fields['destination'].queryset = Branch.objects.all()
     #realizamos validaciones
     def clean_serie(self):
