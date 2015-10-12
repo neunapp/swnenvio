@@ -53,10 +53,10 @@ class NotaIngresoForm(forms.Form):
     por_cobrar = forms.DecimalField(label='Por Cobrar', max_digits=12, decimal_places=5)
     total = forms.DecimalField(label='Total', max_digits=12, decimal_places=5)
 
-    def __init__(self,*args, **kwargs):
+    def __init__(self,user,*args, **kwargs):
         #sobre escribios metodo init
         super(NotaIngresoForm, self).__init__(*args, **kwargs)
-        self.fields['origin'].queryset = Branch.objects.all()
+        self.fields['origin'].queryset = Profile.objects.filter(user=user)
         self.fields['destination'].queryset = Branch.objects.all()
     #realizamos validaciones
     def clean_serie(self):

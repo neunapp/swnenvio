@@ -18,7 +18,7 @@ class RegisterClient(CreateView):
 
 class RegisterSlipView(FormView):
     form_class = NotaIngresoForm
-    template_name = 'ingreso/slip.html'
+    template_name = 'ngreso/nota_ingreso/nota.html'
     success_url = '.'
 
     def dni_ruc(self, cadena_id, cliente):
@@ -35,6 +35,13 @@ class RegisterSlipView(FormView):
         context = super(RegisterSlipView, self).get_context_data(**kwargs)
         context['objetos'] = formset_factory(DetailForm, extra=2,max_num=3)
         return context
+
+    def get_form_kwargs(self):
+        kwargs = super(RegisterSlipView, self).get_form_kwargs()
+        kwargs.update({
+            'user': self.request.user,
+                      })
+        return kwargs
 
     def form_valid(self, form):
         data = self.request 
@@ -57,11 +64,13 @@ class RegisterSlipView(FormView):
         cliente_addr.save()
         #verificamos dni o ruc
         self.dni_ruc(form.cleaned_data['addr_id'],cliente_addr)
+        #recuperamos el origen
+        origen = form.cleaned_data['origin']
         #recuperamos datos de NotaIngreso
         nota_ingreso = DepositSlip(
                         serie=form.cleaned_data['serie'],
                         number=form.cleaned_data['number'],
-                        origin=form.cleaned_data['origin'],
+                        origin=origen.branch,
                         destination=form.cleaned_data['destination'],
                         sender=cliente_sen,
                         addressee=cliente_addr,

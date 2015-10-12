@@ -44,11 +44,11 @@
                     <h4 class="titulo-numeracion">NOTA DE INGRESO</h4>
                     <div class="contenido-numeracion">
                         <div class="form-group">
-                            <label class="sr-only control-label label-hidden" for="Email3">Serie</label>
+                            <label class="sr-only control-label label-hidden" for="Email3">{{form.serie}}</label>
                             <div class="col-xs-4">
                                 <input type="text" class="form-control input-sm" id="Email3" placeholder="Serie">
                             </div>
-                            <label class="col-xs-2 control-label label-number" for="Password3" placeholder="numero">N°</label>
+                            <label class="col-xs-2 control-label label-number" for="Password3" placeholder="numero">{{form.number}}</label>
                             <div class="col-xs-6">
                                 <input type="text" class="form-control input-sm" id="Password3" placeholder="Numero">
                             </div>
@@ -64,11 +64,7 @@
                     <label for="origen" class="col-xs-3 control-label label-envio">Origen</label>
                     <div class="col-xs-9">
                         <select id="origen" class="form-control input-sm">
-                            <option>Lima</option>
-                            <option>cusco</option>
-                            <option>Abancay</option>
-                            <option>Apurumac</option>
-                            <option>la Libertad</option>
+                            {{form.origin}}
                         </select>
                     </div>
                 </div>                
@@ -78,11 +74,7 @@
                     <label for="destino" class="col-xs-3 control-label label-envio">Destino</label>
                     <div class="col-xs-9">
                         <select id="destino" class="form-control input-sm">
-                            <option>Lima</option>
-                            <option>cusco</option>
-                            <option>Abancay</option>
-                            <option>Apurumac</option>
-                            <option>la Libertad</option>
+                            {{form.destination}}
                         </select>
                     </div>
                 </div>
