@@ -29,4 +29,4 @@ def LogOut(request):
 
 
 class PanelView(TemplateView):
-    template_name = "users/panel/panel.html"
+    template_name = "ingreso/nota_ingreso/nota.html"
