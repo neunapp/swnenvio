@@ -76,5 +76,12 @@ class Dues(models.Model):
 
     def __unicode__(self):
         return str(self.deposit_slip)
+
+class Profile(models.Model):
+    user = models.ForeignKey(User)
+    branch = models.ForeignKey(Branch)
+    class Meta:
+        verbose_name = "Perfil"
+        verbose_name_plural = "Perfiles"
     
             

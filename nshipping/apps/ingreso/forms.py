@@ -1,6 +1,7 @@
 from django import forms 
+from django.forms.formsets import formset_factory
 
-from .models import Branch, Client, DepositSlip, DetailDeposit, Dues 
+from .models import Branch, Client, DepositSlip, DetailDeposit, Dues, Profile 
 
 class ClientForm(forms.ModelForm):
     class Meta:
@@ -51,10 +52,10 @@ class NotaIngresoForm(forms.Form):
     por_cobrar = forms.DecimalField(label='Por Cobrar', max_digits=12, decimal_places=5)
     total = forms.DecimalField(label='Total', max_digits=12, decimal_places=5)
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self,*args, **kwargs):
         #sobre escribios metodo init
         super(NotaIngresoForm, self).__init__(*args, **kwargs)
-        self.fields['origin'].queryset = Branch.objects.all()
+        self.fields['origin'].queryset = Profile.objects.filter(user=request.user)
         self.fields['destination'].queryset = Branch.objects.all()
     #realizamos validaciones
     def clean_serie(self):
@@ -74,7 +75,7 @@ class NotaIngresoForm(forms.Form):
         if not ide.isdigit():
             self.add_error('sen_id','el Dni o Ruc no puede contener letras')
         elif len(ide) != 8 and len(ide) != 11:
-            self.add_error('sen_id','el Dni o Ruc solo admiten 6 u 11 digitos')       
+            self.add_error('sen_id','el Dni o Ruc solo admiten 8 u 11 digitos')       
         else:
             return ide
             

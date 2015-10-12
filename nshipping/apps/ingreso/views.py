@@ -103,7 +103,6 @@ class RegisterSlipView(FormView):
         ingreso_detalle = form_set(self.request.POST)
         for objeto in ingreso_detalle:
             if objeto.is_valid():
-                print '=======ENTRO AL FORM SET ======='
                 detalle_ingreso = DetailDeposit(
                                     deposit_slip=nota_ingreso,
                                     description=objeto.cleaned_data['description'],

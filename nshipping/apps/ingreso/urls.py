@@ -3,8 +3,8 @@ from . import views
 
 urlpatterns = [
     url(
-        r'^ingreso/$',
+        r'^nota-de-ingreso/$',
         views.RegisterSlipView.as_view(),
-        name='registro'
+        name='nota-ingreso'
     ),
 ]
