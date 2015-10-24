@@ -1,0 +1,26 @@
+<table class="hoverable centered bordered responsive-table">
+        <thead>
+          <tr>
+              <th>Denominacion</th>
+              <th>Placa</th>
+              <th>Marca</th>             
+          </tr>
+        </thead>
+        <tbody>
+
+          {% for car in  carros %}
+            <tr>
+              <td>{{ car.name }}</td>
+              <td>{{ car.plaque }}</td>
+              <td>{{ car.marca }}</td>
+              <td>
+                <a href="{% url 'manifiesto_app:actualizar-carro' car.pk %}">modificar</a>
+              </td>
+              <td>
+                <a href="{% url 'manifiesto_app:eliminar-carro' car.pk %}">eliminar</a>
+              </td>
+            </tr>            
+          {% endfor %}
+
+        </tbody>
+</table>

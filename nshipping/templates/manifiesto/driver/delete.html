@@ -1,0 +1,9 @@
+<form action="{% url 'manifiesto_app:eliminar-conductor' object.pk %}" method="POST">{% csrf_token %}
+                            <div class="col s12">
+                                <h6 class="center-align">¿Desea eliminar la carrera "{{ object }}"?</h6>
+                            </div>
+                            <div class="col s12 center">
+                                <button type="submit" name="action">si</button>
+                                <a href="{% url 'manifiesto_app:listar-conductor' %}">no</a>
+                            </div>
+</form>

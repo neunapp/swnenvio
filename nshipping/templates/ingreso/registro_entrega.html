@@ -1,0 +1,40 @@
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    MARCAR LA ENTREGA
+    <p>{{object.serie}}</p>
+    <p>{{object.number}}</p>
+    <p>{{object.origin}}</p>
+    <p>{{object.destination}}</p>
+    <p>{{object.sender}}</p>
+    <p>{{object.addressee}}</p>
+    <p>{{object.date}}</p>
+    <p>{{object.commited}}</p>
+    <p>{{object.total_amount}}</p>
+    <table>
+        <thead>
+          <tr>
+              <th>Cantidad</th>
+              <th>Descripcion</th>            
+          </tr>
+        </thead>
+        <tbody>
+
+          {% for objeto in  ObjetoDetalle %}
+            <tr>
+              <td>{{ objeto.count }}</td>
+              <td>{{ objeto.description }}</td>
+            </tr>            
+          {% endfor %}
+    </table>
+    <form method="POST">{% csrf_token %}
+        {{form.as_p}}
+        <div class="input-field col s12">
+            <button type="submit" name="action">Pagar
+            </button>
+        </div>
+    </form>
+</body>
+</html>

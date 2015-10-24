@@ -3,10 +3,10 @@
 {% block sidenav %}
                         
     <li>
-        <a class="active" href="#"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
+        <a class="active" href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
     </li>
     <li>
-        <a href="#"><i class="fa fa-fw fa-money"></i> Entrega De Envio</a>
+        <a href="{% url 'ingreso_app:entrega-paquete' %}"><i class="fa fa-fw fa-money"></i> Entrega De Envio</a>
     </li>
     <li>
         <a href="#"><i class="fa fa-fw fa-table"></i> Tables</a>
