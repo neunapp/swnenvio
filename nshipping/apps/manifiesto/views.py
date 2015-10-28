@@ -1,14 +1,16 @@
 from django.shortcuts import render
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView
-from django.views.generic.edit import FormMixin, FormView
+from django.views.generic.edit import FormMixin, SingleObjectMixin, FormView
 
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse_lazy, reverse
+from django.http import HttpResponseRedirect
+from datetime import datetime
 
 from .models import Car, Driver, Manifest
 
-from apps.ingreso.models import Dues
+from apps.ingreso.models import Dues, Branch, DepositSlip
 
-from .forms import CarForm, DriverForm, FilterForm
+from .forms import CarForm, DriverForm, FilterForm, RegisterManifestForm
 
 
 #mantenimiento para tabla Car
@@ -69,24 +71,43 @@ class DeleteDriverView(DeleteView):
     success_url = reverse_lazy('manifiesto_app:listar-conductor')
 
 
-#proceso de registro de Manifiesto
-class RegisterManifest(FormMixin, ListView):
-    context_object_name = 'paquetes'
+
+# #proceso para registrar manifiesto
+class RegisterManifestView(SingleObjectMixin, FormView):
+    form_class = RegisterManifestForm
     template_name = 'manifiesto/manifest/register.html'
+    success_url = '.'
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object(queryset=Branch.objects.all())
+        return super(RegisterManifestView, self).get(request, *args, **kwargs)
+
+    def get_form_kwargs(self):
+        kwargs = super(RegisterManifestView,self).get_form_kwargs()
+        kwargs.update({
+            'pk': self.kwargs.get('pk',0),
+                      })
+        return kwargs
 
     def get_context_data(self, **kwargs):
-        context = super(RegisterManifest, self).get_context_data(**kwargs)
-        context['form'] = FilterForm
+        context = super(RegisterManifestView, self).get_context_data(**kwargs)
+        context['slips'] = DepositSlip.objects.filter(destination=self.object,commited=False)
         return context
 
-    def get_queryset(self):
-        #recuperamos el valor recibido por get
-        q = self.request.GET.get("destination")
 
-        if q:
-            queryset = Dues.objects.buscar_by_destino(q)
-        else:
-            queryset = Dues.objects.filter(deposit_slip__commited=False)
+    def form_valid(self, form):
+        #recuperamos las notas de ingreso seleccionadas
+        if form.is_valid():
+            #actualizamos el dposit_slip
+            deposit = forms.cleaned_data['deposit_slip']
+            for slip in deposit:
+                nota_ingreso = slip
+                nota_ingreso.output = True
+                nota_ingreso.save()
 
-        return queryset
+            manifiesto = form.save()
+            manifiesto.user = self.request.user
+            manifiesto.date = datetime.now()
+            manifiesto.save()
 
+        return super(RegisterManifestView, self).form_valid(form)

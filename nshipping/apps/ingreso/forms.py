@@ -8,7 +8,12 @@ class ClientForm(forms.ModelForm):
     class Meta:
         model = Client
         fields=("__all__")
+        
     
+class BranchForm(forms.ModelForm):
+    class Meta:
+        model = Branch
+        fields = ("__all__")
 
 class DetailForm(forms.ModelForm):
     # formulario para almacenar el detalle de productos en envio

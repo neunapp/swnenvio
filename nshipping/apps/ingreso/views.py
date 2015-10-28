@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 from django.shortcuts import render
 from django.db import transaction
-from django.views.generic import CreateView, TemplateView, ListView, DetailView
+from django.views.generic import CreateView, TemplateView, ListView, DetailView, UpdateView, DeleteView
 from django.views.generic.edit import FormView, FormMixin
 from django.forms.formsets import formset_factory
 from django.utils import timezone
@@ -10,10 +10,38 @@ from django.core.urlresolvers import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
 # local.
 from .models import Branch, Client, DepositSlip, DetailDeposit, Dues
-from .forms import DetailForm, NotaIngresoForm, ClientForm, SearchForm, DetailDeliverForm
+from .forms import DetailForm, NotaIngresoForm, ClientForm, SearchForm, DetailDeliverForm, BranchForm
 #importamos la base de datos de Profile
 from apps.profiles.models import Profile
 #aplicaciones locales
+
+
+#Mantenimiento de ciudades
+class ListBranch(ListView):
+    context_object_name = 'sucursales'
+    queryset = Branch.objects.all()
+    template_name = 'ingreso/sucursales/list.html'
+
+
+class RegisterBranch(CreateView):
+    template_name = 'ingreso/sucursales/add.html'
+    form_class = BranchForm
+    success_url = '.'
+
+
+class UpdateBranch(UpdateView):
+    #matenimietno actualiza carro
+    model = Branch
+    template_name = 'ingreso/sucursales/update.html'
+    form_class = BranchForm
+    success_url = reverse_lazy('ingreso_app:listar-branch')
+
+
+class DeleteBranch(DeleteView):
+    #mantenimiento eliminar carro
+    template_name = 'ingreso/sucursales/delete.html'
+    model = Branch
+    success_url = reverse_lazy('ingreso_app:listar-branch')
 
 
 class RegisterClient(CreateView):
@@ -275,6 +303,3 @@ class DetailDeliverView(FormMixin, DetailView):
         cuota.save()
         #actualizamos el estado y registramos el descuento
         return super(DetailDeliverView, self).form_valid(form)
-
-
-

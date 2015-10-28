@@ -1,33 +1,33 @@
-<form method="GET">{% csrf_token %}
-    {{form.as_p}}
+<form method="POST">{% csrf_token %}
+    {{form.car}}
+    {{form.driver}}
+    {{form.destination}}
 <div class="input-field ">
-    <button type="submit" name="action">guardar
+    <button type="submit" name="action">Filtrar
     </button>
 </div>
-</form>
-
 <table class="hoverable centered bordered responsive-table">
         <thead>
           <tr>
               <th>Fecha</th>
-              <th>Numero Guia</th>
+              <th>Nro Guia</th>
               <th>Destino</th>
-              <th>Añadir</th>           
+              <th>Añadir</th>             
           </tr>
         </thead>
         <tbody>
-
-          {% for paquete in  paquetes %}
-            <tr>
-              <td>{{ paquete.deposit_slip.date }}</td>
-              <td>{{ paquete.deposit_slip.origin }}</td>
-              <td>{{ paquete.saldo }}</td>
-              <td>{{ paquete.date }}</td>
-               <td>
-                <a href="{% url 'ingreso_app:detalle_entrega' paquete.pk %}">Cancelar Entrega</a>
-              </td>
-            </tr>            
-          {% endfor %}
-
+                {% for slip in form.deposit_slip %}
+                 <tr>
+                    <td>Fecha</td>
+                    <td>Nro Guia</td>
+                    <td>Destino</td>
+                    <td>{{slip.tag}}</td>
+                {% endfor %}  
+                </tr>        
         </tbody>
-      </table>
+</table>
+<div class="input-field ">
+    <button type="submit" name="action">Crear Manifiesto
+    </button>
+</div>
+</form>

@@ -42,6 +42,7 @@ class DepositSlip(models.Model):
     addressee = models.ForeignKey(Client, related_name="Client_addressee")
     date = models.DateField()
     commited = models.BooleanField('Entregado', default=False)
+    output = models.BooleanField('Estado de Salida', default=False)
     total_amount = models.DecimalField('Monto Total', max_digits=12, decimal_places=5, default=0)
 
     class Meta:

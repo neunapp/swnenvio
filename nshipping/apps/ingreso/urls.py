@@ -22,5 +22,25 @@ urlpatterns = [
         views.DetailDeliverView.as_view(),
         name='detalle_entrega'
     ),
-
+#url para manteniminetos de sucursales
+    url(
+        r'^sucursales/listar/$',
+        views.ListBranch.as_view(),
+        name='listar-branch'
+    ),
+    url(
+        r'^sucursales/add/$',
+        views.RegisterBranch.as_view(),
+        name='agregar-branch'
+    ),
+    url(
+        r'^sucursales/update/(?P<pk>\d+)$',
+        views.UpdateBranch.as_view(),
+        name='actualizar-branch'
+    ),
+    url(
+        r'^sucursales/delete/(?P<pk>\d+)$',
+        views.DeleteBranch.as_view(),
+        name='eliminar-branch'
+    ),
 ]
