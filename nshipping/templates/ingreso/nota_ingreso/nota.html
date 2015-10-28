@@ -1,12 +1,13 @@
-{% extends "users/panel/base_panel.html" %}
+{% extends "ingreso/nota_ingreso/base_nota.html" %}
+
 
 {% block sidenav %}
                         
     <li>
-        <a class="active" href="#"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
+        <a class="active" href="{% url 'users_app:nota' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
     </li>
     <li>
-        <a href="#"><i class="fa fa-fw fa-money"></i> Entrega De Envio</a>
+        <a href="{% url 'users_app:entrega_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envio</a>
     </li>
     <li>
         <a href="#"><i class="fa fa-fw fa-table"></i> Tables</a>

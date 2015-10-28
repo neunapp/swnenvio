@@ -17,4 +17,20 @@ urlpatterns = [
         views.PanelView.as_view(),
         name='panel'
     ),
+    url(
+        r'^panel/usuario/nota-ingreso/$',
+        views.Panel1View.as_view(),
+        name='nota'
+    ),
+    url(
+        r'^panel/usuario/entrega-envio/$',
+        views.Panel2View.as_view(),
+        name='entrega_envio'
+    ),
+    url(
+        r'^panel/usuario/entrega-envio/100/$',
+        views.Panel3View.as_view(),
+        name='entrega_detalle'
+    ),
+
 ]

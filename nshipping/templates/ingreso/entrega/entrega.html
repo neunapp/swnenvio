@@ -1,0 +1,177 @@
+{% extends "ingreso/entrega/base_entrega.html" %}
+
+{% block sidenav %}
+                        
+    <li>
+        <a href="{% url 'users_app:nota' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
+    </li>
+    <li>
+        <a class="active" href="{% url 'users_app:entrega_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envio</a>
+    </li>
+    <li>
+        <a href="#"><i class="fa fa-fw fa-table"></i> Tables</a>
+    </li>
+    <li>
+        <a href="#"><i class="fa fa-fw fa-edit"></i> Forms</a>
+    </li>
+    <li>
+        <a href="#"><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>
+    </li>
+    <li>
+        <a href="#"><i class="fa fa-fw fa-wrench"></i> Bootstrap Grid</a>
+    </li>
+    <li>
+        <a href="#"><i class="fa fa-fw fa-file"></i> Blank Page</a>
+    </li>
+    <li>
+        <a href="#"><i class="fa fa-fw fa-dashboard"></i> RTL Dashboard</a>
+    </li>
+
+{% endblock sidenav %}
+
+{% block content_panel %}
+    <div class="row">
+        <div class="col-xs-12">
+            <h3 class="page-header title-entrega">Entrega De Envios</h3>
+        </div>
+    </div>
+    
+    <form action="" class="form-horizontal">
+        
+        <div class="row">
+
+            <div class="col-xs-12 col-md-6">
+                <div class="form-group">
+                    <label for="serie-numero" class="col-xs-3 control-label">Nota Ingreso</label>
+                    <div class="input-group col-xs-9 box-nota">
+                        <input type="text" name="serie" class="form-control input-sm" id="serie-numero" placeholder="Serie">
+                        <div class="input-group-addon">-</div>
+                        <input type="text" name="numero" class="form-control input-sm" id="serie-numero" placeholder="Numero">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-md-6">
+                <div class="form-group">
+                    <label for="fecha" class="col-xs-3 control-label">Fecha</label>
+                    <div class="col-xs-9">
+                      <input type="text" name="fecha" class="form-control input-sm datepicker" id="fecha" placeholder="Ingrese Fecha">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-md-6">
+                <div class="form-group">
+                    <label for="remitente" class="col-xs-3 control-label">Remitente</label>
+                    <div class="col-xs-9">
+                      <input type="text" name="remitente" class="form-control input-sm" id="remitente" placeholder="Ingrese remitente">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <div class="form-group">
+                    <label for="destinatario" class="col-xs-3 control-label">Destinatario</label>
+                    <div class="col-xs-9">
+                      <input type="text" name="destinatario" class="form-control input-sm" id="destinatario" placeholder="Ingrese destinatario">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="form-group">
+                    <div class="col-sm-offset-1 col-sm-10">
+                      <button type="submit" class="btn btn-primary">Buscar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="row">
+        <div class="col-xs-12">
+          <table class="table table-bordered table-hover table-condensed table-quilla">
+                <thead>
+                    <tr>
+                        <th>Nombres</th>
+                        <th>Origen</th>
+                        <th>Por Cobrar</th>
+                        <th class="text-center">Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Henrry Joel Sairitupac Arones</td>
+                        <td>Lima</td>
+                        
+                        <td>
+                            <span class="label label-success">s/ 0:00</span>
+                        </td>
+                        <td class="text-center">
+                            <a href="{% url 'users_app:entrega_detalle' %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i> Detalle</a>
+                            
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Cristian Santa Cruz Carrión</td>
+                        <td>Quillabanba</td>
+                        
+                        <td>
+                            <span class="label label-success">s/ 0.00</span>
+                        </td>
+                        <td class="text-center">
+                            <a href="{% url 'users_app:entrega_detalle' %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i> Detalle</a>
+                            
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Henrry Joel Sairitupac Arones</td>
+                        <td>La libertad</td>
+                        
+                        <td>
+                            <span class="label label-warning">S/ 100.00</span>
+                        </td>
+                        <td class="text-center">
+                            <a href="{% url 'users_app:entrega_detalle' %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i> Detalle</a>
+                            
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Henrry Joel Sairitupac Arones</td>
+                        <td>Lima</td>
+                        
+                        <td>
+                            <span class="label label-warning">S/ 100.00</span>
+                        </td>
+                        <td class="text-center">
+                            <a href="{% url 'users_app:entrega_detalle' %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i> Detalle</a>
+                            
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Brenda Paucar Coppa</td>
+                        <td>Ica</td>
+                        
+                        <td>
+                            <span class="label label-danger">S/ 500.00</span>
+                        </td>
+                        <td class="text-center">
+                            <a href="{% url 'users_app:entrega_detalle' %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i> Detalle</a>
+                            
+                        </td>
+                    </tr>
+
+                </tbody>
+          </table>  
+        </div>
+    </div>
+
+{% endblock content_panel %}

@@ -37,7 +37,7 @@ class RegisterSlipView(FormView):
         return context
 
     def form_valid(self, form):
-        data = self.request 
+        data = self.request
         form_set = formset_factory(DetailForm, extra=2, max_num=3)        
         #recuperamos datos de remitente
         cliente_sen = Client(
@@ -112,5 +112,8 @@ class RegisterSlipView(FormView):
                                     user=self.request.user,
                                     )
                 detalle_ingreso.save()
+            
+                
+            
 
         return super(RegisterSlipView, self).form_valid(form)
