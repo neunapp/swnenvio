@@ -1,0 +1,32 @@
+<table class="hoverable centered bordered responsive-table">
+        <thead>
+          <tr>
+              <th>dni</th>
+              <th>nombres</th>
+              <th>Brebete</th>
+              <th>Direccion</th>
+              <th>Telefono</th>
+              <th>e-mail</th>             
+          </tr>
+        </thead>
+        <tbody>
+
+          {% for conductor in  conductores %}
+            <tr>
+              <td>{{ conductor.dni }}</td>
+              <td>{{ conductor.full_name }}</td>
+              <td>{{ conductor.license }}</td>
+              <td>{{ conductor.addrees }}</td>
+              <td>{{ conductor.phone }}</td>
+              <td>{{ conductor.email }}</td>
+              <td>
+                <a href="{% url 'manifiesto_app:actualizar-conductor' conductor.pk %}">modificar</a>
+              </td>
+              <td>
+                <a href="{% url 'manifiesto_app:eliminar-conductor' conductor.pk %}">eliminar</a>
+              </td>
+            </tr>            
+          {% endfor %}
+
+        </tbody>
+</table>
