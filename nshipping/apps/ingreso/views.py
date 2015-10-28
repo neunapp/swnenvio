@@ -98,8 +98,7 @@ class RegisterSlipView(FormView):
                       })
         return kwargs
         
-    def form_valid(self, form):
-        data = self.request 
+    def form_valid(self, form): 
         form_set = formset_factory(DetailForm, extra=2, max_num=3) 
         ingreso_detalle = form_set(self.request.POST)
         if self.formulario_valido(ingreso_detalle):     
@@ -108,7 +107,7 @@ class RegisterSlipView(FormView):
                 #acuatalizmos los datos
                 cliente_sen = self.clinete_existe(form.cleaned_data['sen_id'])[0]
                 cliente_sen.full_name = form.cleaned_data['sen_name']
-                cliente_sen.business_name = business_name=form.cleaned_data['sen_razonsocial']
+                cliente_sen.business_name = form.cleaned_data['sen_razonsocial']
                 cliente_sen.save()
                 #mensaje de confirmacion
                 print '=======Cliente Registrado======='
@@ -129,7 +128,7 @@ class RegisterSlipView(FormView):
                 #actualizamos los dtos de cliente
                 cliente_addr = self.clinete_existe(form.cleaned_data['addr_id'])[0]
                 cliente_addr.full_name = form.cleaned_data['addr_name']
-                cliente_addr.business_name = business_name=form.cleaned_data['addr_razonsocial']
+                cliente_addr.business_name = form.cleaned_data['addr_razonsocial']
                 cliente_addr.save()
                 #mensaje de confirmacion
                 print '=======Cliente Registrado======='
