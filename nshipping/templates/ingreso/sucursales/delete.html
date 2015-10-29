@@ -1,0 +1,9 @@
+<form action="{% url 'ingreso_app:eliminar-branch' branch.pk %}" method="POST">{% csrf_token %}
+                    <div class="col s12">
+                        <h6 class="center-align">¿Desea eliminar la Sucursal "{{ object }}"?</h6>
+                        </div>
+                    <div class="col s12 center">
+                         <button type="submit" name="action">si</button>
+                        <a href="{% url 'ingreso_app:listar-branch' %}">no</a>
+                        </div>
+</form>

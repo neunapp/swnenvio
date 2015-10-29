@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
-from django.shortcuts import render
-from django.db import transaction
-from django.views.generic import CreateView, TemplateView, ListView, DetailView, UpdateView, DeleteView
-from django.views.generic.edit import FormView, FormMixin
+
+from django.views.generic import TemplateView, DetailView, UpdateView
+from django.views.generic.edit import CreateView, FormView, FormMixin
+from django.views.generic.list import ListView
 from django.forms.formsets import formset_factory
 from django.utils import timezone
 from datetime import datetime
@@ -10,7 +10,14 @@ from django.core.urlresolvers import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
 # local.
 from .models import Branch, Client, DepositSlip, DetailDeposit, Dues
-from .forms import DetailForm, NotaIngresoForm, ClientForm, SearchForm, DetailDeliverForm, BranchForm
+from .forms import (
+    DetailForm,
+    NotaIngresoForm,
+    ClientForm,
+    SearchForm,
+    DetailDeliverForm,
+    BranchForm
+)
 #importamos la base de datos de Profile
 from apps.profiles.models import Profile
 #aplicaciones locales
@@ -34,13 +41,6 @@ class UpdateBranch(UpdateView):
     model = Branch
     template_name = 'ingreso/sucursales/update.html'
     form_class = BranchForm
-    success_url = reverse_lazy('ingreso_app:listar-branch')
-
-
-class DeleteBranch(DeleteView):
-    #mantenimiento eliminar carro
-    template_name = 'ingreso/sucursales/delete.html'
-    model = Branch
     success_url = reverse_lazy('ingreso_app:listar-branch')
 
 
@@ -95,18 +95,19 @@ class RegisterSlipView(FormView):
         kwargs = super(RegisterSlipView, self).get_form_kwargs()
         kwargs.update({
             'user': self.request.user,
-                      })
+        })
         return kwargs
-        
+
     def form_valid(self, form):
-        data = self.request 
-        form_set = formset_factory(DetailForm, extra=2, max_num=3) 
+        form_set = formset_factory(DetailForm, extra=2, max_num=3)
         ingreso_detalle = form_set(self.request.POST)
-        if self.formulario_valido(ingreso_detalle):     
-            #verificamos si el cliente ya existe 
-            if self.clinete_existe(form.cleaned_data['sen_id']).count()>0:
+        if self.formulario_valido(ingreso_detalle):
+            #verificamos si el cliente ya existe
+            if self.clinete_existe(form.cleaned_data['sen_id']).count() > 0:
                 #acuatalizmos los datos
-                cliente_sen = self.clinete_existe(form.cleaned_data['sen_id'])[0]
+                cliente_sen = self.clinete_existe(
+                    form.cleaned_data['sen_id']
+                )[0]
                 cliente_sen.full_name = form.cleaned_data['sen_name']
                 cliente_sen.business_name = form.cleaned_data['sen_razonsocial']
                 cliente_sen.save()
@@ -115,19 +116,21 @@ class RegisterSlipView(FormView):
             else:
                 #recuperamos datos de remitente
                 cliente_sen = Client(
-                            full_name=form.cleaned_data['sen_name'],
-                            business_name=form.cleaned_data['sen_razonsocial'],
-                            )
+                    full_name=form.cleaned_data['sen_name'],
+                    business_name=form.cleaned_data['sen_razonsocial'],
+                )
                 #guardamos nuevo remitente
                 cliente_sen.save()
                 #verificamos dni o ruc
-                self.dni_ruc(form.cleaned_data['sen_id'],cliente_sen)
+                self.dni_ruc(form.cleaned_data['sen_id'], cliente_sen)
                 #mensaje de confirmacion
                 print '=======Cliente Registrado======='
             #verificamos si el destinatario ya existe
-            if self.clinete_existe(form.cleaned_data['addr_id']).count()>0:
+            if self.clinete_existe(form.cleaned_data['addr_id']).count() > 0:
                 #actualizamos los dtos de cliente
-                cliente_addr = self.clinete_existe(form.cleaned_data['addr_id'])[0]
+                cliente_addr = self.clinete_existe(
+                    form.cleaned_data['addr_id']
+                )[0]
                 cliente_addr.full_name = form.cleaned_data['addr_name']
                 cliente_addr.business_name = form.cleaned_data['addr_razonsocial']
                 cliente_addr.save()
@@ -136,28 +139,28 @@ class RegisterSlipView(FormView):
             else:
                 #recuperamos datos de destinatario
                 cliente_addr = Client(
-                                full_name=form.cleaned_data['addr_name'],
-                                business_name=form.cleaned_data['addr_razonsocial'],
-                                )
+                    full_name=form.cleaned_data['addr_name'],
+                    business_name=form.cleaned_data['addr_razonsocial'],
+                )
                 #guardamos nuevo destinatario
                 cliente_addr.save()
                 #verificamos dni o ruc
-                self.dni_ruc(form.cleaned_data['addr_id'],cliente_addr)
+                self.dni_ruc(form.cleaned_data['addr_id'], cliente_addr)
                 #mensaje de confirmacion
                 print '=======Cliente Registrado======='
             #recuperamos el origen
             origen = form.cleaned_data['origin']
             #recuperamos datos de NotaIngreso
             nota_ingreso = DepositSlip(
-                            serie=form.cleaned_data['serie'],
-                            number=form.cleaned_data['number'],
-                            origin=origen.branch,
-                            destination=form.cleaned_data['destination'],
-                            sender=cliente_sen,
-                            addressee=cliente_addr,
-                            date=datetime.now(),
-                            total_amount=form.cleaned_data['total'],
-                            )
+                serie=form.cleaned_data['serie'],
+                number=form.cleaned_data['number'],
+                origin=origen.branch,
+                destination=form.cleaned_data['destination'],
+                sender=cliente_sen,
+                addressee=cliente_addr,
+                date=datetime.now(),
+                total_amount=form.cleaned_data['total'],
+            )
             #guardamos nota de ingreso
             nota_ingreso.save()
             #mensaje de confirmacion
@@ -181,14 +184,14 @@ class RegisterSlipView(FormView):
                 sub_total = importe
             #asignamos valores
             cuota = Dues(
-                    amount=importe,
-                    deposit_slip=nota_ingreso,
-                    date=timezone.now(),
-                    proof_type=tipo,
-                    igv=igv,
-                    sub_total=sub_total,
-                     )
-            #verificamos si la cuota cubre el monto total  
+                amount=importe,
+                deposit_slip=nota_ingreso,
+                date=timezone.now(),
+                proof_type=tipo,
+                igv=igv,
+                sub_total=sub_total,
+            )
+            #verificamos si la cuota cubre el monto total
             #guardamos cuota
             cuota.save()
             #mensaje de confirmacion
@@ -207,7 +210,7 @@ class RegisterSlipView(FormView):
         else:
             #response_data = {'success': 0, 'message': 'Ingrese objetos correstos'}
             return HttpResponseRedirect('/errors/')
-                
+
         return super(RegisterSlipView, self).form_valid(form)
 
 
@@ -234,19 +237,27 @@ class DeliverView(FormMixin, ListView):
         #separamos la fecha para el filtro
         if (q and r) or s or t or u:
             cadena = u.split("-")
-            if cadena.count()>2:
+            if cadena.count() > 2:
                 fecha = cadena[2]+"-"+cadena[1]
             else:
                 fecha = ""
-            queryset = Dues.objects.buscar_ingreso(sucursal.branch,q,r,s,t,fecha)
+            queryset = Dues.objects.buscar_ingreso(
+                sucursal.branch,
+                q,
+                r,
+                s,
+                t,
+                fecha
+            )
         else:
             #tomamos la fecha actual
             fecha = timezone.now()
             print '==========fecha actual========'
             print fecha
-            queryset= Dues.objects.lista_no_entregado(sucursal.branch, fecha)
+            queryset = Dues.objects.lista_no_entregado(sucursal.branch, fecha)
 
         return queryset
+
 
 class DetailDeliverView(FormMixin, DetailView):
     model = DepositSlip
@@ -257,8 +268,10 @@ class DetailDeliverView(FormMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(DetailDeliverView, self).get_context_data(**kwargs)
         context['form'] = self.get_form()
-        objeto = self.object 
-        context['ObjetoDetalle'] = DetailDeposit.objects.filter(deposit_slip=objeto.pk)
+        objeto = self.object
+        context['ObjetoDetalle'] = DetailDeposit.objects.filter(
+            deposit_slip=objeto.pk
+        )
         return context
 
     def post(self, request, *args, **kwargs):
@@ -271,7 +284,7 @@ class DetailDeliverView(FormMixin, DetailView):
 
     def form_valid(self, form):
         #recupramos el objeto
-        objeto = self.object 
+        objeto = self.object
         #recuperamos el primer pago
         prime_pago = Dues.objects.get(deposit_slip=objeto).sub_total
         #calculamos el acuenta
@@ -285,20 +298,20 @@ class DetailDeliverView(FormMixin, DetailView):
         igv = 0
         #vrificamos el tipo de pago
         cadena_tipo = 'factura'
-        if tipo_pago==cadena_tipo:
+        if tipo_pago == cadena_tipo:
             igv = (sub_total/100) * 18
             sub_total = sub_total+igv
-        #registramos el nuevo pago    
+        #registramos el nuevo pago
         cuota = Dues(
-                     amount=acuenta,
-                     deposit_slip=objeto,
-                     date=datetime.now(),
-                     proof_type=tipo_pago,
-                     igv=igv,
-                     sub_total=sub_total,
-                     discount=descuento,
-                     )
-        objeto.commited = True 
+            amount=acuenta,
+            deposit_slip=objeto,
+            date=datetime.now(),
+            proof_type=tipo_pago,
+            igv=igv,
+            sub_total=sub_total,
+            discount=descuento,
+        )
+        objeto.commited = True
         objeto.save()
         cuota.save()
         #actualizamos el estado y registramos el descuento

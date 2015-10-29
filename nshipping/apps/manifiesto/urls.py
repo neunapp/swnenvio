@@ -46,8 +46,8 @@ urlpatterns = [
     ),
     #url para la tabla mnifiesto
     url(
-        r'^manifiesto/crear-manifiesto$',
-        views.RegisterManifest.as_view(),
-        name='register-manifest'
+        r'^manifiesto/crear-manifiesto/sucursal/(?P<pk>\d)$',
+        views.RegisterManifestView.as_view(),
+        name='register-manifiesto'
     ),
 ]

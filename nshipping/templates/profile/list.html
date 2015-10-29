@@ -1,0 +1,21 @@
+<table class="hoverable centered bordered responsive-table">
+        <thead>
+          <tr>
+              <th>Encargado</th>
+              <th>Sucursal</th>            
+          </tr>
+        </thead>
+        <tbody>
+
+          {% for perfil in  perfiles %}
+            <tr>
+              <td>{{ perfil.user }}</td>
+              <td>{{ perfil.branch }}</td>
+              <td>
+                <a href="{% url 'profiles_app:actualizar-profile' perfil.pk %}">modificar</a>
+              </td>
+            </tr>            
+          {% endfor %}
+
+        </tbody>
+</table>
