@@ -59,12 +59,14 @@ class DetailDeposit(models.Model):
     count = models.PositiveIntegerField('Cantidad')
     been = models.BooleanField('Estado', default=False)
     user = models.ForeignKey(User, blank=True, null=True, default=1)
+
     class Meta:
         verbose_name = "Detalle_Ingreso"
         verbose_name_plural = "Detalle_Ingresos"
-    
+
     def __unicode__(self):
         return str(self.deposit_slip)
+
 
 class ManagerDues(models.Manager):
     def lista_no_entregado(self, destino, fecha):
@@ -76,23 +78,36 @@ class ManagerDues(models.Manager):
                                     deposit_slip__commited=False,
                                     deposit_slip__destination=destino,
                                     date__lte=fecha,
-                                    date__gte=fecha,
                                         )
         return lista
 
-    def buscar_ingreso(self,destino,serie,numero, remitente, destinatario, fecha):
+    def buscar_ingreso(self,destino,serie,numero, remitente, destinatario):
         resultado = self.annotate(
                                 saldo=F('deposit_slip__total_amount')-F('amount')
                              ).filter(
                                     deposit_slip__commited=False,
                                     deposit_slip__destination=destino,
+                                    deposit_slip__output=True,
                                     deposit_slip__serie__icontains=serie,
                                     deposit_slip__number__icontains=numero,
                                     deposit_slip__sender__full_name__icontains=remitente,
                                     deposit_slip__addressee__full_name__icontains=destinatario,
-                                    deposit_slip__date__icontains=fecha,
                                         )
         return resultado
+
+    def buscar_by_fecha(self, destino, date):
+        fecha = date - datetime.timedelta(days=7)
+        resultado = self.annotate(
+                                saldo=F('deposit_slip__total_amount')-F('amount')
+                             ).filter(
+                                    deposit_slip__commited=False,
+                                    deposit_slip__destination=destino,
+                                    deposit_slip__output=True,
+                                    deposit_slip__date__gte=fecha,
+                                    deposit_slip__date__lte=date,
+                                        )
+        return resultado
+
 
     def buscar_by_destino(self, destino):
         resultado = self.filter(

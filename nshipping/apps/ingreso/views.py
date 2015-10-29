@@ -230,14 +230,11 @@ class DeliverView(FormMixin, ListView):
         #recuperamos el usuario o sucursal
         usuario = self.request.user
         sucursal = Profile.objects.filter(user=usuario)[0]
-        #separamos la fecha para el filtro
-        if (q and r) or s or t or u:
-            cadena = u.split("-")
-            if cadena.count()>2:
-                fecha = cadena[2]+"-"+cadena[1]
-            else:
-                fecha = ""
-            queryset = Dues.objects.buscar_ingreso(sucursal.branch,q,r,s,t,fecha)
+        #separamos la fecha para el filtro      
+        if (q and r) or s or t or u:                 
+            queryset = Dues.objects.buscar_ingreso(sucursal.branch,q,r,s,t)
+        elif u:
+            queryset = Dues.objects.buscar_by_fecha(sucursal,u)
         else:
             #tomamos la fecha actual
             fecha = timezone.now()

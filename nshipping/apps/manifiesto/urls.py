@@ -1,8 +1,7 @@
 from django.conf.urls import url
 from . import views
 
-urlpatterns = [
-    #url vehiculo     
+urlpatterns = [     
     url(
         r'^manifiesto/car/listar$',
         views.ListCarView.as_view(),
@@ -17,11 +16,6 @@ urlpatterns = [
         r'^manifiesto/car/update/(?P<pk>\d)$',
         views.UpdateCarView.as_view(),
         name='actualizar-carro'
-    ),
-    url(
-        r'^manifiesto/car/delete/(?P<pk>\d)$',
-        views.DeleteCarView.as_view(),
-        name='eliminar-carro'
     ),
     #url conductor
     url(
@@ -39,14 +33,9 @@ urlpatterns = [
         views.UpdateDriverView.as_view(),
         name='actualizar-conductor'
     ),
-    url(
-        r'^manifiesto/driver/delete/(?P<pk>\d)$',
-        views.DeleteDriverView.as_view(),
-        name='eliminar-conductor'
-    ),
     #url para la tabla mnifiesto
     url(
-        r'^manifiesto/crear-manifiesto/sucursal/(?P<pk>\d)$',
+        r'^manifiesto/crear-manifiesto/$',
         views.RegisterManifestView.as_view(),
         name='register-manifiesto'
     ),
