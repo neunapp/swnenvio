@@ -1,0 +1,164 @@
+{% extends "users/panel/base_panel.html" %}
+
+{% block sidenav %}
+                        
+    <li>
+        <a href="{% url 'users_app:nota' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
+    </li>
+    <li>
+        <a class="active" href="{% url 'users_app:entrega_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envio</a>
+    </li>
+    <li>
+        <a href="#"><i class="fa fa-fw fa-table"></i> Tables</a>
+    </li>
+    <li>
+        <a href="#"><i class="fa fa-fw fa-edit"></i> Forms</a>
+    </li>
+    <li>
+        <a href="#"><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>
+    </li>
+    <li>
+        <a href="#"><i class="fa fa-fw fa-wrench"></i> Bootstrap Grid</a>
+    </li>
+    <li>
+        <a href="#"><i class="fa fa-fw fa-file"></i> Blank Page</a>
+    </li>
+    <li>
+        <a href="#"><i class="fa fa-fw fa-dashboard"></i> RTL Dashboard</a>
+    </li>
+
+{% endblock sidenav %}
+
+{% block content_panel %}
+
+    <div class="row">
+        <div class="col-xs-12">
+            <h3 class="page-header title-quilla">Entrega de envio del sr(a). Henrry Joel Sairitupac Arones</h3>
+        </div>
+    </div>
+
+    <div class="row box-section">
+        <div class="col-xs-12 col-sm-6 col-sm-offset-6 col-md-4 col-md-offset-8">
+            <div class="numeracion">
+                <h4 class="titulo-numeracion">NOTA DE INGRESO</h4>
+                <div class="box-numeracion text-center">
+                    <span class="serie">0001</span>
+                    <span class="">N°</span>
+                    <span class="numero">001437</span>
+                </div>
+            </div>  
+        </div>
+    </div>
+
+    <div class="row box-section">
+        <div class="col-xs-6">
+            <dl class="dl-horizontal dl-entrega">
+                <dt>Origen:</dt>
+                <dd>Lima</dd>
+            </dl>
+        </div>
+
+        <div class="col-xs-6">
+            <dl class="dl-horizontal dl-entrega">
+                <dt>Destino:</dt>
+                <dd>Cusco</dd>
+            </dl>          
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-xs-6">
+            <h4 class="title-cliente">Remitente</h4>
+            <dl class="dl-horizontal dl-entrega">
+                <dt>D.N.I/R.U.C:</dt>
+                <dd>461878514</dd>
+                <dt>Nombre:</dt>
+                <dd>Brenda Paucar Ccopa</dd>
+                <dt>Telefono:</dt>
+                <dd>941648860</dd>
+            </dl>
+        </div>
+
+        <div class="col-xs-6">
+            <h4 class="title-cliente">Destenitario</h4>
+            <dl class="dl-horizontal dl-entrega">
+                <dt>D.N.I/R.U.C:</dt>
+                <dd>46185127</dd>
+                <dt>Nombre:</dt>
+                <dd>Henrry Joel Sairitupac Arones</dd>
+                <dt>Telefono:</dt>
+                <dd>941648860</dd>
+            </dl>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+          <table class="table table-bordered table-hover table-condensed table-quilla">
+                <thead>
+                    <tr>
+                        <th class="col-xs-1">Cantidad</th>
+                        <th class="col-xs-11">Descripción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    <tr>
+                        <td>10</td>
+                        <td>bultos y cajas</td>            
+                    </tr>
+
+                    <tr>
+                        <td>5</td>
+                        <td>cosaltes color rojos</td>            
+                    </tr>
+
+                </tbody>
+          </table>  
+        </div>
+    </div>
+
+    <div class="row box-section">
+
+        <div class="col-xs-12 col-sm-4">
+            <dl class="dl-horizontal dl-entrega">
+                <dt>Total:</dt>
+                <dd>S/200.00</dd>
+            </dl>              
+        </div>
+
+        <div class="col-xs-12 col-sm-4">
+            <dl class="dl-horizontal dl-entrega">
+                <dt>Acuenta:</dt>
+                <dd>S/100.00</dd>
+            </dl>    
+        </div>
+
+        <div class="col-xs-12 col-sm-4">
+            <dl class="dl-horizontal dl-entrega">
+                <dt>Por Cobrar:</dt>
+                <dd class="dd-cobrar">S/100.00</dd>
+            </dl>
+            
+        </div>
+    </div>
+    
+
+    <div class="row box-section">
+        <div class="col-xs-12">
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <button type="submit" class="btn btn-quilla">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form action="" class="form-horizontal">
+                
+
+    </form>
+
+{% endblock content_panel %}

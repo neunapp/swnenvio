@@ -2,6 +2,10 @@
     margin: 0.3em 0 0 0;
 }
 
+.title-entrega {
+    margin: 0.3em 0 1em;
+}
+
 .numeracion {
     border: 2px solid #2694ED;
     border-radius: 10px;
@@ -72,4 +76,69 @@
 .btn-quilla {
     background-color: #2694ED;
     color: #fff;
+}
+
+.box-nota {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+}
+
+.table-curved {
+    border-collapse:separate;
+    border: solid #ccc 1px;
+    border-radius: 25px;
+}
+
+.table-curved tr:last-child td
+{
+    border-bottom-left-radius: 25px;    
+    border-bottom-right-radius: 25px;   
+}
+
+.table-quilla {
+    border: 1px solid #2694ED;
+}
+
+.table-quilla > thead > tr > th,
+.table-quilla > tbody > tr > th,
+.table-quilla > thead > tr > td,
+.table-quilla > tbody > tr > td {
+    border: 1px solid #2694ED;
+}
+
+.table-quilla > thead > tr > th,
+.table-bordered > thead > tr > td {
+  border-bottom-width: 2px;
+}
+
+.table-quilla > thead > tr > th {
+    color: #f44336;
+    background-color: #fafafa;
+}
+
+
+.numeracion>.box-numeracion {
+    padding: 0.6em 0 0.6em 0;
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+.numeracion > .box-numeracion > span.serie {
+    color: #304ffe;
+    padding-right: 1em;
+}
+
+.numeracion > .box-numeracion > span.numero {
+    color: #f44336;
+    padding-left: 1em;
+}
+
+.dl-entrega {
+    font-size: 1.15em;
+}
+
+.dl-entrega > dd.dd-cobrar {
+    color: #f44336;
+    font-size: 1.15em;
+    font-weight: 600;
 }

@@ -38,9 +38,4 @@ urlpatterns = [
         views.UpdateBranch.as_view(),
         name='actualizar-branch'
     ),
-    url(
-        r'^sucursales/delete/(?P<pk>\d+)$',
-        views.DeleteBranch.as_view(),
-        name='eliminar-branch'
-    ),
 ]

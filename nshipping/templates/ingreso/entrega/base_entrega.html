@@ -1,0 +1,32 @@
+{% extends "users/panel/base_panel.html" %}
+
+{% load staticfiles %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/sb-admin.css' %}">
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0-rc.6/css/datepicker3.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="{% static 'js/vendor/modernizr-2.8.3-respond-1.4.2.min.js' %} "></script>
+
+{% endblock css %}
+
+{% block js %}
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="{% static 'js/vendor/bootstrap.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0-rc.6/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0-RC1/locales/bootstrap-datepicker.es.min.js"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+    <script>
+        $(function(){
+            $('.datepicker').datepicker({
+                language: "es",
+                orientation: "bootom left",
+                todayHighlight: true
+            });
+        });
+    </script>
+
+{% endblock js %}

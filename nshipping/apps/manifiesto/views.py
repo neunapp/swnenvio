@@ -1,15 +1,22 @@
-from django.shortcuts import render
-from django.views.generic import CreateView, UpdateView, DeleteView, ListView, TemplateView
-from django.views.generic.edit import FormMixin, SingleObjectMixin, FormView
-
-from django.core.urlresolvers import reverse_lazy, reverse
-from django.http import HttpResponseRedirect
 from datetime import datetime
 
-from .models import Car, Driver, Manifest
+from django.shortcuts import render
+from django.views.generic import (
+    CreateView,
+    UpdateView,
+    DetailView,
+    DeleteView,
+    ListView,
+    TemplateView,
+)
+from django.views.generic.edit import FormMixin, SingleObjectMixin, FormView
+from django.core.urlresolvers import reverse_lazy, reverse
+from django.http import HttpResponseRedirect
 
 from apps.ingreso.models import Dues, Branch, DepositSlip
 from apps.profiles.models import Profile
+
+from .models import Car, Driver, Manifest
 
 from .forms import CarForm, DriverForm, FilterForm, RegisterManifestForm
 
@@ -62,7 +69,6 @@ class UpdateDriverView(UpdateView):
 class RegisterManifestView(FormView):
     form_class = RegisterManifestForm
     template_name = 'manifiesto/manifest/register.html'
-    success_url = '/'
 
     def get_form_kwargs(self):
         kwargs = super(RegisterManifestView, self).get_form_kwargs()
@@ -82,24 +88,77 @@ class RegisterManifestView(FormView):
         return context
 
     def form_valid(self, form):
+        #recperamos la sucursal
+        usuario = self.request.user
+        sucursal = Profile.objects.get(user=usuario).branch
         #recuperamos las notas de ingreso seleccionadas
         deposit = form.cleaned_data['deposit_slip']
         for slip in deposit:
+            #actualizamos la DS como enviado
             nota_ingreso = slip
             nota_ingreso.output = True
             nota_ingreso.save()
-
+        #registramos el manifiesto del envio
         manifiesto = form.save()
+        manifiesto.destination = sucursal
         manifiesto.user = self.request.user
         manifiesto.date = datetime.now()
         manifiesto.save()
+        print '======manifiesto GUARDADO====='
+        print manifiesto.pk
+        #mostramos la lista de reportes a imprimir por sucursal
+        return HttpResponseRedirect(
+            reverse(
+                'manifiesto_app:reporte-manifiesto',
+                kwargs={'pk': manifiesto.pk},
+            )
+        )
 
-        return super(RegisterManifestView, self).form_valid(form)
 
-
-class ReportManifest(TemplateView):
+class ReportManifest(DetailView):
+    model = Manifest
     template_name = 'manifiesto/manifest/report.html'
 
     def get_context_data(self, **kwargs):
         context = super(ReportManifest, self).get_context_data(**kwargs)
-        return context        
+        #recuperamos le manifiesto enviado por url
+        manifisto = self.object
+        #recuperamos las notas de ingreso de manifiesto
+        #slips=lista de notas de ingreso
+        slips = manifisto.deposit_slip.all()
+        #lbranch = lista de sucursales distintas de slips
+        lbranch = []
+        aux = ""
+        for s in slips:
+            if s.destination.name != aux:
+                aux = s.destination.name
+                #agregamos la sucursal
+                lbranch.append(s.destination)
+
+        #asignamos lbranch como contexto
+        context['sucursales'] = lbranch
+        return context
+
+
+#clase para mostrar los notas de ingreso de una sucursal y un manifiesto
+class ReportDetailM(TemplateView):
+    template_name = 'manifiesto/manifest/detalle-reporte.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ReportDetailM, self).get_context_data(**kwargs)
+        #recuperamos manifest y branch de url
+        manifiesto = kwargs.get('pk', 0)
+        sucursal = kwargs.get('br', 0)
+        #recuperamos objetos manifes y branch
+        manifest = Manifest.objects.get(pk=manifiesto)
+        branch = Branch.objects.get(pk=sucursal)
+        #listamos deposit_slip con branch y manifest
+        #ldeposit = lita de Depostslip de mismo destino
+        ldeposit = []
+        for ds in manifest.deposit_slip.all():
+            if ds.destination == branch:
+                #agregamos el dpositslip
+                ldeposit.append(ds)
+        #devolvemos la lista como contexto
+        context['slips'] = ldeposit
+        return context

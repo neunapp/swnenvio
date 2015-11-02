@@ -39,6 +39,13 @@ class Manifest(models.Model):
     car = models.ForeignKey(Car)
     deposit_slip = models.ManyToManyField(DepositSlip)
     destination = models.ForeignKey(Branch)
+    origin = models.ForeignKey(
+        Branch,
+        related_name="Branch_origin",
+        blank=True,
+        null=True,
+        default=1,
+    )
     user = models.ForeignKey(User, blank=True, null=True, default=1)
     date = models.TimeField(
         blank=True,
