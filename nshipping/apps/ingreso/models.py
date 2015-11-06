@@ -1,7 +1,9 @@
 # -*- encoding: utf-8 -*-
 
 from django.db import models
+from django.conf import settings
 from django.db.models import F
+from model_utils.models import TimeStampedModel
 
 from django.conf import settings
 
@@ -82,29 +84,55 @@ class DepositSlip(TimeStampedModel):
 
 
 class ManagerDues(models.Manager):
+    #funcion que devuelve todos los productos no entregados
     def lista_no_entregado(self, destino, fecha):
-
         lista = self.annotate(
             saldo=F('deposit_slip__total_amount')-F('amount')
         ).filter(
             deposit_slip__commited=False,
             deposit_slip__destination=destino,
             date__lte=fecha,
-            date__gte=fecha,
         )
         return lista
 
-    def buscar_ingreso(self, destino, serie, numero, remitente, destinatario, fecha):
+    #funcion que devuelve los envios no entregados
+    def envios_no_entregados(self, destino, fecha):
+        lista = self.annotate(
+            saldo=F('deposit_slip__total_amount')-F('amount')
+        ).filter(
+            deposit_slip__commited=False,
+            deposit_slip__destination=destino,
+            deposit_slip__output=True,
+            date__lte=fecha,
+        )
+        return lista
+
+    #funcion que busca un ingreso por numero-serie remitente y destinatari
+    def buscar_ingreso(self, destino, serie, numero, remitente, destinatario):
         resultado = self.annotate(
             saldo=F('deposit_slip__total_amount')-F('amount')
         ).filter(
             deposit_slip__commited=False,
             deposit_slip__destination=destino,
+            deposit_slip__output=True,
             deposit_slip__serie__icontains=serie,
             deposit_slip__number__icontains=numero,
             deposit_slip__sender__full_name__icontains=remitente,
             deposit_slip__addressee__full_name__icontains=destinatario,
-            deposit_slip__date__icontains=fecha,
+        )
+        return resultado
+
+    #funcion que busca una nota de ingreso en un rango de fecha de 7 dias
+    def buscar_by_fecha(self, destino, date):
+        fecha = date - datetime.timedelta(days=7)
+        resultado = self.annotate(
+            saldo=F('deposit_slip__total_amount')-F('amount')
+        ).filter(
+            deposit_slip__commited=False,
+            deposit_slip__destination=destino,
+            deposit_slip__output=True,
+            deposit_slip__date__gte=fecha,
+            deposit_slip__date__lte=date,
         )
         return resultado
 
@@ -116,7 +144,7 @@ class ManagerDues(models.Manager):
         return resultado
 
 
-class Dues(models.Model):
+class Dues(TimeStampedModel):
     TIPO_COMPROBANTE = (
         ('boleta', 'Boleta'),
         ('factura', 'Factura'),
@@ -152,6 +180,17 @@ class Dues(models.Model):
         max_digits=7,
         decimal_places=2,
         default=0.00
+    )
+    annulled = models.BooleanField(
+        'Anulado',
+        default=False,
+    )
+    user_created = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+    )
+    user_modified = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        related_name="User_user_modified",
     )
 
     objects = ManagerDues()

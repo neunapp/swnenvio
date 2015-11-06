@@ -1,0 +1,35 @@
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    {{slips}}
+    <table class="hoverable centered bordered responsive-table">
+        <thead>
+          <tr>
+              <th>codigo</th>
+              <th>serie</th>
+              <th>numero</th>
+              <th>destino</th>             
+          </tr>
+        </thead>
+        <tbody>
+                {% for s in slips %}
+                 <tr>
+                    <td>{{s.pk}}</td>
+                    <td>{{s.serie}}</td>
+                    <td>{{s.number}}</td>
+                    <td>{{s.destination}}</td> 
+                </tr>
+                {%endfor%}        
+        </tbody>
+</table>
+</body>
+</html>
+</body>
+</html>

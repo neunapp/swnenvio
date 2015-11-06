@@ -286,6 +286,8 @@ class RegisterSlipView(FormView):
                 proof_type=tipo,
                 igv=igv,
                 sub_total=sub_total,
+                user_created=self.request.user,
+                user_modified=self.request.user,
             )
             #verificamos si la cuota cubre el monto total
             #guardamos cuota
@@ -304,7 +306,7 @@ class RegisterSlipView(FormView):
                     print '=======Detalle Registrado======='
 
         else:
-            #response_data = {'success': 0, 'message': 'Ingrese objetos correstos'}
+            #Ingrese objetos correstos
             return HttpResponseRedirect('/errors/')
 
         return super(RegisterSlipView, self).form_valid(form)
@@ -330,27 +332,18 @@ class DeliverView(FormMixin, ListView):
         #recuperamos el usuario o sucursal
         usuario = self.request.user
         sucursal = Profile.objects.filter(user=usuario)[0]
-        #separamos la fecha para el filtro
+        #verificamos los campos recuperados por get
         if (q and r) or s or t or u:
-            cadena = u.split("-")
-            if cadena.count() > 2:
-                fecha = cadena[2]+"-"+cadena[1]
-            else:
-                fecha = ""
-            queryset = Dues.objects.buscar_ingreso(
-                sucursal.branch,
-                q,
-                r,
-                s,
-                t,
-                fecha
-            )
+            queryset = Dues.objects.buscar_ingreso(sucursal.branch, q, r, s, t)
+        elif u:
+            queryset = Dues.objects.buscar_by_fecha(sucursal, u)
         else:
             #tomamos la fecha actual
             fecha = timezone.now()
-            print '==========fecha actual========'
-            print fecha
-            queryset = Dues.objects.lista_no_entregado(sucursal.branch, fecha)
+            queryset = Dues.objects.envios_no_entregados(
+                sucursal.branch,
+                fecha,
+            )
 
         return queryset
 
@@ -403,6 +396,8 @@ class DetailDeliverView(FormMixin, DetailView):
             igv=igv,
             sub_total=sub_total,
             discount=descuento,
+            user_created=self.request.user,
+            user_modified=self.request.user,
         )
         objeto.commited = True
         objeto.save()

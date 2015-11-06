@@ -4,6 +4,7 @@ from django.forms.models import ModelMultipleChoiceField
 from .models import Car, Driver, Manifest
 
 from apps.ingreso.models import Dues, DepositSlip, Branch
+from apps.profiles.models import Profile
 
 
 class CarForm(forms.ModelForm):
@@ -20,22 +21,23 @@ class DriverForm(forms.ModelForm):
 
 class FilterForm(forms.Form):
     # formulario para busquedas por filtro
-    destination = forms.CharField(label='Destino',required=False)
+    destination = forms.CharField(label='Destino', required=False)
 
 
 class RegisterManifestForm(forms.ModelForm):
     class Meta:
         model = Manifest
-        fields = ("__all__")
+        fields = ('driver', 'car', 'deposit_slip', 'destination')
         widgets = {
             'deposit_slip': forms.CheckboxSelectMultiple(),
         }
 
-    def __init__(self, pk, *args, **kwargs):
+    def __init__(self, user, *args, **kwargs):
         super(RegisterManifestForm, self).__init__(*args, **kwargs)
-        branch = Branch.objects.get(pk=pk)
-        self.fields['deposit_slip'].queryset = DepositSlip.objects.filter(commited=False, destination=branch)
-        self.fields['car'].queryset = Car.objects.all()
-        self.fields['driver'].queryset = Driver.objects.all()
-        self.fields['destination'].queryset = Branch.objects.all()
-        print '=====formulario termindado====='
+        perfil = Profile.objects.filter(user=user)[0]
+        branch = perfil.branch
+        self.fields['deposit_slip'].queryset = DepositSlip.objects.filter(
+            commited=False,
+            output=False,
+            destination=branch,
+        )

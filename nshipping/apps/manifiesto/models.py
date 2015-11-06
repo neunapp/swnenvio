@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.utils import timezone
 from apps.ingreso.models import Branch, DepositSlip
 from apps.users.models import User
 
@@ -38,15 +39,26 @@ class Manifest(models.Model):
     car = models.ForeignKey(Car)
     deposit_slip = models.ManyToManyField(DepositSlip)
     destination = models.ForeignKey(Branch)
-    user = models.ForeignKey(User)
-    date = models.TimeField()
+    origin = models.ForeignKey(
+        Branch,
+        related_name="Branch_origin",
+        blank=True,
+        null=True,
+        default=1,
+    )
+    user = models.ForeignKey(User, blank=True, null=True, default=1)
+    date = models.TimeField(
+        blank=True,
+        null=True,
+        default=timezone.now(),
+    )
 
     class Meta:
         verbose_name = "Manifiesto"
         verbose_name_plural = "Manifiestos"
 
     def __unicode__(self):
-        return self.destination
+        return "%s - %s" % (str(self.driver), str(self.car))
 
 
 class Observation(models.Model):

@@ -1,0 +1,32 @@
+<html>
+<head>
+    <title>detalles</title>
+</head>
+<body>
+    <table class="hoverable centered bordered responsive-table">
+        <thead>
+          <tr>
+              <th>Nro Manifiesto</th>
+              <th>Conductor</th>
+              <th>Carro</th>  
+              <th>Origen</th>
+              <th>Destino</th>
+              <th>Accion</th>            
+          </tr>
+        </thead>
+        <tbody>
+                {% for s in sucursales %}
+                 <tr>
+                    <td>{{object.pk}}</object></td>
+                    <td>{{object.driver}}</td>
+                    <td>{{object.car}}</td>
+                    <td>{{object.origin}}</td>
+                    <td>{{object.destination}}</td>
+                    <td>{{s.name}}</td>
+                    <td><a href="{% url 'manifiesto_app:detalle-manifiesto' object.pk s.pk %}">imprimir</a></td>
+                {% endfor %}  
+                </tr>        
+        </tbody>
+</table>
+</body>
+</html>
