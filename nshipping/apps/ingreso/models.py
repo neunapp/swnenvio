@@ -3,16 +3,23 @@
 from django.db import models
 from django.db.models import F
 
-from apps.users.models import User
+from django.conf import settings
+
+from model_utils.models import TimeStampedModel
 
 
 class Client(models.Model):
-    dni = models.CharField('Dni', max_length=8)
-    full_name = models.CharField('Nombre', max_length=100)
+    dni = models.CharField('DNI', max_length=8, blank=True, null=True)
+    full_name = models.CharField('nombre', max_length=100)
     ruc = models.CharField('RUC', max_length=11)
-    business_name = models.CharField('Razon Social', max_length=50)
-    address = models.CharField('Direccion', max_length=15)
-    phone = models.CharField('Telefono', max_length=50)
+    business_name = models.CharField(
+        'razon social',
+        max_length=50,
+        blank=True,
+        null=True
+    )
+    address = models.CharField('dirección', max_length=50)
+    phone = models.CharField('telefono', max_length=30)
 
     class Meta:
         verbose_name = "cliente"
@@ -23,67 +30,60 @@ class Client(models.Model):
 
 
 class Branch(models.Model):
-    name = models.CharField('Nombre', max_length=50)
-    address = models.CharField('Direccion', max_length=100)
-    phone = models.CharField('Telefono', max_length=50)
+    name = models.CharField('nombre', max_length=50)
+    address = models.CharField('direccion', max_length=100)
+    phone = models.CharField('telefono', max_length=50)
 
     class Meta:
-        verbose_name = "Sucursal"
-        verbose_name_plural = "Sucursales"
+        verbose_name = "sucursal"
+        verbose_name_plural = "sucursales"
 
     def __unicode__(self):
         return u'%s' % self.name
 
 
-class DepositSlip(models.Model):
-    serie = models.CharField('Serie', max_length=50)
-    number = models.CharField('Numero', max_length=50)
+class DepositSlip(TimeStampedModel):
+    serie = models.CharField('serie', max_length=5)
+    number = models.CharField('numero', max_length=20)
     origin = models.ForeignKey(Branch)
-    destination = models.ForeignKey(Branch, related_name="Branch_destinatin")
+    destination = models.ForeignKey(Branch, related_name="branch_destination")
     sender = models.ForeignKey(Client)
-    addressee = models.ForeignKey(Client, related_name="Client_addressee")
+    addressee = models.ForeignKey(Client, related_name="client_addressee")
     date = models.DateField()
-    commited = models.BooleanField('Entregado', default=False)
-    output = models.BooleanField('Estado de Salida', default=False)
     total_amount = models.DecimalField(
-        'Monto Total',
-        max_digits=12,
-        decimal_places=5,
-        default=0
+        'monto total',
+        max_digits=7,
+        decimal_places=2,
+        default=0.00
     )
-
-    class Meta:
-        verbose_name = "NotaIngreso"
-        verbose_name_plural = "Nota de Ingresos"
-
-    def __unicode__(self):
-        return "%s - %s" % (str(self.serie), str(self.number))
-
-
-class DetailDeposit(models.Model):
-    deposit_slip = models.ForeignKey(DepositSlip, null=True)
-    description = models.CharField(
-        'Descripcion',
-        max_length=50,
+    count = models.PositiveIntegerField('cantidad')
+    description = models.TextField('descripción')
+    commited = models.BooleanField('entregado')
+    output = models.BooleanField('salida')
+    receive = models.BooleanField('recibido')
+    user_created = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        related_name="user_created"
+    )
+    user_modified = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        related_name="user_modified",
         blank=True,
         null=True
     )
-    count = models.PositiveIntegerField('Cantidad')
-    been = models.BooleanField('Estado', default=False)
-    user = models.ForeignKey(User, blank=True, null=True, default=1)
 
     class Meta:
-        verbose_name = "Detalle_Ingreso"
-        verbose_name_plural = "Detalle_Ingresos"
+        verbose_name = "nota de ingreso"
+        verbose_name_plural = "notas de ingresos"
+        unique_together = (('serie', 'number'),)
 
     def __unicode__(self):
-        return u'%s' % str(self.deposit_slip)
+        return u'%s - %s' % (str(self.serie), str(self.number))
 
 
 class ManagerDues(models.Manager):
     def lista_no_entregado(self, destino, fecha):
 
-        #no_etregados = self.annotate(deposit_slip__commited=False,deposit_slip__destination=destinatario)
         lista = self.annotate(
             saldo=F('deposit_slip__total_amount')-F('amount')
         ).filter(
@@ -124,9 +124,8 @@ class Dues(models.Model):
     )
     amount = models.DecimalField(
         'Importe',
-        max_digits=12,
-        decimal_places=3,
-        default=0
+        max_digits=7,
+        decimal_places=2,
     )
     deposit_slip = models.ForeignKey(DepositSlip)
     date = models.DateField()
@@ -139,20 +138,20 @@ class Dues(models.Model):
     igv = models.DecimalField(
         'Igv',
         max_digits=12,
-        decimal_places=3,
-        default=0
+        decimal_places=2,
+        default=0.00
     )
     sub_total = models.DecimalField(
         'Sub Total',
-        max_digits=12,
-        decimal_places=3,
-        default=0
+        max_digits=7,
+        decimal_places=2,
+        default=0.00
     )
     discount = models.DecimalField(
         'Descuento',
-        max_digits=12,
-        decimal_places=3,
-        default=0
+        max_digits=7,
+        decimal_places=2,
+        default=0.00
     )
 
     objects = ManagerDues()

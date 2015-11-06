@@ -3,15 +3,15 @@ from . import views
 
 urlpatterns = [
     url(
-        r'^errors/$',
-        views.ErrorView.as_view(),
-        name='errors'
-    ),
-    url(
-        r'^nota-de-ingreso/$',
-        views.RegisterSlipView.as_view(),
+        r'^panel/nota-ingreso/$',
+        views.DepositSlipView.as_view(),
         name='nota-ingreso'
     ),
+    # url(
+    #     r'^nota-de-ingreso/$',
+    #     views.RegisterSlipView.as_view(),
+    #     name='nota-ingreso'
+    # ),
     url(
         r'^entrega-de-paquetes/$',
         views.DeliverView.as_view(),
@@ -37,10 +37,5 @@ urlpatterns = [
         r'^sucursales/update/(?P<pk>\d+)$',
         views.UpdateBranch.as_view(),
         name='actualizar-branch'
-    ),
-    url(
-        r'^sucursales/delete/(?P<pk>\d+)$',
-        views.DeleteBranch.as_view(),
-        name='eliminar-branch'
     ),
 ]

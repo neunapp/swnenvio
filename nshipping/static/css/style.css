@@ -142,3 +142,17 @@
     font-size: 1.15em;
     font-weight: 600;
 }
+
+.alert-errors {
+    background-color: #F5594D;
+    border-color: #ef9a9a;
+    color: white;
+}
+
+.alert-dismissible .cerrar {
+    color: #fff;
+}
+
+.text-error {
+    color: #e53935;
+}

@@ -8,8 +8,10 @@ from django.utils import timezone
 from datetime import datetime
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
+
 # local.
-from .models import Branch, Client, DepositSlip, DetailDeposit, Dues
+from .functions import ClientGetOrCreate
+from .models import Branch, Client, Dues
 from .forms import (
     DetailForm,
     NotaIngresoForm,
@@ -52,6 +54,100 @@ class RegisterClient(CreateView):
 
 class ErrorView(TemplateView):
     template_name = 'ingreso/errors.html'
+
+
+class DepositSlipView(FormView):
+    '''
+    vista para en registro de la nota de ingreso
+    '''
+    form_class = NotaIngresoForm
+    template_name = 'ingreso/nota_ingreso/nota.html'
+    success_url = reverse_lazy('users_app:panel')
+
+    def get_form_kwargs(self):
+        kwargs = super(DepositSlipView, self).get_form_kwargs()
+        kwargs.update({
+            'user': self.request.user,
+        })
+        return kwargs
+
+    def form_valid(self, form):
+        # Recuperamos todos los datos del formulario
+        serie = form.cleaned_data['serie']
+        number = form.cleaned_data['number']
+        origin = form.cleaned_data['origin']
+        destination = form.cleaned_data['destination']
+        count = form.cleaned_data['count']
+        description = form.cleaned_data['description']
+        total_amount = form.cleaned_data['total_amount']
+        acuenta = form.cleaned_data['acuenta']
+
+        sender_id = form.cleaned_data['sender_id']
+        sender_name = form.cleaned_data['sender_name']
+        sender_razonsocial = form.cleaned_data['sender_razonsocial']
+
+        addr_id = form.cleaned_data['addr_id']
+        addr_name = form.cleaned_data['addr_name']
+        addr_razonsocial = form.cleaned_data['addr_razonsocial']
+
+        user_created = self.request.user
+        # Creamos cliente remitente   
+        sender = ClientGetOrCreate(
+            sender_id,
+            sender_name,
+            sender_razonsocial
+        )
+        # Creamos Cliete destinatario
+        addressee = ClientGetOrCreate(
+            addr_id,
+            addr_name,
+            addr_razonsocial
+        )
+        nota = DepositSlip(
+            serie=serie,
+            number=number,
+            origin=origin,
+            destination=description,
+            sender=sender,
+            addressee=addressee,
+            date=datetime.now(),
+            total_amount=total_amount
+        )
+        nota.save()
+
+        print "----sender----"
+        print sender.full_name
+        print sender.ruc
+        print sender.business_name
+        print "----fin sender 000----"
+
+        print "----addressee----"
+        print addressee.full_name
+        print addressee.ruc
+        print addressee.business_name
+        print "----fin addressee 000----"
+
+        print "----------0-----------"
+        print serie
+        print number
+        print "-------destinano y origen---------"
+        print origin
+        print destination
+        print "-----------1-----------"
+        print total_amount
+        print acuenta
+        print count
+        print description
+        print "------------2-----------"
+        print sender_id
+        print sender_name
+        print sender_razonsocial
+        print "-----------3-----------"
+        print addr_id
+        print addr_name
+        print addr_razonsocial
+        print "-------------4-----------"
+        return super(DepositSlipView, self).form_valid(form)
 
 
 class RegisterSlipView(FormView):
@@ -269,9 +365,6 @@ class DetailDeliverView(FormMixin, DetailView):
         context = super(DetailDeliverView, self).get_context_data(**kwargs)
         context['form'] = self.get_form()
         objeto = self.object
-        context['ObjetoDetalle'] = DetailDeposit.objects.filter(
-            deposit_slip=objeto.pk
-        )
         return context
 
     def post(self, request, *args, **kwargs):
