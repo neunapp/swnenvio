@@ -16,15 +16,13 @@
           </tr>
         </thead>
         <tbody>
-                {% for slip in form.deposit_slip %}
-                 <tr>
-                    <td>{{slip.serie}}</td>
-                    <td>{{slip.number}}</td>
-                    <td>
-                    {{ slip.choice_label }}</td>
-                    <td>{{slip.tag}}</td>
-                {% endfor %}  
-                </tr>        
+            {% for slips in  form.deposit_slip %}
+            <tr>
+              <td>{{slips.choice_label}}</td>
+              <td>{{slips.tag}}</td>
+              <td></td>
+            </tr>            
+          {% endfor %}     
         </tbody>
 </table>
 <div class="input-field ">

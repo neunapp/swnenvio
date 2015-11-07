@@ -57,6 +57,7 @@ class DepositSlip(models.Model):
     class Meta:
         verbose_name = "NotaIngreso"
         verbose_name_plural = "Nota de Ingresos"
+        unique_together = (('serie', 'number'),)
 
     def __unicode__(self):
         return "%s - %s" % (str(self.serie), str(self.number))

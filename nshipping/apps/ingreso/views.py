@@ -248,6 +248,8 @@ class DeliverView(FormMixin, ListView):
                 sucursal.branch,
                 fecha,
             )
+            print sucursal.branch
+            print '========= no hay datos de consulta ======='
 
         return queryset
 

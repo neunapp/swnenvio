@@ -1,0 +1,16 @@
+<html>
+<head>
+    <title>Actualizar Estado</title>
+</head>
+<body>
+    <form class="col s12" method="POST">{% csrf_token %}
+        Anular: {{object}}
+    <div class="row">
+        <div class="input-field col s12">
+            <button class="btn cyan waves-effect waves-liright" type="submit" name="action">guardar <i class="mdi-content-send right"></i>
+            </button>
+        </div>
+     </div>
+ </form>
+</body>
+</html>

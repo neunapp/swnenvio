@@ -41,3 +41,10 @@ class RegisterManifestForm(forms.ModelForm):
             output=False,
             destination=branch,
         )
+        self.fields['deposit_slip'].label_from_instance = lambda obj: "%s %s %s %s"%(
+            obj.number,
+            obj.serie,
+            obj.date,
+            obj.destination,
+        )
+        print self.fields['deposit_slip']
