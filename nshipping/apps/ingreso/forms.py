@@ -3,7 +3,7 @@
 from django import forms
 from django.forms.formsets import formset_factory
 
-from .models import Branch, Client, DepositSlip, DetailDeposit, Dues
+from .models import Branch, Client, DepositSlip, Dues
 from apps.profiles.models import Profile
 
 
@@ -17,30 +17,6 @@ class BranchForm(forms.ModelForm):
     class Meta:
         model = Branch
         fields = ("__all__")
-
-
-class DetailForm(forms.ModelForm):
-    # formulario para almacenar el detalle de productos en envio
-    class Meta:
-        model = DetailDeposit
-        fields = ('count', 'description')
-        widgets = {
-            'description': forms.TextInput(attrs={'value': ' '}),
-        }
-
-    def clean_count(self):
-        cantidad = self.cleaned_data['count']
-        if cantidad < 1:
-            print '========ingrese una cantidad valida=========='
-            self.add_error('count', 'ingrese una cantidad valida')
-        return cantidad
-
-    def clean_description(self):
-        descripcion = self.cleaned_data['description']
-        if len(descripcion) < 5:
-            print '========ingrese un nombre de objeto valido==========='
-            self.add_error('description', 'ingrese un nombre de objeto valido')
-        return descripcion
 
 
 class NotaIngresoForm(forms.ModelForm):

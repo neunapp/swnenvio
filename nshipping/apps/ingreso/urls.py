@@ -12,16 +12,16 @@ urlpatterns = [
     #     views.RegisterSlipView.as_view(),
     #     name='nota-ingreso'
     # ),
-    url(
-        r'^entrega-de-paquetes/$',
-        views.DeliverView.as_view(),
-        name='entrega-paquete'
-    ),
-    url(
-        r'^entrega/detalle/(?P<pk>\d+)$',
-        views.DetailDeliverView.as_view(),
-        name='detalle_entrega'
-    ),
+    # url(
+    #     r'^entrega-de-paquetes/$',
+    #     views.DeliverView.as_view(),
+    #     name='entrega-paquete'
+    # ),
+    # url(
+    #     r'^entrega/detalle/(?P<pk>\d+)$',
+    #     views.DetailDeliverView.as_view(),
+    #     name='detalle_entrega'
+    # ),
 #url para manteniminetos de sucursales
     url(
         r'^sucursales/listar/$',
