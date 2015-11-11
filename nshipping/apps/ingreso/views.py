@@ -72,6 +72,8 @@ class DepositSlipView(FormView):
         # Recuperamos todos los datos del formulario
         serie = form.cleaned_data['serie']
         number = form.cleaned_data['number']
+        voucher = form.cleaned_data['voucher']
+        guide = form.cleaned_data['guide']
         origin = form.cleaned_data['origin']
         destination = form.cleaned_data['destination']
         count = form.cleaned_data['count']
@@ -101,20 +103,28 @@ class DepositSlipView(FormView):
             addr_razonsocial
         )
 
-        nota = DepositSlip(
+        depositslip = DepositSlip(
             serie=serie,
             number=number,
             origin=origin,
             destination=destination,
             sender=sender,
             addressee=addressee,
-            date=datetime.now(),
+            voucher=voucher,
+            guide=guide,
             total_amount=total_amount,
             count=count,
             description=description,
             user_created=user_created
         )
-        nota.save()
+        depositslip.save()
+
+        dues = Dues(
+            depositslip=depositslip,
+            amount=acuenta,
+            user_created=user_created
+        )
+        dues.save()
 
         return super(DepositSlipView, self).form_valid(form)
 

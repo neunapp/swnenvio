@@ -4,6 +4,8 @@ from django.db import models
 from django.conf import settings
 from django.db.models import F
 
+from decimal import Decimal
+
 from model_utils.models import TimeStampedModel
 
 
@@ -76,25 +78,38 @@ class DepositSlip(TimeStampedModel):
         decimal_places=2,
         default=0.00
     )
-    igv = models.DecimalField('IGV', max_digits=7, decimal_places=2)
+    igv = models.DecimalField(
+        'IGV',
+        max_digits=7,
+        decimal_places=2,
+        default=0.00,
+        editable=False
+    )
     count = models.PositiveIntegerField('cantidad')
     description = models.TextField('descripción')
     state = models.CharField(
         'estado',
         max_length=1,
         choices=STATE_CHOICES,
-        default=CREADO
+        default=CREADO,
+        editable=False
     )
-    canceled = models.BooleanField('anulado')
+    canceled = models.BooleanField(
+        'anulado',
+        default=False,
+        editable=False
+    )
     user_created = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        related_name="depositslip_user_created"
+        related_name="depositslip_user_created",
+        editable=False
     )
     user_modified = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         related_name="depositslip_user_modified",
         blank=True,
-        null=True
+        null=True,
+        editable=False
     )
 
     class Meta:
@@ -104,6 +119,11 @@ class DepositSlip(TimeStampedModel):
 
     def __unicode__(self):
         return u'%s - %s' % (str(self.serie), str(self.number))
+
+    def save(self, *args, **kwargs):
+        if self.voucher == 'Factura':
+            self.igv = self.total_amount*Decimal('0.18')
+        super(DepositSlip, self).save(*args, **kwargs)
 
 
 # class ManagerDues(models.Manager):
@@ -175,16 +195,22 @@ class Dues(TimeStampedModel):
         max_digits=7,
         decimal_places=2,
     )
-    canceled = models.BooleanField('anulado')
+    canceled = models.BooleanField(
+        'anulado',
+        editable=False,
+        default=False
+    )
     user_created = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         related_name="dues_user_created",
+        editable=False
     )
     user_modified = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         related_name="dues_user_modified",
         blank=True,
-        null=True
+        null=True,
+        editable=False
     )
 
     # objects = ManagerDues()
