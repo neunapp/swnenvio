@@ -3,18 +3,39 @@
 from django.db import models
 from django.conf import settings
 from django.db.models import F
-from model_utils.models import TimeStampedModel
 
-from apps.users.models import User
+from model_utils.models import TimeStampedModel
 
 
 class Client(models.Model):
-    dni = models.CharField('Dni', max_length=8)
-    full_name = models.CharField('Nombre', max_length=100)
-    ruc = models.CharField('RUC', max_length=11)
-    business_name = models.CharField('Razon Social', max_length=50)
-    address = models.CharField('Direccion', max_length=15)
-    phone = models.CharField('Telefono', max_length=50)
+    dni = models.CharField(
+        'DNI',
+        max_length=8,
+        blank=True,
+        null=True,
+    )
+    full_name = models.CharField(
+        'nombre',
+        max_length=100
+    )
+    ruc = models.CharField(
+        'RUC',
+        max_length=11
+    )
+    business_name = models.CharField(
+        'razon social',
+        max_length=50,
+        blank=True,
+        null=True
+    )
+    address = models.CharField(
+        'dirección',
+        max_length=50,
+    )
+    phone = models.CharField(
+        'telefono',
+        max_length=30
+    )
 
     class Meta:
         verbose_name = "cliente"
@@ -25,180 +46,190 @@ class Client(models.Model):
 
 
 class Branch(models.Model):
-    name = models.CharField('Nombre', max_length=50)
-    address = models.CharField('Direccion', max_length=100)
-    phone = models.CharField('Telefono', max_length=50)
+    name = models.CharField(
+        'nombre',
+        max_length=50,
+    )
+    address = models.CharField(
+        'direccion',
+        max_length=100,
+    )
+    distrito = models.CharField(
+        'Distrito',
+        max_length=50,
+    )
+    provincia = models.CharField(
+        'Provincia',
+        max_length=50,
+    )
+    departamento = models.CharField(
+        'Departamento',
+        max_length=50,
+    )
+    phone = models.CharField(
+        'Telefono',
+        max_length=50,
+    )
 
     class Meta:
-        verbose_name = "Sucursal"
-        verbose_name_plural = "Sucursales"
+        verbose_name = "sucursal"
+        verbose_name_plural = "sucursales"
 
     def __unicode__(self):
         return u'%s' % self.name
 
 
-class DepositSlip(models.Model):
-    serie = models.CharField('Serie', max_length=50)
-    number = models.CharField('Numero', max_length=50)
-    origin = models.ForeignKey(Branch)
-    destination = models.ForeignKey(Branch, related_name="Branch_destinatin")
-    sender = models.ForeignKey(Client)
-    addressee = models.ForeignKey(Client, related_name="Client_addressee")
-    date = models.DateField()
-    commited = models.BooleanField('Entregado', default=False)
-    output = models.BooleanField('Estado de Salida', default=False)
-    total_amount = models.DecimalField(
-        'Monto Total',
-        max_digits=12,
-        decimal_places=5,
-        default=0
+class DepositSlip(TimeStampedModel):
+
+    COMPROBANTE_CHOICES = (
+        ('Boleta', 'Boleta'),
+        ('Factura', 'Factura'),
     )
 
-    class Meta:
-        verbose_name = "NotaIngreso"
-        verbose_name_plural = "Nota de Ingresos"
-        unique_together = (('serie', 'number'),)
-
-    def __unicode__(self):
-        return "%s - %s" % (str(self.serie), str(self.number))
-
-
-class DetailDeposit(models.Model):
-    deposit_slip = models.ForeignKey(DepositSlip, null=True)
-    description = models.CharField(
-        'Descripcion',
-        max_length=50,
-        blank=True,
-        null=True
+    CREADO = '0'
+    ENVIADO = '1'
+    RECIBIDO = '2'
+    ENTREGADO = '3'
+    STATE_CHOICES = (
+        (CREADO, 'Creado'),
+        (ENVIADO, 'Enviado'),
+        (RECIBIDO, 'Recibido'),
+        (ENTREGADO, 'Entregado')
     )
-    count = models.PositiveIntegerField('Cantidad')
-    been = models.BooleanField('Estado', default=False)
-    user = models.ForeignKey(User, blank=True, null=True, default=1)
-
-    class Meta:
-        verbose_name = "Detalle_Ingreso"
-        verbose_name_plural = "Detalle_Ingresos"
-
-    def __unicode__(self):
-        return u'%s' % str(self.deposit_slip)
-
-
-class ManagerDues(models.Manager):
-    #funcion que devuelve todos los productos no entregados
-    def lista_no_entregado(self, destino, fecha):
-        lista = self.annotate(
-            saldo=F('deposit_slip__total_amount')-F('amount')
-        ).filter(
-            deposit_slip__commited=False,
-            deposit_slip__destination=destino,
-            date__lte=fecha,
-        )
-        return lista
-
-    #funcion que devuelve los envios no entregados
-    def envios_no_entregados(self, destino, fecha):
-        lista = self.annotate(
-            saldo=F('deposit_slip__total_amount')-F('amount')
-        ).filter(
-            deposit_slip__commited=False,
-            deposit_slip__destination=destino,
-            deposit_slip__output=True,
-            date__lte=fecha,
-        )
-        return lista
-
-    #funcion que busca un ingreso por numero-serie remitente y destinatari
-    def buscar_ingreso(self, destino, serie, numero, remitente, destinatario):
-        resultado = self.annotate(
-            saldo=F('deposit_slip__total_amount')-F('amount')
-        ).filter(
-            deposit_slip__commited=False,
-            deposit_slip__destination=destino,
-            deposit_slip__output=True,
-            deposit_slip__serie__icontains=serie,
-            deposit_slip__number__icontains=numero,
-            deposit_slip__sender__full_name__icontains=remitente,
-            deposit_slip__addressee__full_name__icontains=destinatario,
-        )
-        return resultado
-
-    #funcion que busca una nota de ingreso en un rango de fecha de 7 dias
-    def buscar_by_fecha(self, destino, date):
-        fecha = date - datetime.timedelta(days=7)
-        resultado = self.annotate(
-            saldo=F('deposit_slip__total_amount')-F('amount')
-        ).filter(
-            deposit_slip__commited=False,
-            deposit_slip__destination=destino,
-            deposit_slip__output=True,
-            deposit_slip__date__gte=fecha,
-            deposit_slip__date__lte=date,
-        )
-        return resultado
-
-    def buscar_by_destino(self, destino):
-        resultado = self.filter(
-            deposit_slip__commited=False,
-            deposit_slip__destination__name__icontains=destino,
-        )
-        return resultado
-
-
-class Dues(TimeStampedModel):
-    TIPO_COMPROBANTE = (
-        ('boleta', 'Boleta'),
-        ('factura', 'Factura'),
-        ('sc', 'SC')
-    )
-    amount = models.DecimalField(
-        'Importe',
-        max_digits=12,
-        decimal_places=3,
-        default=0
-    )
-    deposit_slip = models.ForeignKey(DepositSlip)
-    date = models.DateField()
-    proof_type = models.CharField(
-        'Tipo de Comprobate',
+    serie = models.CharField('serie', max_length=5)
+    number = models.CharField('numero', max_length=20)
+    origin = models.ForeignKey(Branch, related_name="origen")
+    destination = models.ForeignKey(Branch, related_name="destino")
+    sender = models.ForeignKey(Client, related_name="remitente")
+    addressee = models.ForeignKey(Client, related_name="destinatario")
+    voucher = models.CharField(
+        'comprobante',
         max_length=10,
-        choices=TIPO_COMPROBANTE,
-        default='SC'
+        choices=COMPROBANTE_CHOICES,
     )
-    igv = models.DecimalField(
-        'Igv',
-        max_digits=12,
-        decimal_places=3,
-        default=0
+    guide = models.CharField('nro. guia remitente', max_length=150)
+    total_amount = models.DecimalField(
+        'total',
+        max_digits=7,
+        decimal_places=2,
+        default=0.00
     )
-    sub_total = models.DecimalField(
-        'Sub Total',
-        max_digits=12,
-        decimal_places=3,
-        default=0
+    igv = models.DecimalField('IGV', max_digits=7, decimal_places=2)
+    count = models.PositiveIntegerField('cantidad')
+    description = models.TextField('descripción')
+    state = models.CharField(
+        'estado',
+        max_length=1,
+        choices=STATE_CHOICES,
+        default=CREADO
     )
-    discount = models.DecimalField(
-        'Descuento',
-        max_digits=12,
-        decimal_places=3,
-        default=0
-    )
-    annulled = models.BooleanField(
-        'Anulado',
-        default=False,
-    )
+    canceled = models.BooleanField('anulado')
     user_created = models.ForeignKey(
         settings.AUTH_USER_MODEL,
+        related_name="depositslip_user_created"
     )
     user_modified = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        related_name="User_user_modified",
+        related_name="depositslip_user_modified",
+        blank=True,
+        null=True
     )
 
-    objects = ManagerDues()
+    class Meta:
+        verbose_name = "nota de ingreso"
+        verbose_name_plural = "notas de ingresos"
+        unique_together = (('serie', 'number'),)
+
+    def __unicode__(self):
+        return u'%s - %s' % (str(self.serie), str(self.number))
+
+
+# class ManagerDues(models.Manager):
+#     #funcion que devuelve todos los productos no entregados
+#     def lista_no_entregado(self, destino, fecha):
+#         lista = self.annotate(
+#             saldo=F('deposit_slip__total_amount')-F('amount')
+#         ).filter(
+#             deposit_slip__commited=False,
+#             deposit_slip__destination=destino,
+#             date__lte=fecha,
+#         )
+#         return lista
+
+#     #funcion que devuelve los envios no entregados
+#     def envios_no_entregados(self, destino, fecha):
+#         lista = self.annotate(
+#             saldo=F('deposit_slip__total_amount')-F('amount')
+#         ).filter(
+#             depositslip__commited=False,
+#             depositslip__destination=destino,
+#             depositslip__output=True,
+#             date__lte=fecha,
+#         )
+#         return lista
+
+#     #funcion que busca un ingreso por numero-serie remitente y destinatari
+#     def buscar_ingreso(self, destino, serie, numero, remitente, destinatario):
+#         resultado = self.annotate(
+#             saldo=F('deposit_slip__total_amount')-F('amount')
+#         ).filter(
+#             depositslip__commited=False,
+#             depositslip__destination=destino,
+#             depositslip__output=True,
+#             depositslip__serie__icontains=serie,
+#             depositslip__number__icontains=numero,
+#             depositslip__sender__full_name__icontains=remitente,
+#             depositslip__addressee__full_name__icontains=destinatario,
+#         )
+#         return resultado
+
+#     #funcion que busca una nota de ingreso en un rango de fecha de 7 dias
+#     def buscar_by_fecha(self, destino, date):
+#         fecha = date - datetime.timedelta(days=7)
+#         resultado = self.annotate(
+#             saldo=F('deposit_slip__total_amount')-F('amount')
+#         ).filter(
+#             deposit_slip__commited=False,
+#             deposit_slip__destination=destino,
+#             deposit_slip__output=True,
+#             deposit_slip__date__gte=fecha,
+#             deposit_slip__date__lte=date,
+#         )
+#         return resultado
+
+#     def buscar_by_destino(self, destino):
+#         resultado = self.filter(
+#             deposit_slip__commited=False,
+#             deposit_slip__destination__name__icontains=destino,
+#         )
+#         return resultado
+
+
+class Dues(TimeStampedModel):
+
+    depositslip = models.ForeignKey(DepositSlip)
+    amount = models.DecimalField(
+        'importe',
+        max_digits=7,
+        decimal_places=2,
+    )
+    canceled = models.BooleanField('anulado')
+    user_created = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        related_name="dues_user_created",
+    )
+    user_modified = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        related_name="dues_user_modified",
+        blank=True,
+        null=True
+    )
+
+    # objects = ManagerDues()
 
     class Meta:
         verbose_name = "cuota"
         verbose_name_plural = "cuotas"
 
     def __unicode__(self):
-        return u'%s' % str(self.deposit_slip)
+        return u'%s' % str(self.depositslip)

@@ -12,7 +12,7 @@
         <!-- <a class="active" href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
             </li>
             <li>
-        <a href="{% url 'ingreso_app:entrega-paquete' %}"><i class="fa fa-fw fa-money"></i> Entrega De Envio</a> -->
+        <a href="#"><i class="fa fa-fw fa-money"></i> Entrega De Envio</a> -->
     </li>
 
     <li>
@@ -42,28 +42,58 @@
 {% endblock sidenav %}
 
 {% block content_panel %}
+
+
     <div class="row">
         <div class="col-xs-12">
             <h3 class="page-header title-quilla">Nota de Ingreso</h3>
         </div>
     </div>
 
-    <form action="" class="form-horizontal">
+    <form role="form" method="POST" class="form-horizontal">{% csrf_token %}
         
+        {% if form.errors %}
+            <div class="row box-section">
+                <div class="col-xs-12">
+                    <div class="alert alert-dismissible alert-errors" role="alert">
+                        <button type="button" class="close cerrar" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <p><strong>Corrija los siguientes errores.</strong></p>
+                    </div>
+                </div>
+            </div>
+            
+        {% endif %}
+
         <div class="row box-section">
             <div class="col-xs-12 col-sm-6 col-sm-offset-6 col-md-4 col-md-offset-8">
                 <div class="numeracion">
                     <h4 class="titulo-numeracion">NOTA DE INGRESO</h4>
                     <div class="contenido-numeracion">
                         <div class="form-group">
-                            <label class="sr-only control-label label-hidden" for="Email3">{{form.serie}}</label>
+                            
+                            <label class="sr-only control-label label-hidden" for="{{ form.serie.id_for_label }}">serie</label>
                             <div class="col-xs-4">
-                                <input type="text" class="form-control input-sm" id="Email3" placeholder="Serie">
+                                {{ form.serie }}
                             </div>
-                            <label class="col-xs-2 control-label label-number" for="Password3" placeholder="numero">{{form.number}}</label>
+
+                            <label class="col-xs-2 control-label label-number" for="{{ form.number.id_for_label }}" placeholder="numero">N°</label>
                             <div class="col-xs-6">
-                                <input type="text" class="form-control input-sm" id="Password3" placeholder="Numero">
+                                {{ form.number }}
                             </div>
+                            {% for error in form.serie.errors %}
+                                <div class="col-xs-6">
+                                    <p class="help-block text-error">
+                                        {{ error|escape }}
+                                    </p>
+                                </div>
+                            {% endfor %}
+                            {% for error in form.number.errors %}
+                                <div class="col-xs-6">
+                                    <p class="help-block text-error">
+                                        {{ error|escape }}
+                                    </p>
+                                </div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>  
@@ -73,21 +103,27 @@
         <div class="row box-section">
             <div class="col-xs-6">
                 <div class="form-group">
-                    <label for="origen" class="col-xs-3 control-label label-envio">Origen</label>
+                    <label for="{{ form.origin.id_for_label }}" class="col-xs-3 control-label label-envio">Origen</label>
                     <div class="col-xs-9">
-                        <select id="origen" class="form-control input-sm">
-                            {{form.origin}}
-                        </select>
+                        {{ form.origin }}
+                        {% for error in form.origin.errors %}
+                            <p class="help-block text-error">
+                                {{ error|escape }}
+                            </p>
+                        {% endfor %}
                     </div>
                 </div>                
             </div>
             <div class="col-xs-6">
                 <div class="form-group">
-                    <label for="destino" class="col-xs-3 control-label label-envio">Destino</label>
+                    <label for="{{ form.destination.id_for_label }}" class="col-xs-3 control-label label-envio">Destino</label>
                     <div class="col-xs-9">
-                        <select id="destino" class="form-control input-sm">
-                            {{form.destination}}
-                        </select>
+                        {{ form.destination }}
+                        {% for error in form.destination.errors %}
+                            <p class="help-block text-error">
+                                {{ error|escape }}
+                            </p>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -98,21 +134,31 @@
             <div class="col-xs-6">
                 <h4 class="title-cliente">Remitente</h4>
                 <div class="form-group">
-                    <label for="dni1" class="col-xs-3 control-label label-envio">dni</label>
+                    <label for="{{ form.sender_id.id_for_label }}" class="col-xs-3 control-label label-envio">Ruc/Dni</label>
                     <div class="col-xs-9">
-                        <input type="text" id="dni1" class="form-control input-sm" placeholder="ingrese dni del remitente">
+                        {{ form.sender_id }}
+                        {% for error in form.sender_id.errors %}
+                            <p class="help-block text-error">
+                                {{ error|escape }}
+                            </p>
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="nombre1" class="col-xs-3 control-label label-envio">nombre</label>
+                    <label for="{{ form.sender_name.is_for_label }}" class="col-xs-3 control-label label-envio">Nombres</label>
                     <div class="col-xs-9">
-                        <input type="text" id="nombre1" class="form-control input-sm" placeholder="ingrese su ">
+                        {{ form.sender_name }}                        
+                        {% for error in form.sender_name.errors %}
+                            <p class="help-block text-error">
+                                {{ error|escape }}
+                            </p>
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="ruc1" class="col-xs-3 control-label label-envio">ruc</label>
+                    <label for="{{ form.sender_razonsocial.id_for_label }}" class="col-xs-3 control-label label-envio">Razón Social</label>
                     <div class="col-xs-9">
-                        <input type="text" id="ruc1" class="form-control input-sm" placeholder="ingrese su ">
+                        {{ form.sender_razonsocial }}
                     </div>
                 </div>    
             </div>
@@ -120,21 +166,31 @@
             <div class="col-xs-6">
                 <h4 class="title-cliente">Destenitario</h4>
                 <div class="form-group">
-                    <label for="dni2" class="col-xs-3 control-label label-envio">dni</label>
+                    <label for="{{ form.addr_id.id_for_label }}" class="col-xs-3 control-label label-envio">Ruc/Dni</label>
                     <div class="col-xs-9">
-                        <input type="text" id="dni2" class="form-control input-sm" placeholder="ingrese el dni del destinatario">
+                        {{  form.addr_id }}
+                        {% for error in form.addr_id.errors %}
+                            <p class="help-block text-error">
+                                {{ error|escape }}
+                            </p>
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="nombre2" class="col-xs-3 control-label label-envio">nombre</label>
+                    <label for="{{ form.addr_name.id_for_label }}" class="col-xs-3 control-label label-envio">Nombres</label>
                     <div class="col-xs-9">
-                        <input type="text" id="nombre2" class="form-control input-sm" placeholder="ingrese nombre">
+                        {{ form.addr_name }}
+                        {% for error in form.addr_name.errors %}
+                            <p class="help-block text-error">
+                                {{ error|escape }}
+                            </p>
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="ruc" class="col-xs-3 control-label label-envio">ruc</label>
+                    <label for="{{ form.addr_razonsocial.id_for_label }}" class="col-xs-3 control-label label-envio">Razón Social</label>
                     <div class="col-xs-9">
-                        <input type="text" id="ruc" class="form-control input-sm" placeholder="ingrese su ">
+                        {{ form.addr_razonsocial }}
                     </div>
                 </div>
 
@@ -151,61 +207,63 @@
             </div>
 
             <div class="col-xs-3">
-                <input type="text" id="detail1" class="form-control input-sm input-detail" placeholder="ingrese su ">
-                
+                {{ form.count }}
+                {% for error in form.count.errors %}
+                    <p class="help-block text-error">
+                        {{ error|escape }}
+                    </p>
+                {% endfor %}
             </div>
             <div class="col-xs-9">
-                <input type="text" id="detail1" class="form-control input-sm input-detail" placeholder="ingrese su ">
+                {{ form.description }}
+                {% for error in form.description.errors %}
+                    <p class="help-block text-error">
+                        {{ error|escape }}
+                    </p>
+                {% endfor %}
             </div>
 
-            <div class="col-xs-3">
-                <input type="text" id="detail1" class="form-control input-sm input-detail" placeholder="ingrese su ">
-                
-            </div>
-            <div class="col-xs-9">
-                <input type="text" id="detail1" class="form-control input-sm input-detail" placeholder="ingrese su ">
-            </div>
             
-            <div class="col-xs-3">
-                <input type="text" id="detail1" class="form-control input-sm input-detail" placeholder="ingrese su ">
-                
-            </div>
-            <div class="col-xs-9">
-                <input type="text" id="detail1" class="form-control input-sm input-detail" placeholder="ingrese su ">
-            </div>
+            
+            
 
-            <div class="col-xs-3">
-                <input type="text" id="detail1" class="form-control input-sm input-detail" placeholder="ingrese su ">
-                
-            </div>
-            <div class="col-xs-9">
-                <input type="text" id="detail1" class="form-control input-sm input-detail" placeholder="ingrese su ">
-            </div>
+            
         </div>
 
         <div class="row box-section">
 
             <div class="col-xs-12 col-sm-4">
                 <div class="input-group margin-bottom-sm">
-                    <span class="input-group-addon"><i class="fa fa-battery-full fa-fw"></i> Total</span>
-                    <input class="form-control" type="text" placeholder="Total">
-                </div>              
-            </div>
-
-            <div class="col-xs-12 col-sm-4">
-                <div class="input-group margin-bottom-sm">
                     <span class="input-group-addon"><i class="fa fa-battery-half fa-fw"></i> Acuenta</span>
-                    <input class="form-control" type="text" placeholder="Acuenta">
+                    {{ form.acuenta }}
                 </div>    
+                {% for error in form.acuenta.errors %}
+                    <p class="help-block text-error">
+                        {{ error|escape }}
+                    </p>
+                {% endfor %}
             </div>
 
             <div class="col-xs-12 col-sm-4">
                 <div class="input-group margin-bottom-sm">
                     <span class="input-group-addon"><i class="fa fa-battery-quarter fa-fw"></i> Por Cobrar</span>
-                    <input class="form-control" type="text" placeholder="Por Cobrar">
+                    <input class="form-control" type="text" placeholder="0.0" disabled>
                 </div>
                 
             </div>
+
+            <div class="col-xs-12 col-sm-4">
+                <div class="input-group margin-bottom-sm">
+                    <span class="input-group-addon"><i class="fa fa-battery-full fa-fw"></i> Total</span>
+                    {{ form.total_amount }}
+                </div> 
+                {% for error in form.total_amount.errors %}
+                    <p class="help-block text-error">
+                        {{ error|escape }}
+                    </p>
+                {% endfor %}
+            </div>
+
         </div>
 
         <div class="row box-section">

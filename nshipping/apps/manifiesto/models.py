@@ -1,14 +1,44 @@
+#import utils
+from model_utils.models import TimeStampedModel
+#import django
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
+#import local
 from apps.ingreso.models import Branch, DepositSlip
 from apps.users.models import User
 
 
 class Car(models.Model):
-    name = models.CharField('Denominacion', max_length=50)
-    plaque = models.CharField('Placa', max_length=10)
-    marca = models.CharField('Marca', max_length=70)
+    STATE_CHOICES = (
+        ('0', 'Propio'),
+        ('1', 'Sub Contrata'),
+    )
+    name = models.CharField(
+        'Denominacion',
+        max_length=50,
+    )
+    plaque = models.CharField(
+        'Placa',
+        max_length=10
+    )
+    marca = models.CharField(
+        'Marca',
+        max_length=70,
+    )
+    code_ssettings_car = models.CharField(
+        'Codigo de Configuracion vehicular',
+        max_length=6
+    )
+    constancy_inscription = models.CharField(
+        'N° de Contancia de Inscripcion',
+        max_length=12,
+    )
+    condition = models.CharField(
+        'Condicion',
+        choices=STATE_CHOICES,
+        max_length=50,
+    )
 
     class Meta:
         verbose_name = "Carro"
@@ -19,12 +49,32 @@ class Car(models.Model):
 
 
 class Driver(models.Model):
-    dni = models.CharField('Dni', max_length=8)
-    full_name = models.CharField('Nombres', max_length=100)
-    license = models.CharField('Brebete', max_length=10)
-    addreess = models.CharField('Direccion', max_length=150)
-    phone = models.CharField('Telefono', max_length=10)
+    dni = models.CharField(
+        'Dni',
+        max_length=8,
+    )
+    full_name = models.CharField(
+        'Nombres',
+        max_length=100,
+    )
+    license = models.CharField(
+        'Brebete',
+        max_length=10
+    )
+    addreess = models.CharField(
+        'Direccion',
+        max_length=150
+    )
+    phone = models.CharField(
+        'Telefono',
+        max_length=10
+    )
     email = models.EmailField()
+    date_birth = models.DateField(
+        'fecha de nacimiento',
+        blank=True,
+        null=True,
+    )
 
     class Meta:
         verbose_name = "Conductor"
@@ -34,7 +84,7 @@ class Driver(models.Model):
         return self.full_name
 
 
-class Manifest(models.Model):
+class Manifest(TimeStampedModel):
     driver = models.ForeignKey(Driver)
     car = models.ForeignKey(Car)
     deposit_slip = models.ManyToManyField(DepositSlip)
@@ -46,12 +96,22 @@ class Manifest(models.Model):
         null=True,
         default=1,
     )
-    user = models.ForeignKey(User, blank=True, null=True, default=1)
-    date = models.TimeField(
+    user_created = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        related_name="manifest_user_created"
+    )
+    user_modified = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        related_name="manifest_user_modified",
+        blank=True,
+        null=True
+    )
+    date_shipping = models.DateField(
+        'fecha de Traslado',
         blank=True,
         null=True,
-        default=timezone.now(),
     )
+    state = models.BooleanField('Estado')
 
     class Meta:
         verbose_name = "Manifiesto"
@@ -72,3 +132,26 @@ class Observation(models.Model):
 
     def __unicode__(self):
         return self.manifest
+
+
+class SubContract(models.Model):
+    manifest = models.ForeignKey(Manifest)
+    full_name = models.CharField(
+        'Nombres/Razon social',
+        max_length=70,
+    )
+    ruc = models.CharField(
+        'Ruc',
+        max_length=50,
+    )
+    observation = models.CharField(
+        'Observaciones',
+        max_length=50,
+    )
+
+    class Meta:
+        verbose_name = "SubContract"
+        verbose_name_plural = "SubContracts"
+
+    def __unicode__(self):
+        return self.full_name

@@ -36,7 +36,6 @@ LOCAL_APPS = (
     'apps.ingreso',
     'apps.profiles',
     'apps.manifiesto',
-    'apps.salida',
 )
 
 THIRD_PARTY_APPS = (

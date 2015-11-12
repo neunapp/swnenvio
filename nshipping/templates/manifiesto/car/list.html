@@ -1,3 +1,4 @@
+{% extends "ingreso/nota_ingreso/base_nota.html" %}
 <table class="hoverable centered bordered responsive-table">
         <thead>
           <tr>
@@ -10,7 +11,7 @@
 
           {% for car in  carros %}
             <tr>
-              <td>{{ car.name }}</td>
+              <td>{{ car.name }}</td> 
               <td>{{ car.plaque }}</td>
               <td>{{ car.marca }}</td>
               <td>

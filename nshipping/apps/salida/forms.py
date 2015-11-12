@@ -1,9 +1,4 @@
-from django import forms
-
-from .models import Cash, Expenditur
+from django import forms 
 
 
-class ExpenditurForm(forms.ModelForm):
-    class Meta:
-        model = Expenditur
-        fields = ('description', 'amount')
+
