@@ -1,5 +1,7 @@
 # -*- encoding: utf-8 -*-
 
+from .functions import is_number
+
 from django import forms
 
 from .models import Branch, Client, DepositSlip, Dues
@@ -89,9 +91,8 @@ class NotaIngresoForm(forms.ModelForm):
         )
     )
 
-    acuenta = forms.CharField(
+    acuenta = forms.DecimalField(
         label='acuenta',
-        max_length=50,
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-control',
@@ -168,6 +169,16 @@ class NotaIngresoForm(forms.ModelForm):
 
         self.fields['origin'].queryset = Branch.objects.filter(id__in=ids)
 
+    def clean(self):
+        cleaned_data = super(NotaIngresoForm, self).clean()
+        serie = cleaned_data.get('serie')
+        number = cleaned_data.get('number')
+        ds = DepositSlip.objects.filter(serie=serie, number=number).exists()
+        if ds:
+            message = "la nota de ingreso %s - %s" % (serie, number)
+            raise forms.ValidationError(message)
+        return cleaned_data
+
     # realizamos validaciones
     def clean_serie(self):
         serie = self.cleaned_data['serie']
@@ -203,31 +214,31 @@ class NotaIngresoForm(forms.ModelForm):
         else:
             return ide
 
-    # def clean_acuenta(self):
-    #     acuenta = self.cleaned_data['acuenta']
-    #     total = self.cleaned_data['total_amount']
-    #     if not acuenta.isdigit():
-    #         msj = 'Debe ser un numero'
-    #         self.add_error('acuenta', msj)
-    #     elif float(acuenta) < 0:
-    #         msj = 'No puede ser negativo'
-    #         self.add_error('acuenta', msj)
-    #     elif acuenta > total:
-    #         msj = 'No puede ser mayor al total'
-    #         self.add_error('acuenta', msj)
-    #     else:
-    #         return acuenta
+    def clean_acuenta(self):
+        acuenta = self.cleaned_data['acuenta']
+        total = self.cleaned_data['total_amount']
+        if not is_number(acuenta):
+            msj = 'Debe ser un numero'
+            self.add_error('acuenta', msj)
+        elif float(acuenta) < 0:
+            msj = 'No puede ser negativo'
+            self.add_error('acuenta', msj)
+        elif float(acuenta) > float(total):
+            msj = 'No puede ser mayor al total'
+            self.add_error('acuenta', msj)
+        else:
+            return acuenta
 
-    # def clean_total_amount(self):
-    #     total = self.cleaned_data['total_amount']
-    #     if not total.isdigit():
-    #         msj = 'Debe ser un numero'
-    #         self.add_error('total_amount', msj)
-    #     elif total < 0:
-    #         msj = 'No puede ser negativo'
-    #         self.add_error('total_amount', msj)
-    #     else:
-    #         return total
+    def clean_total_amount(self):
+        total = self.cleaned_data['total_amount']
+        if not is_number(total):
+            msj = 'Debe ser un numero'
+            self.add_error('total_amount', msj)
+        elif float(total) < 0:
+            msj = 'No puede ser negativo'
+            self.add_error('total_amount', msj)
+        else:
+            return total
 
 
 class SearchForm(forms.Form):
