@@ -103,7 +103,36 @@
         <div class="row box-section">
             <div class="col-xs-6">
                 <div class="form-group">
-                    <label for="{{ form.origin.id_for_label }}" class="col-xs-3 control-label label-envio">Origen</label>
+                    <label for="{{ form.voucher.id_for_label }}" class="col-xs-3 control-label label-envio">Comprobante(*)</label>
+                    <div class="col-xs-9">
+                        {{ form.voucher }}
+                        {% for error in form.voucher.errors %}
+                            <p class="help-block text-error">
+                                {{ error|escape }}
+                            </p>
+                        {% endfor %}
+                    </div>
+                </div>                
+            </div>
+            <div class="col-xs-6">
+                <div class="form-group">
+                    <label for="{{ form.guide.id_for_label }}" class="col-xs-3 control-label label-envio">Nro. Guia (*)</label>
+                    <div class="col-xs-9">
+                        {{ form.guide }}
+                        {% for error in form.destination.errors %}
+                            <p class="help-block text-error">
+                                {{ error|escape }}
+                            </p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="form-group">
+                    <label for="{{ form.origin.id_for_label }}" class="col-xs-3 control-label label-envio">Origen (*)</label>
                     <div class="col-xs-9">
                         {{ form.origin }}
                         {% for error in form.origin.errors %}
@@ -116,7 +145,7 @@
             </div>
             <div class="col-xs-6">
                 <div class="form-group">
-                    <label for="{{ form.destination.id_for_label }}" class="col-xs-3 control-label label-envio">Destino</label>
+                    <label for="{{ form.destination.id_for_label }}" class="col-xs-3 control-label label-envio">Destino (*)</label>
                     <div class="col-xs-9">
                         {{ form.destination }}
                         {% for error in form.destination.errors %}
@@ -134,7 +163,7 @@
             <div class="col-xs-6">
                 <h4 class="title-cliente">Remitente</h4>
                 <div class="form-group">
-                    <label for="{{ form.sender_id.id_for_label }}" class="col-xs-3 control-label label-envio">Ruc/Dni</label>
+                    <label for="{{ form.sender_id.id_for_label }}" class="col-xs-3 control-label label-envio">Ruc/Dni (*)</label>
                     <div class="col-xs-9">
                         {{ form.sender_id }}
                         {% for error in form.sender_id.errors %}
@@ -166,7 +195,7 @@
             <div class="col-xs-6">
                 <h4 class="title-cliente">Destenitario</h4>
                 <div class="form-group">
-                    <label for="{{ form.addr_id.id_for_label }}" class="col-xs-3 control-label label-envio">Ruc/Dni</label>
+                    <label for="{{ form.addr_id.id_for_label }}" class="col-xs-3 control-label label-envio">Ruc/Dni (*)</label>
                     <div class="col-xs-9">
                         {{  form.addr_id }}
                         {% for error in form.addr_id.errors %}
@@ -200,10 +229,10 @@
         <div class="row box-section">
 
             <div class="col-xs-3 label-detail-cant">
-                <span>Cantidad</span>
+                <span>Cantidad (*)</span>
             </div>
             <div class="col-xs-9 label-detail-desc">
-                <span>Descripción</span>
+                <span>Descripción (*)</span>
             </div>
 
             <div class="col-xs-3">

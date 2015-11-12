@@ -1,7 +1,6 @@
 # -*- encoding: utf-8 -*-
 
 from django import forms
-from django.forms.formsets import formset_factory
 
 from .models import Branch, Client, DepositSlip, Dues
 from apps.profiles.models import Profile
@@ -107,6 +106,8 @@ class NotaIngresoForm(forms.ModelForm):
             'serie',
             'number',
             'origin',
+            'voucher',
+            'guide',
             'destination',
             'total_amount',
             'count',
@@ -124,6 +125,15 @@ class NotaIngresoForm(forms.ModelForm):
                 attrs={
                     'class': 'form-control input-sm',
                     'placeholder': 'Numero'
+                }
+            ),
+            'voucher': forms.Select(
+                attrs={'class': 'form-control input-sm'}
+            ),
+            'guide': forms.TextInput(
+                attrs={
+                    'class': 'form-control input-sm',
+                    'placeholder': 'Nro de guia remitente'
                 }
             ),
             'origin': forms.Select(

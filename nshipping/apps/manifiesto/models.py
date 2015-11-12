@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 #import utils
 from model_utils.models import TimeStampedModel
 #import django
