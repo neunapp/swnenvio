@@ -10,17 +10,34 @@ from model_utils.models import TimeStampedModel
 
 
 class Client(models.Model):
-    dni = models.CharField('DNI', max_length=8, blank=True, null=True)
-    full_name = models.CharField('nombre', max_length=100)
-    ruc = models.CharField('RUC', max_length=11)
+    dni = models.CharField(
+        'DNI',
+        max_length=8,
+        blank=True,
+        null=True,
+    )
+    full_name = models.CharField(
+        'nombre',
+        max_length=100
+    )
+    ruc = models.CharField(
+        'RUC',
+        max_length=11
+    )
     business_name = models.CharField(
         'razon social',
         max_length=50,
         blank=True,
         null=True
     )
-    address = models.CharField('dirección', max_length=50)
-    phone = models.CharField('telefono', max_length=30)
+    address = models.CharField(
+        'dirección',
+        max_length=50,
+    )
+    phone = models.CharField(
+        'telefono',
+        max_length=30
+    )
 
     class Meta:
         verbose_name = "cliente"
@@ -31,9 +48,30 @@ class Client(models.Model):
 
 
 class Branch(models.Model):
-    name = models.CharField('nombre', max_length=50)
-    address = models.CharField('direccion', max_length=100)
-    phone = models.CharField('telefono', max_length=50)
+    name = models.CharField(
+        'nombre',
+        max_length=50,
+    )
+    address = models.CharField(
+        'direccion',
+        max_length=100,
+    )
+    distrito = models.CharField(
+        'Distrito',
+        max_length=50,
+    )
+    provincia = models.CharField(
+        'Provincia',
+        max_length=50,
+    )
+    departamento = models.CharField(
+        'Departamento',
+        max_length=50,
+    )
+    phone = models.CharField(
+        'Telefono',
+        max_length=50,
+    )
 
     class Meta:
         verbose_name = "sucursal"
@@ -92,6 +130,12 @@ class DepositSlip(TimeStampedModel):
         max_length=1,
         choices=STATE_CHOICES,
         default=CREADO,
+    )
+    canceled = models.BooleanField('anulado')
+    user_created = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        related_name="depositslip_user_created",
+        default=CREADO,
         editable=False
     )
     canceled = models.BooleanField(
@@ -102,7 +146,7 @@ class DepositSlip(TimeStampedModel):
     user_created = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         related_name="depositslip_user_created",
-        editable=False
+        editable=False,
     )
     user_modified = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -124,7 +168,6 @@ class DepositSlip(TimeStampedModel):
         if self.voucher == 'Factura':
             self.igv = self.total_amount*Decimal('0.18')
         super(DepositSlip, self).save(*args, **kwargs)
-
 
 # class ManagerDues(models.Manager):
 #     #funcion que devuelve todos los productos no entregados
@@ -198,19 +241,19 @@ class Dues(TimeStampedModel):
     canceled = models.BooleanField(
         'anulado',
         editable=False,
-        default=False
+        default=False,
     )
     user_created = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         related_name="dues_user_created",
-        editable=False
+        editable=False,
     )
     user_modified = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         related_name="dues_user_modified",
         blank=True,
         null=True,
-        editable=False
+        editable=False,
     )
 
     # objects = ManagerDues()

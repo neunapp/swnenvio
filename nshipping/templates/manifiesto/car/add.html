@@ -1,10 +1,103 @@
-<form class="col s12" method="POST">{% csrf_token %}
-                  
-    {{form.as_p}}
+{% extends "ingreso/nota_ingreso/base_nota.html" %}
+
+{% block sidenav %}
+                        
+    <li>
+        <a class="active" href="{% url 'users_app:nota' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
+    </li>
+
+    <li>
+        <a href="{% url 'users_app:entrega_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envio</a>
+
+        <!-- <a class="active" href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
+            </li>
+            <li>
+        <a href="#"><i class="fa fa-fw fa-money"></i> Entrega De Envio</a> -->
+    </li>
+
+    <li>
+        <a href="#"><i class="fa fa-fw fa-table"></i> Tables</a>
+    </li>
+
+    <li>
+        <a href="#"><i class="fa fa-fw fa-edit"></i> Forms</a>
+    </li>
+
+    <li>
+        <a href="#"><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>
+    </li>
+
+    <li>
+        <a href="#"><i class="fa fa-fw fa-wrench"></i> Bootstrap Grid</a>
+    </li>
+
+    <li>
+        <a href="{% url 'ingreso_app:listar-branch' %}"><i class="fa fa-fw fa-file"></i> Mantenimiento Sucursales</a>
+    </li>
+
+    <li>
+        <a href="{% url 'profiles_app:agregar-profile' %}"><i class="fa fa-fw fa-dashboard"></i>Desiganar Sucursales</a>
+    </li>
+
+{% endblock sidenav %}
+
+{% block content_panel %}
+
+
     <div class="row">
-        <div class="input-field col s12">
-            <button class="btn cyan waves-effect waves-liright" type="submit" name="action">guardar <i class="mdi-content-send right"></i>
-            </button>
+        <div class="col-xs-12">
+            <h3 class="page-header title-quilla">Nota de Ingreso</h3>
         </div>
-     </div>
- </form>
+    </div>
+
+    <form role="form" method="POST" class="form-horizontal">{% csrf_token %}
+        
+        {% if form.errors %}
+            <div class="row box-section">
+                <div class="col-xs-12">
+                    <div class="alert alert-dismissible alert-errors" role="alert">
+                        <button type="button" class="close cerrar" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <p><strong>Corrija los siguientes errores.</strong></p>
+                    </div>
+                </div>
+            </div>
+            
+        {% endif %}
+
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="form-group">
+                    <label for="{{ form.name_id.id_for_label }}" class="col-xs-3 control-label label-envio">Ruc/Dni</label>
+                    <div class="col-xs-9">
+                        {{ form.name }}
+                        {% for error in form.name_id.errors %}
+                            <p class="help-block text-error">
+                                {{ error|escape }}
+                            </p>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.sender_name.is_for_label }}" class="col-xs-3 control-label label-envio">Nombres</label>
+                    <div class="col-xs-9">
+                        {{ form.plaque }}                        
+                        {% for error in form.sender_name.errors %}
+                            <p class="help-block text-error">
+                                {{ error|escape }}
+                            </p>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.sender_razonsocial.id_for_label }}" class="col-xs-3 control-label label-envio">Razón Social</label>
+                    <div class="col-xs-9">
+                        {{ form.marca }}
+                    </div>
+                </div>    
+            </div>
+
+            </div>
+        </div>
+    </form>
+
+{% endblock content_panel %}
