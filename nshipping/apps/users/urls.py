@@ -13,14 +13,9 @@ urlpatterns = [
         name='logout'
     ),
     url(
-        r'^panel/usuario/$',
+        r'^panel/$',
         views.PanelView.as_view(),
         name='panel'
-    ),
-    url(
-        r'^panel/usuario/nota-ingreso/$',
-        views.Panel1View.as_view(),
-        name='nota'
     ),
     url(
         r'^panel/usuario/entrega-envio/$',

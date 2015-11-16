@@ -243,14 +243,55 @@ class NotaIngresoForm(forms.ModelForm):
 
 class SearchForm(forms.Form):
     # formulario para busquedas por filtro
-    serie = forms.CharField(label='Serie', required=False)
-    number = forms.CharField(label='Numero', required=False)
-    sender = forms.CharField(label='Remitente', required=False)
-    addressee = forms.CharField(label='Destinatario', required=False)
+    serie = forms.CharField(
+        label='serie',
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control input-sm',
+                'placeholder': 'serie',
+            }
+        )
+    )
+    number = forms.CharField(
+        label='numero',
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control input-sm',
+                'placeholder': 'numero',
+            }
+        )
+    )
+    sender = forms.CharField(
+        label='remitente',
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control input-sm',
+                'placeholder': 'Ingrese nombre del remitente',
+            }
+        )
+    )
+    addressee = forms.CharField(
+        label='restinatario',
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control input-sm',
+                'placeholder': 'Ingrese nombres del destinatario',
+            }
+        )
+    )
     date = forms.CharField(
         label='Fecha',
         required=False,
-        widget=forms.TextInput(attrs={'class': 'datepicker'})
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control input-sm datepicker',
+                'placeholder': 'ingrese Fecha',
+            }
+        )
     )
 
 
