@@ -46,29 +46,30 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <h3 class="page-header title-quilla">Ud Eliminara Este Conductor:</h3>
+            <h3 class="page-header title-quilla">Datos del Manifiesto</h3>
         </div>
     </div>
     <form role="form" method="POST" class="form-horizontal">{% csrf_token %}
         <div class="row">
             <div class="col-xs-12">
-                <h5 class="page-header title-quilla">Dni: {{object.dni}}</h3>
-                <h5 class="page-header title-quilla">Nombres: {{object.full_name}}</h3>
-                <h5 class="page-header title-quilla">Licensia: {{object.license}}</h3>
-                <h5 class="page-header title-quilla">Direccion:{{object.addreess}}</h3>
-                <h5 class="page-header title-quilla">Telefono:{{object.phone}}</h3>
-                <h5 class="page-header title-quilla">Email: {{object.email}}</h3>
-                <h5 class="page-header title-quilla">Fecha de Nacimiento: {{object.date_birth}}</h3>
+                <h5 class="page-header title-quilla">Conductor: {{object.driver}}</h3>
+                <h5 class="page-header title-quilla">Vehiculo: {{object.car}}</h3>
+                <h5 class="page-header title-quilla">Notas de Ingreso: {{object.deposit_slip.all}}</h3>
+                <h5 class="page-header title-quilla">Cantida de Envios: {{object.deposit_slip.count}}</h3>   
+                <h5 class="page-header title-quilla">Direccion de Partida:{{object.origin}}</h3>
+                <h5 class="page-header title-quilla">Nro Direccion de LLegada: {{object.destination}}</h3>
+                <h5 class="page-header title-quilla">Fecha de Salida: {{object.date_shipping}}</h3>
+                <h5 class="page-header title-quilla">Creado Por: {{object.user_created}}</h3>
+                <h5 class="page-header title-quilla">Ultima Modificacion por: {{object.user_modified}}</h3>
+                <h5 class="page-header title-quilla">Estado: {{object.state}}</h3>
             </div>
         </div>
         <div class="row box-section">
             <div class="col-xs-12">
-                <div class="form-group">
-                    <div class="col-sm-12">
-                        <button type="submit" class="btn btn-quilla">Eliminar</button>
-                    </div>
-                </div>
+                <div class="col s5">
+                <a class="waves-effect waves-light btn btn-back" href="{% url 'manifiesto_app:listar-manifiesto' %}"><i class="fa fa-chevron-left left"></i>Regresar</a>    
             </div>
+        </div>
         </div>
     </form>
 

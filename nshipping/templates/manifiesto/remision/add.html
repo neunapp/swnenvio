@@ -46,30 +46,47 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <h3 class="page-header title-quilla">Ud Eliminara Este Conductor:</h3>
+            <h3 class="page-header title-quilla">Datos del Manifiesto</h3>
         </div>
     </div>
     <form role="form" method="POST" class="form-horizontal">{% csrf_token %}
         <div class="row">
             <div class="col-xs-12">
-                <h5 class="page-header title-quilla">Dni: {{object.dni}}</h3>
-                <h5 class="page-header title-quilla">Nombres: {{object.full_name}}</h3>
-                <h5 class="page-header title-quilla">Licensia: {{object.license}}</h3>
-                <h5 class="page-header title-quilla">Direccion:{{object.addreess}}</h3>
-                <h5 class="page-header title-quilla">Telefono:{{object.phone}}</h3>
-                <h5 class="page-header title-quilla">Email: {{object.email}}</h3>
-                <h5 class="page-header title-quilla">Fecha de Nacimiento: {{object.date_birth}}</h3>
+                <h5 class="page-header title-quilla">Direccion de Partida: {{ object.origin }}</h3>
+                <h5 class="page-header title-quilla">Direccion de LLegada: {{object.destination}} </h3>
+                <h5 class="page-header title-quilla">Remitente: {{object.sender}}</h3>
+                <h5 class="page-header title-quilla">Destinatario: {{object.addressee}}</h3>   
+                <h5 class="page-header title-quilla">Cantidad:{{object.count}}</h3>
+                <h5 class="page-header title-quilla">Descripcion: {{object.description}}</h3>
             </div>
-        </div>
-        <div class="row box-section">
-            <div class="col-xs-12">
+            <div class="row">
+            <div class="col-xs-9">
                 <div class="form-group">
-                    <div class="col-sm-12">
-                        <button type="submit" class="btn btn-quilla">Eliminar</button>
+                    <label for="{{ form.name.id_for_label }}" class="col-xs-3 control-label label-envio">Unidad de Trasporte y Conductor:</label>
+                    <div class="col-xs-9">
+                        {{ form.manifest }}
+                        {% for error in form.name_id.errors %}
+                            <p class="help-block text-error">
+                                {{ error|escape }}
+                            </p>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
         </div>
+    <div class="row">
+        <div class="input-field col s12">
+            <button class="btn cyan waves-effect waves-liright" type="submit" name="action">guardar <i class="mdi-content-send right"></i>
+            </button>
+        </div>
+     </div>
     </form>
 
 {% endblock content_panel %}
+
+
+
+
+
+<p>{{object.count}}</p>
+<p></p>

@@ -16,15 +16,22 @@ from django.http import HttpResponseRedirect
 from apps.ingreso.models import Dues, Branch, DepositSlip
 from apps.profiles.models import Profile
 
-from .models import Car, Driver, Manifest
+from .models import Car, Driver, Manifest, SubContract
 
-from .forms import CarForm, DriverForm, FilterForm, RegisterManifestForm
+from .forms import (
+    CarForm,
+    DriverForm,
+    FilterForm,
+    ManifestForm,
+    RemissionForm,
+    ThirdManifestForm,
+)
 
 
 #mantenimiento para tabla Car
 class ListCarView(ListView):
     context_object_name = 'carros'
-    queryset = Car.objects.all()
+    queryset = Car.objects.filter(canceled=False)
     template_name = 'manifiesto/car/list.html'
 
 
@@ -32,7 +39,7 @@ class RegisterCarView(CreateView):
 #mantenimiento agregar Carro
     form_class = CarForm
     template_name = 'manifiesto/car/add.html'
-    success_url = reverse_lazy('manifiesto_app:agregar-carro')
+    success_url = reverse_lazy('manifiesto_app:listar-carro')
 
 
 class UpdateCarView(UpdateView):
@@ -43,10 +50,34 @@ class UpdateCarView(UpdateView):
     success_url = reverse_lazy('manifiesto_app:listar-carro')
 
 
+class DeleteCarView(DetailView):
+    template_name = 'manifiesto/car/delete.html'
+    model = Car
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        #recuperamos el objeto y actualizamos a anulado
+        car = self.object
+        #actualizamos y guardamos el valor
+        car.canceled = True
+        car.save()
+        print 'print objeto acutalizado'
+        return HttpResponseRedirect(
+            reverse(
+                'manifiesto_app:listar-carro'
+            )
+        )
+
+
+class DetailCarView(DetailView):
+    template_name = 'manifiesto/car/detail.html'
+    model = Car
+
+
 #mantenimeinto para tabla Conductor
 class ListDriverView(ListView):
     context_object_name = 'conductores'
-    queryset = Driver.objects.all()
+    queryset = Driver.objects.filter(canceled=False)
     template_name = 'manifiesto/driver/list.html'
 
 
@@ -65,56 +96,212 @@ class UpdateDriverView(UpdateView):
     success_url = reverse_lazy('manifiesto_app:listar-conductor')
 
 
+class DeleteDriverView(DetailView):
+    #metodo para inhabilitar un conductor
+    template_name = 'manifiesto/driver/delete.html'
+    model = Driver
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        #recuperamos el objeto y actualizamos a anulado
+        driver = self.object
+        #actualizamos y guardamos el valor
+        driver.canceled = True
+        driver.save()
+        print 'print objeto acutalizado'
+        return HttpResponseRedirect(
+            reverse(
+                'manifiesto_app:listar-conductor'
+            )
+        )
+
+
+class DetailDriverView(DetailView):
+    #metodo para vizualizar los datos de conductor
+    template_name = 'manifiesto/driver/detail.html'
+    model = Driver
+
+
+#mantinimietos de manifeisto
+class ManifestList(ListView):
+    template_name = 'manifiesto/manifest/list.html'
+    context_object_name = 'manifests'
+    queryset = Manifest.objects.filter(
+        canceled=False,
+        state=False,
+    )
+
+
 # #proceso para registrar manifiesto
-class RegisterManifestView(FormView):
-    form_class = RegisterManifestForm
-    template_name = 'manifiesto/manifest/register.html'
+class ManifestView(FormView):
+    template_name = 'manifiesto/manifest/add.html'
+    form_class = ManifestForm
+    success_url = reverse_lazy('manifiesto_app:listar-manifiesto')
+
+    def form_valid(self, form):
+        #recuperamos los datos para manifest
+        driver = form.cleaned_data['driver']
+        car = form.cleaned_data['car']
+        destination = form.cleaned_data['destination']
+        origin = form.cleaned_data['origin']
+        date_shipping = form.cleaned_data['date_shipping']
+        user_created = self.request.user
+        user_modified = self.request.user
+        #guardamos el manifiesto
+        manifest = Manifest(
+            driver=driver,
+            car=car,
+            destination=destination,
+            origin=origin,
+            user_created=user_created,
+            user_modified=user_modified,
+            date_shipping=date_shipping,
+            state=False,
+        )
+        manifest.save()
+        return super(ManifestView, self).form_valid(form)
+
+
+class AnulateManifestView(DetailView):
+    #metodo para anular un manifiesto
+    template_name = 'manifiesto/manifest/delete.html'
+    model = Manifest
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        #recuperamos el objeto y actualizamos a anulado
+        manifest = self.object
+        #actualizamos y guardamos el valor
+        manifest.canceled = True
+        manifest.save()
+        print 'print objeto acutalizado'
+        return HttpResponseRedirect(
+            reverse(
+                'manifiesto_app:listar-manifiesto'
+            )
+        )
+
+
+class UpdateManifestView(DetailView):
+    #metodo para actualizar estado de manifiesto a lleno
+    template_name = 'manifiesto/manifest/update.html'
+    model = Manifest
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        #recuperamos el objeto y actualizamos a anulado
+        manifest = self.object
+        #actualizamos y guardamos el valor
+        manifest.state = True
+        manifest.save()
+        print '=========== print objeto acutalizado ======'
+        print manifest
+        return HttpResponseRedirect(
+            reverse(
+                'manifiesto_app:reporte-manifiesto',
+                kwargs={'pk': manifest.pk},
+            )
+        )
+
+
+class DetailManifestView(DetailView):
+    #metodo para vizualizar los datos de conductor
+    template_name = 'manifiesto/manifest/detail.html'
+    model = Manifest
+
+
+#proceso para registrar una guia de remision
+class RemissionView(FormMixin, DetailView):
+    '''vista para registrar las notas de ingreso
+        en un manifiesto '''
+    model = DepositSlip
+    form_class = RemissionForm
+    template_name = 'manifiesto/remision/add.html'
+
+    def get_success_url(self):
+        return reverse_lazy('ingreso_app:nota-ingreso')
 
     def get_form_kwargs(self):
-        kwargs = super(RegisterManifestView, self).get_form_kwargs()
+        kwargs = super(RemissionView, self).get_form_kwargs()
+        print '=======entro a los kwargs====='
         kwargs.update({
+            'pk': self.kwargs.get('pk', 0),
             'user': self.request.user,
         })
         return kwargs
 
     def get_context_data(self, **kwargs):
-        context = super(RegisterManifestView, self).get_context_data(**kwargs)
-        usuario = self.request.user
-        profile = Profile.objects.filter(user=usuario)[0]
-        context['slips'] = DepositSlip.objects.filter(
-            destination=profile.branch,
-            commited=False,
-        )
+        context = super(RemissionView, self).get_context_data(**kwargs)
+        context['form'] = self.get_form()
+        print 'el objeto es'
+        print self.object
         return context
 
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
     def form_valid(self, form):
-        #recperamos la sucursal
-        usuario = self.request.user
-        sucursal = Profile.objects.get(user=usuario).branch
-        #recuperamos las notas de ingreso seleccionadas
-        deposit = form.cleaned_data['deposit_slip']
-        for slip in deposit:
-            #actualizamos la DS como enviado
-            nota_ingreso = slip
-            nota_ingreso.output = True
-            nota_ingreso.save()
-        #registramos el manifiesto del envio
-        manifiesto = form.save()
-        manifiesto.destination = sucursal
-        manifiesto.user = self.request.user
-        manifiesto.date = datetime.now()
-        manifiesto.save()
-        print '======manifiesto GUARDADO====='
-        print manifiesto.pk
-        #mostramos la lista de reportes a imprimir por sucursal
-        return HttpResponseRedirect(
-            reverse(
-                'manifiesto_app:reporte-manifiesto',
-                kwargs={'pk': manifiesto.pk},
-            )
+        #recuperamos el manifiesto de formulario
+        manifest = form.cleaned_data['manifest']
+        #agregamos la nota de ingreso al manifest
+        manifest.deposit_slip.add(self.object)
+        #guardamos le Manifest
+        manifest.save()
+        print '======nota de ingreso agreagda======'
+        return super(RemissionView, self).form_valid(form)
+
+
+#manifieto con cotrata a terceros
+class ThirdManifestView(FormView):
+    template_name = 'manifiesto/manifest/subcontrata.html'
+    form_class = ThirdManifestForm
+    success_url = reverse_lazy('manifiesto_app:listar-manifiesto')
+
+    def form_valid(self, form):
+        #recuperamos los datos para manifest
+        driver = form.cleaned_data['driver']
+        car = form.cleaned_data['car']
+        destination = form.cleaned_data['destination']
+        origin = form.cleaned_data['origin']
+        date_shipping = form.cleaned_data['date_shipping']
+        user_created = self.request.user
+        user_modified = self.request.user
+        #datos para la tabla observaciones
+        full_name = form.cleaned_data['full_name']
+        ruc = form.cleaned_data['ruc']
+        observations = form.cleaned_data['observations']
+        #guardamos el manifiesto
+        manifest = Manifest(
+            driver=driver,
+            car=car,
+            destination=destination,
+            origin=origin,
+            user_created=user_created,
+            user_modified=user_modified,
+            date_shipping=date_shipping,
+            state=False,
         )
+        manifest.save()
+        '===========manifiesto guardado============'
+        #se registra los datos en subcontrac
+        subcontrac = SubContract(
+            manifest=manifest,
+            full_name=full_name,
+            ruc=ruc,
+            observation=observations,
+        )
+        #guradamos datos de sub contrata
+        subcontrac.save()
+        '==============sub contrata guardad============'
+        return super(ThirdManifestView, self).form_valid(form)
 
 
+#proceso para listar destinos de un manifiesto
 class ReportManifest(DetailView):
     model = Manifest
     template_name = 'manifiesto/manifest/report.html'
@@ -123,6 +310,8 @@ class ReportManifest(DetailView):
         context = super(ReportManifest, self).get_context_data(**kwargs)
         #recuperamos le manifiesto enviado por url
         manifisto = self.object
+        print '========manifiesto========'
+        print manifisto
         #recuperamos las notas de ingreso de manifiesto
         #slips=lista de notas de ingreso
         slips = manifisto.deposit_slip.all()
@@ -140,7 +329,7 @@ class ReportManifest(DetailView):
         return context
 
 
-#clase para mostrar los notas de ingreso de una sucursal y un manifiesto
+#proceso para mostrar los notas de ingreso de una sucursal y un manifiesto
 class ReportDetailM(TemplateView):
     template_name = 'manifiesto/manifest/detalle-reporte.html'
 

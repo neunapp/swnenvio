@@ -1,9 +1,74 @@
-<form action="{% url 'manifiesto_app:eliminar-carro' car.pk %}" method="POST">{% csrf_token %}
-                            <div class="col s12">
-                                <h6 class="center-align">¿Desea eliminar la carrera "{{ object }}"?</h6>
-                            </div>
-                            <div class="col s12 center">
-                                <button type="submit" name="action">si</button>
-                                <a href="{% url 'manifiesto_app:listar-carro' %}">no</a>
-                            </div>
-</form>
+{% extends "ingreso/nota_ingreso/base_nota.html" %}
+
+{% block sidenav %}
+                        
+    <li>
+        <a class="active" href="{% url 'users_app:nota' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
+    </li>
+
+    <li>
+        <a href="{% url 'users_app:entrega_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envio</a>
+
+        <!-- <a class="active" href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
+            </li>
+            <li>
+        <a href="#"><i class="fa fa-fw fa-money"></i> Entrega De Envio</a> -->
+    </li>
+
+    <li>
+        <a href="#"><i class="fa fa-fw fa-table"></i> Tables</a>
+    </li>
+
+    <li>
+        <a href="#"><i class="fa fa-fw fa-edit"></i> Forms</a>
+    </li>
+
+    <li>
+        <a href="#"><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>
+    </li>
+
+    <li>
+        <a href="#"><i class="fa fa-fw fa-wrench"></i> Bootstrap Grid</a>
+    </li>
+
+    <li>
+        <a href="{% url 'ingreso_app:listar-branch' %}"><i class="fa fa-fw fa-file"></i> Mantenimiento Sucursales</a>
+    </li>
+
+    <li>
+        <a href="{% url 'profiles_app:agregar-profile' %}"><i class="fa fa-fw fa-dashboard"></i>Desiganar Sucursales</a>
+    </li>
+
+{% endblock sidenav %}
+
+{% block content_panel %}
+
+
+    <div class="row">
+        <div class="col-xs-12">
+            <h3 class="page-header title-quilla">Ud. Eliminara Este Vehiculo:</h3>
+        </div>
+    </div>
+    <form role="form" method="POST" class="form-horizontal">{% csrf_token %}
+        <div class="row">
+            <div class="col-xs-12">
+                <h5 class="page-header title-quilla">Denominacion: {{object.name}}</h3>
+                <h5 class="page-header title-quilla">Nro de Placa: {{object.plaque}}</h3>
+                <h5 class="page-header title-quilla">Marca del Vehiculo: {{object.marca}}</h3>
+                <h5 class="page-header title-quilla">Codigo de Configuracion Vehicular:{{object.code_ssettings_car}}</h3>
+                <h5 class="page-header title-quilla">Nro de Constancia de Inscripcion:{{object.constancy_inscription}}</h3>
+                <h5 class="page-header title-quilla">Condicion: {{object.condition}}</h3>
+            </div>
+        </div>
+        <div class="row box-section">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <button type="submit" class="btn btn-quilla">Eliminar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+{% endblock content_panel %}

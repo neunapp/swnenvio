@@ -38,7 +38,12 @@ class Car(models.Model):
     condition = models.CharField(
         'Condicion',
         choices=STATE_CHOICES,
-        max_length=50,
+        max_length=11,
+    )
+    canceled = models.BooleanField(
+        'anulado',
+        default=False,
+        editable=False
     )
 
     class Meta:
@@ -76,6 +81,11 @@ class Driver(models.Model):
         blank=True,
         null=True,
     )
+    canceled = models.BooleanField(
+        'anulado',
+        default=False,
+        editable=False
+    )
 
     class Meta:
         verbose_name = "Conductor"
@@ -88,14 +98,17 @@ class Driver(models.Model):
 class Manifest(TimeStampedModel):
     driver = models.ForeignKey(Driver)
     car = models.ForeignKey(Car)
-    deposit_slip = models.ManyToManyField(DepositSlip)
+    deposit_slip = models.ManyToManyField(
+        DepositSlip,
+        blank=True,
+        null=True,
+    )
     destination = models.ForeignKey(Branch)
     origin = models.ForeignKey(
         Branch,
         related_name="Branch_origin",
         blank=True,
         null=True,
-        default=1,
     )
     user_created = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -113,6 +126,11 @@ class Manifest(TimeStampedModel):
         null=True,
     )
     state = models.BooleanField('Estado')
+    canceled = models.BooleanField(
+        'anulado',
+        default=False,
+        editable=False
+    )
 
     class Meta:
         verbose_name = "Manifiesto"
@@ -148,6 +166,11 @@ class SubContract(models.Model):
     observation = models.CharField(
         'Observaciones',
         max_length=50,
+    )
+    canceled = models.BooleanField(
+        'anulado',
+        default=False,
+        editable=False
     )
 
     class Meta:

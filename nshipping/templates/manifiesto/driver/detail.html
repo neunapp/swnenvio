@@ -46,7 +46,7 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <h3 class="page-header title-quilla">Ud Eliminara Este Conductor:</h3>
+            <h3 class="page-header title-quilla">Datos del Conductor</h3>
         </div>
     </div>
     <form role="form" method="POST" class="form-horizontal">{% csrf_token %}
@@ -63,11 +63,9 @@
         </div>
         <div class="row box-section">
             <div class="col-xs-12">
-                <div class="form-group">
-                    <div class="col-sm-12">
-                        <button type="submit" class="btn btn-quilla">Eliminar</button>
-                    </div>
-                </div>
+                <div class="col s5">
+                <a class="waves-effect waves-light btn btn-back" href="{% url 'manifiesto_app:listar-conductor' %}"><i class="fa fa-chevron-left left"></i>Regresar</a>    
+            </div>
             </div>
         </div>
     </form>

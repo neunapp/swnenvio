@@ -46,8 +46,8 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <h3 class="page-header title-quilla">Conductores Registrados</h3>
-            <a href="{% url 'manifiesto_app:agregar-conductor' %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i>Agregar Nuevo Conductor</a>
+            <h3 class="page-header title-quilla">Egrosos Economicos Registrados</h3>
+            <a href="{% url 'salida_app:agregar-egreso' %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i>Crear Nuevo</a>
         </div>
     </div>
 
@@ -56,26 +56,24 @@
             <table class="table table-bordered table-hover table-condensed table-quilla">
                 <thead>
                     <tr>
-                        <th>Dni</th>
-                        <th>Nombres</th>
-                        <th>Licensia</th>
-                        <th>Telefono</th>
+                        <th>Descripcion</th>
+                        <th>Importe</th>
+                        <th>Fecha de Creacion</th>
+                        <th>Usuario de Creacion</th>
                         <th class="text-center">Acción</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        {% for conductor in  conductores %}
+                        {% for egreso in  egresos %}
                         <tr>
-                            <td>{{ conductor.dni }}</td> 
-                            <td>{{ conductor.full_name }}</td>
-                            <td>{{ conductor.license }}</td>
-                            <td>{{ conductor.phone }}</td>
-
+                            <td>{{ egreso.description }}</td> 
+                            <td>{{ egreso.amount }}</td>
+                            <td>{{ egreso.date_created }}</td>
+                            <td>{{ egreso.user_created }}</td> 
                             <td>
-                                <a href="{% url 'manifiesto_app:visualizar-conductor' conductor.pk %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i>Ver</a>
-                                <a href="{% url 'manifiesto_app:actualizar-conductor' conductor.pk %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i>Modificar</a>
-                                <a href="{% url 'manifiesto_app:eliminar-conductor' conductor.pk %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i>Eliminar</a>
+                                <a href="{% url 'salida_app:visualizar-egreso' egreso.pk %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i>Ver</a>
+                                <a href="{% url 'salida_app:anular-egreso' egreso.pk %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i>Anular Manifiesto</a>
                             </td>
                         </tr>            
                     {% endfor %}
