@@ -46,8 +46,8 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <h3 class="page-header title-quilla">Conductores Registrados</h3>
-            <a href="{% url 'manifiesto_app:agregar-conductor' %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i>Agregar Nuevo Conductor</a>
+            <h3 class="page-header title-quilla">Manifiestos no Completos</h3>
+            <a href="{% url 'manifiesto_app:agregar-manifiesto' %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i>Crear Nuevo Manifiesto</a>
         </div>
     </div>
 
@@ -56,26 +56,26 @@
             <table class="table table-bordered table-hover table-condensed table-quilla">
                 <thead>
                     <tr>
-                        <th>Dni</th>
-                        <th>Nombres</th>
-                        <th>Licensia</th>
-                        <th>Telefono</th>
+                        <th>Vehiculo</th>
+                        <th>Conductor</th>
+                        <th>Direccion Partida</th>
+                        <th>Direccion LLegada</th>
+                        <th>Fecha Traslado</th>
                         <th class="text-center">Acción</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        {% for conductor in  conductores %}
+                        {% for manifest in  manifests %}
                         <tr>
-                            <td>{{ conductor.dni }}</td> 
-                            <td>{{ conductor.full_name }}</td>
-                            <td>{{ conductor.license }}</td>
-                            <td>{{ conductor.phone }}</td>
-
+                            <td>{{ manifest.car }}</td> 
+                            <td>{{ manifest.driver }}</td>
+                            <td>{{ manifest.origin }}</td>
+                            <td>{{ manifest.destination }}</td> 
+                            <td>{{ manifest.date_shipping }}</td>
                             <td>
-                                <a href="{% url 'manifiesto_app:visualizar-conductor' conductor.pk %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i>Ver</a>
-                                <a href="{% url 'manifiesto_app:actualizar-conductor' conductor.pk %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i>Modificar</a>
-                                <a href="{% url 'manifiesto_app:eliminar-conductor' conductor.pk %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i>Eliminar</a>
+                                <a href="{% url 'manifiesto_app:actualizar-manifiesto' manifest.pk %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i>Carro Lleno</a>
+                                <a href="{% url 'manifiesto_app:eliminar-manifiesto' manifest.pk %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i>Anular Manifiesto</a>
                             </td>
                         </tr>            
                     {% endfor %}

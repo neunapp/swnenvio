@@ -1,3 +1,96 @@
+{% extends "ingreso/nota_ingreso/base_nota.html" %}
+
+{% block sidenav %}
+                        
+    <li>
+        <a class="active" href="{% url 'users_app:nota' %}"><i class="fa fa-fw fa-truck"></i> Nota de Ingreso</a>
+    </li>
+
+    <li>
+        <a href="{% url 'users_app:entrega_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envio</a>
+
+        <!-- <a class="active" href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
+            </li>
+            <li>
+        <a href="#"><i class="fa fa-fw fa-money"></i> Entrega De Envio</a> -->
+    </li>
+
+    <li>
+        <a href="#"><i class="fa fa-fw fa-table"></i> Tables</a>
+    </li>
+
+    <li>
+        <a href="#"><i class="fa fa-fw fa-edit"></i> Forms</a>
+    </li>
+
+    <li>
+        <a href="#"><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>
+    </li>
+
+    <li>
+        <a href="#"><i class="fa fa-fw fa-wrench"></i> Bootstrap Grid</a>
+    </li>
+
+    <li>
+        <a href="{% url 'ingreso_app:listar-branch' %}"><i class="fa fa-fw fa-file"></i> Mantenimiento Sucursales</a>
+    </li>
+
+    <li>
+        <a href="{% url 'profiles_app:agregar-profile' %}"><i class="fa fa-fw fa-dashboard"></i>Desiganar Sucursales</a>
+    </li>
+
+{% endblock sidenav %}
+
+{% block content_panel %}
+
+
+    <div class="row">
+        <div class="col-xs-12">
+            <h3 class="page-header title-quilla">Manifiestos no Completos</h3>
+            <a href="{% url 'manifiesto_app:agregar-manifiesto' %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i>Crear Nuevo Manifiesto</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <table class="table table-bordered table-hover table-condensed table-quilla">
+                <thead>
+                    <tr>
+                        <th>Nro Manifiesto</th>
+                        <th>Conductor</th>
+                        <th>Carro</th>  
+                        <th>Origen</th>
+                        <th>Destino</th>
+                        <th class="text-center">Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        {% for s in sucursales %}
+                        <tr>
+                            <td>{{object.pk}}</object></td>
+                            <td>{{object.driver}}</td>
+                            <td>{{object.car}}</td>
+                            <td>{{object.origin}}</td>
+                            <td>{{s.name}}</td>
+                            <td>
+                                <a href="{% url 'manifiesto_app:detalle-manifiesto' object.pk s.pk %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i>Imprimir</a>
+                            </td>
+                        </tr>            
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock content_panel %}
+
+
+
+
+
+
+
+
 <html>
 <head>
     <title>detalles</title>

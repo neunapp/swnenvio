@@ -46,7 +46,7 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <h3 class="page-header title-quilla">Vehiculo</h3>
+            <h3 class="page-header title-quilla">Nuevo Egreso Economico</h3>
         </div>
     </div>
 
@@ -67,9 +67,9 @@
         <div class="row">
             <div class="col-xs-9">
                 <div class="form-group">
-                    <label for="{{ form.name.id_for_label }}" class="col-xs-3 control-label label-envio">Denominacio:</label>
+                    <label for="{{ form.name.id_for_label }}" class="col-xs-3 control-label label-envio">Descripcion:</label>
                     <div class="col-xs-9">
-                        {{ form.name }}
+                        {{ form.description}}
                         {% for error in form.name_id.errors %}
                             <p class="help-block text-error">
                                 {{ error|escape }}
@@ -78,43 +78,19 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="{{ form.sender_name.is_for_label }}" class="col-xs-3 control-label label-envio">Placa del vehiculo:</label>
+                    <label for="{{ form.sender_name.is_for_label }}" class="col-xs-3 control-label label-envio">Importe o Monto:</label>
                     <div class="col-xs-9">
-                        {{ form.plaque }}                        
+                        {{ form.amount }}                        
                         {% for error in form.sender_name.errors %}
                             <p class="help-block text-error">
                                 {{ error|escape }}
                             </p>
                         {% endfor %}
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="{{ form.sender_razonsocial.id_for_label }}" class="col-xs-3 control-label label-envio">Marca del Vehiculo:</label>
-                    <div class="col-xs-9">
-                        {{ form.marca }}
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="{{ form.sender_razonsocial.id_for_label }}" class="col-xs-3 control-label label-envio">Codigo de Configuracion Vehicular:</label>
-                    <div class="col-xs-9">
-                        {{ form.code_ssettings_car}}
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="{{ form.sender_razonsocial.id_for_label }}" class="col-xs-3 control-label label-envio">N° de Contancia de Inscripcion:</label>
-                    <div class="col-xs-9">
-                        {{ form.constancy_inscription}}
-                    </div>
-                </div> 
-                <div class="form-group">
-                    <label for="{{ form.sender_razonsocial.id_for_label }}" class="col-xs-3 control-label label-envio">Condicion:</label>
-                    <div class="col-xs-9">
-                        {{ form.condition}}
-                    </div>
                 </div> 
             </div>
 
-            </div>
+        </div>
         </div>
         <div class="row box-section">
             <div class="col-xs-12">

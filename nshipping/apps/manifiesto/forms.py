@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 from django import forms
 from django.forms.models import ModelMultipleChoiceField
 
@@ -12,11 +13,110 @@ class CarForm(forms.ModelForm):
         model = Car
         fields = ("__all__")
 
+        widgets = {
+            'name': forms.TextInput(
+                attrs={
+                    'class': 'form-control-sm',
+                    'placeholder': 'Ingrese una Denominacion'
+                }
+            ),
+            'plaque': forms.TextInput(
+                attrs={
+                    'class': 'form-control-sm',
+                    'placeholder': 'Ingrese Nro de Placa'
+                }
+            ),
+            'marca': forms.TextInput(
+                attrs={
+                    'class': 'form-control-sm',
+                    'placeholder': 'Ingrese Marca del Vehiculo'
+                }
+            ),
+            'code_ssettings_car': forms.TextInput(
+                attrs={
+                    'class': 'form-control-sm',
+                    'placeholder': 'Ingrese Codigo de Configuracion Vehicular'
+                }
+            ),
+            'constancy_inscription': forms.TextInput(
+                attrs={
+                    'class': 'form-control-sm',
+                    'placeholder': 'Ingrese Nro de Cosntacia de Inscripcion'
+                }
+            ),
+            'condition': forms.Select(
+                attrs={'class': 'form-control input-sm'}
+            ),
+        }
+
 
 class DriverForm(forms.ModelForm):
     class Meta:
         model = Driver
         fields = ("__all__")
+
+        widgets = {
+            'dni': forms.TextInput(
+                attrs={
+                    'class': 'form-control-sm',
+                    'placeholder': 'Ingrese Nro de DNI'
+                }
+            ),
+            'full_name': forms.TextInput(
+                attrs={
+                    'class': 'form-control-sm',
+                    'placeholder': 'Ingrese Nombre Completo'
+                }
+            ),
+            'license': forms.TextInput(
+                attrs={
+                    'class': 'form-control-sm',
+                    'placeholder': 'Ingrese Nro de Licencia de Conducir'
+                }
+            ),
+            'addreess': forms.TextInput(
+                attrs={
+                    'class': 'form-control-sm',
+                    'placeholder': 'Ingrese una Direccion'
+                }
+            ),
+            'phone': forms.TextInput(
+                attrs={
+                    'class': 'form-control-sm',
+                    'placeholder': 'Ingrse Nro de Telefono o Celular'
+                }
+            ),
+            'email': forms.TextInput(
+                attrs={
+                    'class': 'form-control-sm',
+                    'placeholder': 'Ingrese Direccion de Correo Electronico'
+                }
+            ),
+
+            'date_birth': forms.TextInput(
+                attrs={
+                    'class': 'form-control input-sm datepicker',
+                    'placeholder': 'Seleccione un fecha'
+                }
+            ),
+        }
+
+    def clean_dni(self):
+        dni = self.cleaned_data['dni']
+        if not dni.isdigit():
+            msj = 'el Dni solo deben contener numeros'
+            self.add_error('dni', msj)
+        elif len(dni) != 8:
+            msj = 'el Dni solo puede tener 8 digitos'
+            self.add_error('dni', msj)
+        else:
+            return msj
+
+    def clean_phone(self):
+        phone = self.cleaned_data['phone']
+        if not phone.isdigit():
+            raise forms.ValidationError("Ingrese un numero de telefono valido")
+        return phone
 
 
 class FilterForm(forms.Form):
@@ -24,20 +124,150 @@ class FilterForm(forms.Form):
     destination = forms.CharField(label='Destino', required=False)
 
 
-class RegisterManifestForm(forms.ModelForm):
+class ManifestForm(forms.ModelForm):
+    """ Formulario para el Registro de Manifiesto"""
     class Meta:
         model = Manifest
-        fields = ('driver', 'car', 'deposit_slip', 'destination')
+        fields = (
+            'driver',
+            'car',
+            'destination',
+            'origin',
+            'date_shipping',
+        )
+
         widgets = {
-            'deposit_slip': forms.CheckboxSelectMultiple(),
+            'driver': forms.Select(
+                attrs={'class': 'form-control input-sm'}
+            ),
+            'car': forms.Select(
+                attrs={'class': 'form-control input-sm'}
+            ),
+            'destination': forms.Select(
+                attrs={'class': 'form-control input-sm'}
+            ),
+            'origin': forms.Select(
+                attrs={'class': 'form-control input-sm'}
+            ),
+            'date_shipping': forms.TextInput(
+                attrs={
+                    'class': 'form-control input-sm datepicker',
+                    'placeholder': 'Seleccione un fecha'
+                }
+            ),
         }
 
-    def __init__(self, user, *args, **kwargs):
-        super(RegisterManifestForm, self).__init__(*args, **kwargs)
-        perfil = Profile.objects.filter(user=user)[0]
-        branch = perfil.branch
-        self.fields['deposit_slip'].queryset = DepositSlip.objects.filter(
-            commited=False,
-            output=False,
-            destination=branch,
+    def __init__(self, *args, **kwargs):
+        super(ManifestForm, self).__init__(*args, **kwargs)
+        self.fields['car'].queryset = Car.objects.filter(
+            condition='0',
+            canceled=False
+        )
+        self.fields['driver'].queryset = Driver.objects.filter(
+            canceled=False,
+        )
+
+
+class ThirdManifestForm(forms.ModelForm):
+    """ Formulario para el Registro de Manifiesto"""
+    full_name = forms.CharField(
+        label='Nombres/RazonSocial',
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control input-detail',
+                'placeholder': 'Ingrese Nombre Completo',
+            }
+        ),
+    )
+    ruc = forms.CharField(
+        label='Ruc',
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control input-detail',
+                'placeholder': 'Ingrese Numero de Ruc',
+            }
+        ),
+    )
+    observations = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-control input-detail',
+                'placeholder': 'Ingrese descripción',
+                'rows': '4'
+            }
+        ),
+    )
+
+    class Meta:
+        model = Manifest
+        fields = (
+            'driver',
+            'car',
+            'destination',
+            'origin',
+            'date_shipping',
+        )
+
+        widgets = {
+            'driver': forms.Select(
+                attrs={'class': 'form-control input-sm'}
+            ),
+            'car': forms.Select(
+                attrs={'class': 'form-control input-sm'}
+            ),
+            'destination': forms.Select(
+                attrs={'class': 'form-control input-sm'}
+            ),
+            'origin': forms.Select(
+                attrs={'class': 'form-control input-sm'}
+            ),
+            'date_shipping': forms.TextInput(
+                attrs={
+                    'class': 'form-control input-sm datepicker',
+                    'placeholder': 'Seleccione un fecha'
+                }
+            ),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(ThirdManifestForm, self).__init__(*args, **kwargs)
+        self.fields['car'].queryset = Car.objects.filter(
+            condition='1',
+            canceled=False
+        )
+        self.fields['driver'].queryset = Driver.objects.filter(
+            canceled=False,
+        )
+
+    def clean_ruc(self):
+        ruc = slef.cleaned_data['ruc']
+        if not ruc.isdigit():
+            msj = 'el Ruc solo deben contener numeros'
+            self.add_error('ruc', msj)
+        elif len(dni) != 11:
+            msj = 'el Ruc solo puede tener 11 digitos'
+            self.add_error('ruc', msj)
+        else:
+            return msj
+
+
+class RemissionForm(forms.Form):
+    manifest = forms.ModelChoiceField(
+        label='Manifiesto',
+        queryset=None,
+        widget=forms.Select(
+            attrs={
+                'class': 'form-control input-sm',
+                'placeholder': 'Pulse para Seleccionar',
+            }
+        ),
+    )
+
+    def __init__(self, user, pk, *args, **kwargs):
+        super(RemissionForm, self).__init__(*args, **kwargs)
+        sucursal = Profile.objects.get(user=user).branch
+        self.fields['manifest'].queryset = Manifest.objects.filter(
+            state=False,
+            origin=sucursal,
+            canceled=False,
         )
