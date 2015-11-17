@@ -5,7 +5,7 @@ urlpatterns = [
     url(
         r'^panel/nota-ingreso/$',
         views.DepositSlipView.as_view(),
-        name='nota_ingreso'
+        name='nota-ingreso'
     ),
     url(
         r'^panel/entregar-envio/$',
