@@ -106,76 +106,30 @@
                     <tr>
                         <th>Nombres</th>
                         <th>Origen</th>
+                        <th>Fecha Envio</th>
                         <th>Por Cobrar</th>
                         <th class="text-center">Acción</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Henrry Joel Sairitupac Arones</td>
-                        <td>Lima</td>
-                        
-                        <td>
-                            <span class="label label-success">s/ 0:00</span>
-                        </td>
-                        <td class="text-center">
-                            <a href="{% url 'users_app:entrega_detalle' %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i> Detalle</a>
-                            
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>Cristian Santa Cruz Carrión</td>
-                        <td>Quillabanba</td>
-                        
-                        <td>
-                            <span class="label label-success">s/ 0.00</span>
-                        </td>
-                        <td class="text-center">
-                            <a href="{% url 'users_app:entrega_detalle' %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i> Detalle</a>
-                            
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>Henrry Joel Sairitupac Arones</td>
-                        <td>La libertad</td>
-                        
-                        <td>
-                            <span class="label label-warning">S/ 100.00</span>
-                        </td>
-                        <td class="text-center">
-                            <a href="{% url 'users_app:entrega_detalle' %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i> Detalle</a>
-                            
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>Henrry Joel Sairitupac Arones</td>
-                        <td>Lima</td>
-                        
-                        <td>
-                            <span class="label label-warning">S/ 100.00</span>
-                        </td>
-                        <td class="text-center">
-                            <a href="{% url 'users_app:entrega_detalle' %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i> Detalle</a>
-                            
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>Brenda Paucar Coppa</td>
-                        <td>Ica</td>
-                        
-                        <td>
-                            <span class="label label-danger">S/ 500.00</span>
-                        </td>
-                        <td class="text-center">
-                            <a href="{% url 'users_app:entrega_detalle' %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i> Detalle</a>
-                            
-                        </td>
-                    </tr>
-
+                    {% for paquete in paquetes %}
+                        <tr>
+                            <td>{{ paquete.depositslip.addressee }}</td>
+                            <td>{{ paquete.depositslip.origin }}</td>
+                            <td>{{ paquete.depositslip.created }}</td>
+                            {% if paquete.saldo == '0' %}
+                            {% else %}    
+                            {% endif %}
+                            <td>
+                                <span class="label label-success">s/ {{ paquete.saldo }}</span>
+                            </td>
+                            <td class="text-center">
+                                <a href="{% url 'users_app:entrega_detalle' %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i> Detalle</a>
+                                
+                            </td>
+                        </tr>    
+                    {% endfor %}
+                    
                 </tbody>
           </table>  
         </div>

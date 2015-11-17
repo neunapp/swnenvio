@@ -2,8 +2,10 @@
 from django.db import models
 from django.conf import settings
 from django.db.models import F
+from django.utils import timezone
 
 from decimal import Decimal
+from datetime import datetime, timedelta
 
 from model_utils.models import TimeStampedModel
 
@@ -21,7 +23,9 @@ class Client(models.Model):
     )
     ruc = models.CharField(
         'RUC',
-        max_length=11
+        max_length=11,
+        blank=True,
+        null=True
     )
     business_name = models.CharField(
         'razon social',
@@ -171,62 +175,40 @@ class DepositSlip(TimeStampedModel):
 
 
 class ManagerDues(models.Manager):
-    #funcion que devuelve todos los productos no entregados
-    # def lista_no_entregado(self, destino, fecha):
-    #     lista = self.annotate(
-    #         saldo=F('deposit_slip__total_amount')-F('amount')
-    #     ).filter(
-    #         deposit_slip__commited=False,
-    #         deposit_slip__destination=destino,
-    #         date__lte=fecha,
-    #     )
-    #     return lista
-
-    # #funcion que devuelve los envios no entregados
-    # def envios_no_entregados(self, destino, fecha):
-    #     lista = self.annotate(
-    #         saldo=F('deposit_slip__total_amount')-F('amount')
-    #     ).filter(
-    #         depositslip__commited=False,
-    #         depositslip__destination=destino,
-    #         depositslip__output=True,
-    #         date__lte=fecha,
-    #     )
-    #     return lista
-
-    #funcion que busca una nota de ingreso en un rango de fecha de 7 dias
-    # def buscar_by_fecha(self, destino, date):
-    #     fecha = date - datetime.timedelta(days=7)
-    #     resultado = self.annotate(
-    #         saldo=F('deposit_slip__total_amount')-F('amount')
-    #     ).filter(
-    #         deposit_slip__commited=False,
-    #         deposit_slip__destination=destino,
-    #         deposit_slip__output=True,
-    #         deposit_slip__date__gte=fecha,
-    #         deposit_slip__date__lte=date,
-    #     )
-    #     return resultado
-
-    # def buscar_by_destino(self, destino):
-    #     resultado = self.filter(
-    #         deposit_slip__commited=False,
-    #         deposit_slip__destination__name__icontains=destino,
-    #     )
-    #     return resultado
 
     #funcion que busca un ingreso por numero-serie remitente y destinatari
     def search(self, serie, numero, remitente, destinatario, sucursal, fecha):
+        flat = serie or numero or remitente or destinatario or fecha
+        tz = timezone.get_current_timezone()
+        if flat:
+            print "entre 4 al menos uno"
+            if fecha:
+                "si se ingreso fecha"
+                date = datetime.strptime(fecha, "%d/%m/%Y")
+                end_date = timezone.make_aware(date, tz)
+                start_date = end_date - timedelta(days=7)
+            else:
+
+                date = datetime.strptime("01/10/2015", "%d/%m/%Y")
+                end_date = timezone.now()
+                start_date = timezone.make_aware(date, tz)
+        else:
+            print "no ingrese argumento niguno"
+            end_date = timezone.now()
+            start_date = end_date - timedelta(days=7)
+
         busqueda = self.annotate(
             saldo=F('depositslip__total_amount')-F('amount')
         ).filter(
-            depositslip__state='2',
-            depositslip__destination=sucursal,
             depositslip__serie__icontains=serie,
             depositslip__number__icontains=numero,
             depositslip__sender__full_name__icontains=remitente,
             depositslip__addressee__full_name__icontains=destinatario,
+            depositslip__state='0',
+            depositslip__destination=sucursal,
+            depositslip__created__range=(start_date, end_date)
         )
+        print busqueda
         return busqueda
 
 
@@ -256,7 +238,7 @@ class Dues(TimeStampedModel):
         editable=False,
     )
 
-    # objects = ManagerDues()
+    objects = ManagerDues()
 
     class Meta:
         verbose_name = "cuota"

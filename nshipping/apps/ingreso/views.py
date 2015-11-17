@@ -3,11 +3,7 @@ from django.views.generic import TemplateView, DetailView, UpdateView
 from django.views.generic.edit import CreateView, FormView, FormMixin
 from django.views.generic.list import ListView
 
-from django.utils import timezone
-from datetime import datetime
-
-from django.core.urlresolvers import reverse_lazy, reverse
-from django.http import HttpResponseRedirect
+from django.core.urlresolvers import reverse_lazy
 
 # local.
 from .functions import ClientGetOrCreate
@@ -126,48 +122,34 @@ class DepositSlipView(FormView):
         return super(DepositSlipView, self).form_valid(form)
 
 
-class DeliverView(FormView):
-    form_class = SearchForm
+class DeliverView(FormMixin, ListView):
+    #model = Dues.objects.filter(deposit_slip__destination='1')
+    context_object_name = 'paquetes'
     template_name = 'ingreso/entrega/entrega.html'
-    success_url = reverse_lazy('users_app:panel')
 
-    def form_valid(self, form):
-        return super(DeliverView, self).form_valid(form)
+    def get_context_data(self, **kwargs):
+        context = super(DeliverView, self).get_context_data(**kwargs)
+        context['form'] = SearchForm
+        return context
 
-# class DeliverView(FormMixin, ListView):
-#     #model = Dues.objects.filter(deposit_slip__destination='1')
-#     context_object_name = 'paquetes'
-#     template_name = 'ingreso/entrega/entrega.html'
+    def get_queryset(self):
+        #recuperamos el valor por GET
+        q = self.request.GET.get("serie")
+        r = self.request.GET.get("number")
+        s = self.request.GET.get("sender")
+        t = self.request.GET.get("addressee")
+        u = self.request.GET.get("date")
+        #recuperamos el usuario o sucursal
+        user = self.request.user
+        user_profile = Profile.objects.get(user=user)
+        # funcion lamda para verificar si es nome
+        xstr = lambda s: s or ''
 
-#     def get_context_data(self, **kwargs):
-#         context = super(DeliverView, self).get_context_data(**kwargs)
-#         context['form'] = SearchForm
-#         return context
+        q = xstr(q)
+        r = xstr(r)
+        s = xstr(s)
+        t = xstr(t)
+        u = xstr(u)
 
-#     def get_queryset(self):
-#         #recuperamos el valor por GET
-#         q = self.request.GET.get("serie")
-#         r = self.request.GET.get("number")
-#         s = self.request.GET.get("sender")
-#         t = self.request.GET.get("addressee")
-#         u = self.request.GET.get("date")
-#         #recuperamos el usuario o sucursal
-#         user = self.request.user
-#         profile = Profile.objects.get(user=user)
-#         #verificamos los campos recuperados por get
-#         if (q and r) or s or t or u:
-#             pass
-#             # queryset = Dues.objects.buscar_ingreso(sucursal.branch, q, r, s, t)
-#         elif u:
-#             pass
-#             # queryset = Dues.objects.buscar_by_fecha(sucursal, u)
-#         else:
-#             pass
-#             #tomamos la fecha actual
-#             # fecha = datetime.now()
-#             # queryset = Dues.objects.envios_no_entregados(
-#             #     sucursal.branch,
-#             #     fecha,
-#             # )
-
-#         return queryset
+        queryset = Dues.objects.search(q, r, s, t, user_profile.branch , u)
+        return queryset
