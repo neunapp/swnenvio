@@ -1,5 +1,4 @@
 # -*- encoding: utf-8 -*-
-
 from django.db import models
 from django.conf import settings
 from django.db.models import F
@@ -92,6 +91,7 @@ class DepositSlip(TimeStampedModel):
     ENVIADO = '1'
     RECIBIDO = '2'
     ENTREGADO = '3'
+
     STATE_CHOICES = (
         (CREADO, 'Creado'),
         (ENVIADO, 'Enviado'),
@@ -169,65 +169,65 @@ class DepositSlip(TimeStampedModel):
             self.igv = self.total_amount*Decimal('0.18')
         super(DepositSlip, self).save(*args, **kwargs)
 
-# class ManagerDues(models.Manager):
-#     #funcion que devuelve todos los productos no entregados
-#     def lista_no_entregado(self, destino, fecha):
-#         lista = self.annotate(
-#             saldo=F('deposit_slip__total_amount')-F('amount')
-#         ).filter(
-#             deposit_slip__commited=False,
-#             deposit_slip__destination=destino,
-#             date__lte=fecha,
-#         )
-#         return lista
 
-#     #funcion que devuelve los envios no entregados
-#     def envios_no_entregados(self, destino, fecha):
-#         lista = self.annotate(
-#             saldo=F('deposit_slip__total_amount')-F('amount')
-#         ).filter(
-#             depositslip__commited=False,
-#             depositslip__destination=destino,
-#             depositslip__output=True,
-#             date__lte=fecha,
-#         )
-#         return lista
+class ManagerDues(models.Manager):
+    #funcion que devuelve todos los productos no entregados
+    # def lista_no_entregado(self, destino, fecha):
+    #     lista = self.annotate(
+    #         saldo=F('deposit_slip__total_amount')-F('amount')
+    #     ).filter(
+    #         deposit_slip__commited=False,
+    #         deposit_slip__destination=destino,
+    #         date__lte=fecha,
+    #     )
+    #     return lista
 
-#     #funcion que busca un ingreso por numero-serie remitente y destinatari
-#     def buscar_ingreso(self, destino, serie, numero, remitente, destinatario):
-#         resultado = self.annotate(
-#             saldo=F('deposit_slip__total_amount')-F('amount')
-#         ).filter(
-#             depositslip__commited=False,
-#             depositslip__destination=destino,
-#             depositslip__output=True,
-#             depositslip__serie__icontains=serie,
-#             depositslip__number__icontains=numero,
-#             depositslip__sender__full_name__icontains=remitente,
-#             depositslip__addressee__full_name__icontains=destinatario,
-#         )
-#         return resultado
+    # #funcion que devuelve los envios no entregados
+    # def envios_no_entregados(self, destino, fecha):
+    #     lista = self.annotate(
+    #         saldo=F('deposit_slip__total_amount')-F('amount')
+    #     ).filter(
+    #         depositslip__commited=False,
+    #         depositslip__destination=destino,
+    #         depositslip__output=True,
+    #         date__lte=fecha,
+    #     )
+    #     return lista
 
-#     #funcion que busca una nota de ingreso en un rango de fecha de 7 dias
-#     def buscar_by_fecha(self, destino, date):
-#         fecha = date - datetime.timedelta(days=7)
-#         resultado = self.annotate(
-#             saldo=F('deposit_slip__total_amount')-F('amount')
-#         ).filter(
-#             deposit_slip__commited=False,
-#             deposit_slip__destination=destino,
-#             deposit_slip__output=True,
-#             deposit_slip__date__gte=fecha,
-#             deposit_slip__date__lte=date,
-#         )
-#         return resultado
+    #funcion que busca una nota de ingreso en un rango de fecha de 7 dias
+    # def buscar_by_fecha(self, destino, date):
+    #     fecha = date - datetime.timedelta(days=7)
+    #     resultado = self.annotate(
+    #         saldo=F('deposit_slip__total_amount')-F('amount')
+    #     ).filter(
+    #         deposit_slip__commited=False,
+    #         deposit_slip__destination=destino,
+    #         deposit_slip__output=True,
+    #         deposit_slip__date__gte=fecha,
+    #         deposit_slip__date__lte=date,
+    #     )
+    #     return resultado
 
-#     def buscar_by_destino(self, destino):
-#         resultado = self.filter(
-#             deposit_slip__commited=False,
-#             deposit_slip__destination__name__icontains=destino,
-#         )
-#         return resultado
+    # def buscar_by_destino(self, destino):
+    #     resultado = self.filter(
+    #         deposit_slip__commited=False,
+    #         deposit_slip__destination__name__icontains=destino,
+    #     )
+    #     return resultado
+
+    #funcion que busca un ingreso por numero-serie remitente y destinatari
+    def search(self, serie, numero, remitente, destinatario, sucursal, fecha):
+        busqueda = self.annotate(
+            saldo=F('depositslip__total_amount')-F('amount')
+        ).filter(
+            depositslip__state='2',
+            depositslip__destination=sucursal,
+            depositslip__serie__icontains=serie,
+            depositslip__number__icontains=numero,
+            depositslip__sender__full_name__icontains=remitente,
+            depositslip__addressee__full_name__icontains=destinatario,
+        )
+        return busqueda
 
 
 class Dues(TimeStampedModel):

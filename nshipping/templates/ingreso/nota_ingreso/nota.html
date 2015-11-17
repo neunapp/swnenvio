@@ -8,11 +8,6 @@
 
     <li>
         <a href="{% url 'users_app:entrega_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envio</a>
-
-        <!-- <a class="active" href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
-            </li>
-            <li>
-        <a href="#"><i class="fa fa-fw fa-money"></i> Entrega De Envio</a> -->
     </li>
 
     <li>
@@ -43,7 +38,6 @@
 
 {% block content_panel %}
 
-
     <div class="row">
         <div class="col-xs-12">
             <h3 class="page-header title-quilla">Nota de Ingreso</h3>
@@ -58,6 +52,7 @@
                     <div class="alert alert-dismissible alert-errors" role="alert">
                         <button type="button" class="close cerrar" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <p><strong>Corrija los siguientes errores.</strong></p>
+                        <p><strong>{{ form.non_field_errors }}</strong></p>
                     </div>
                 </div>
             </div>

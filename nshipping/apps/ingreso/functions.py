@@ -35,8 +35,17 @@ def ClientGetOrCreate(DniOrRuc, full_name, business_name):
         return obj
 
 
-def calcular_igv(comprobante, monto):
-    if comprobante == 'Boleta':
-        return 0.00
-    else:
-        return monto*0.18
+def is_number(s):
+    try:
+        float(s)
+        return True
+    except ValueError:
+        pass
+
+    try:
+        import unicodedata
+        unicodedata.numeric(s)
+        return True
+    except (TypeError, ValueError):
+        pass
+    return False
