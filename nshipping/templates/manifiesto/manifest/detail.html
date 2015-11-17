@@ -3,7 +3,7 @@
 {% block sidenav %}
                         
     <li>
-        <a class="active" href="{% url 'users_app:nota' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
+        <a class="active" href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
     </li>
 
     <li>
@@ -16,19 +16,19 @@
     </li>
 
     <li>
-        <a href="#"><i class="fa fa-fw fa-table"></i> Tables</a>
+        <a href="{% url 'manifiesto_app:listar-manifiesto' %}"><i class="fa fa-fw fa-table"></i> Manifiesto</a>
     </li>
 
     <li>
-        <a href="#"><i class="fa fa-fw fa-edit"></i> Forms</a>
+        <a href="{% url 'salida_app:listar-egreso' %}"><i class="fa fa-fw fa-edit"></i> Salida</a>
     </li>
 
     <li>
-        <a href="#"><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>
+        <a href="{% url 'manifiesto_app:listar-carro' %}"><i class="fa fa-fw fa-desktop"></i> Mantenimientos Vehiculos</a>
     </li>
 
     <li>
-        <a href="#"><i class="fa fa-fw fa-wrench"></i> Bootstrap Grid</a>
+        <a href="{% url 'manifiesto_app:listar-conductor' %}"><i class="fa fa-fw fa-wrench"></i> Mantenimientos Conductores </a>
     </li>
 
     <li>
@@ -54,7 +54,24 @@
             <div class="col-xs-12">
                 <h5 class="page-header title-quilla">Conductor: {{object.driver}}</h3>
                 <h5 class="page-header title-quilla">Vehiculo: {{object.car}}</h3>
-                <h5 class="page-header title-quilla">Notas de Ingreso: {{object.deposit_slip.all}}</h3>
+                <h5 class="page-header title-quilla">Notas de Ingreso: </h3>
+                    <table class="table table-bordered table-hover table-condensed table-quilla">
+                <thead>
+                    <tr>
+                        <th>Serie Numero</th>
+                        <th>Origen</th>
+                        <th>Destino</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        {% for deposit_slip in  object.deposit_slip.all %}
+                        <tr>
+                            <td>{{ deposit_slip.serie }}-{{deposit_slip.number}}</td> 
+                            <td>{{ deposit_slip.origin }}</td>
+                            <td>{{ deposit_slip.destination }}</td>
+                        </tr>            
+                        {% endfor %}
                 <h5 class="page-header title-quilla">Cantida de Envios: {{object.deposit_slip.count}}</h3>   
                 <h5 class="page-header title-quilla">Direccion de Partida:{{object.origin}}</h3>
                 <h5 class="page-header title-quilla">Nro Direccion de LLegada: {{object.destination}}</h3>

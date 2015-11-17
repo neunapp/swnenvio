@@ -16,31 +16,31 @@ class CarForm(forms.ModelForm):
         widgets = {
             'name': forms.TextInput(
                 attrs={
-                    'class': 'form-control-sm',
+                    'class': 'form-control input-sm',
                     'placeholder': 'Ingrese una Denominacion'
                 }
             ),
             'plaque': forms.TextInput(
                 attrs={
-                    'class': 'form-control-sm',
+                    'class': 'form-control input-sm',
                     'placeholder': 'Ingrese Nro de Placa'
                 }
             ),
             'marca': forms.TextInput(
                 attrs={
-                    'class': 'form-control-sm',
+                    'class': 'form-control input-sm',
                     'placeholder': 'Ingrese Marca del Vehiculo'
                 }
             ),
             'code_ssettings_car': forms.TextInput(
                 attrs={
-                    'class': 'form-control-sm',
+                    'class': 'form-control input-sm',
                     'placeholder': 'Ingrese Codigo de Configuracion Vehicular'
                 }
             ),
             'constancy_inscription': forms.TextInput(
                 attrs={
-                    'class': 'form-control-sm',
+                    'class': 'form-control input-sm',
                     'placeholder': 'Ingrese Nro de Cosntacia de Inscripcion'
                 }
             ),
@@ -58,37 +58,37 @@ class DriverForm(forms.ModelForm):
         widgets = {
             'dni': forms.TextInput(
                 attrs={
-                    'class': 'form-control-sm',
+                    'class': 'form-control input-sm',
                     'placeholder': 'Ingrese Nro de DNI'
                 }
             ),
             'full_name': forms.TextInput(
                 attrs={
-                    'class': 'form-control-sm',
+                    'class': 'form-control input-sm',
                     'placeholder': 'Ingrese Nombre Completo'
                 }
             ),
             'license': forms.TextInput(
                 attrs={
-                    'class': 'form-control-sm',
+                    'class': 'form-control input-sm',
                     'placeholder': 'Ingrese Nro de Licencia de Conducir'
                 }
             ),
             'addreess': forms.TextInput(
                 attrs={
-                    'class': 'form-control-sm',
+                    'class': 'form-control input-sm',
                     'placeholder': 'Ingrese una Direccion'
                 }
             ),
             'phone': forms.TextInput(
                 attrs={
-                    'class': 'form-control-sm',
+                    'class': 'form-control input-sm',
                     'placeholder': 'Ingrse Nro de Telefono o Celular'
                 }
             ),
             'email': forms.TextInput(
                 attrs={
-                    'class': 'form-control-sm',
+                    'class': 'form-control input-sm',
                     'placeholder': 'Ingrese Direccion de Correo Electronico'
                 }
             ),

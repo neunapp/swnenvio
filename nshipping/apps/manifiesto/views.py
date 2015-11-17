@@ -191,6 +191,10 @@ class UpdateManifestView(DetailView):
         self.object = self.get_object()
         #recuperamos el objeto y actualizamos a anulado
         manifest = self.object
+        #actualizamos los productos a enviado
+        for deposit_slip in manifest.deposit_slip.all():
+            deposit_slip.state = '1'
+            print deposit_slip.state
         #actualizamos y guardamos el valor
         manifest.state = True
         manifest.save()
