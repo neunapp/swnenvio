@@ -3,7 +3,7 @@
 {% block sidenav %}
                         
     <li>
-        <a class="active" href="{% url 'users_app:nota' %}"><i class="fa fa-fw fa-truck"></i> Nota de Ingreso</a>
+        <a class="active" href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
     </li>
 
     <li>
@@ -16,19 +16,19 @@
     </li>
 
     <li>
-        <a href="#"><i class="fa fa-fw fa-table"></i> Tables</a>
+        <a href="{% url 'manifiesto_app:listar-manifiesto' %}"><i class="fa fa-fw fa-table"></i> Manifiesto</a>
     </li>
 
     <li>
-        <a href="#"><i class="fa fa-fw fa-edit"></i> Forms</a>
+        <a href="{% url 'salida_app:listar-egreso' %}"><i class="fa fa-fw fa-edit"></i> Salida</a>
     </li>
 
     <li>
-        <a href="#"><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>
+        <a href="{% url 'manifiesto_app:listar-carro' %}"><i class="fa fa-fw fa-desktop"></i> Mantenimientos Vehiculos</a>
     </li>
 
     <li>
-        <a href="#"><i class="fa fa-fw fa-wrench"></i> Bootstrap Grid</a>
+        <a href="{% url 'manifiesto_app:listar-conductor' %}"><i class="fa fa-fw fa-wrench"></i> Mantenimientos Conductores </a>
     </li>
 
     <li>
@@ -47,7 +47,9 @@
     <div class="row">
         <div class="col-xs-12">
             <h3 class="page-header title-quilla">Conductores Registrados</h3>
-            <a href="{% url 'manifiesto_app:agregar-conductor' %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i>Agregar Nuevo Conductor</a>
+            <div class="alert alert-info" role="alert">
+                <a href="{% url 'manifiesto_app:agregar-conductor' %}" class="alert-link">Agregar Nuevo Conductor</a>
+            </div>
         </div>
     </div>
 
@@ -72,10 +74,10 @@
                             <td>{{ conductor.license }}</td>
                             <td>{{ conductor.phone }}</td>
 
-                            <td>
+                            <td class="text-center">
                                 <a href="{% url 'manifiesto_app:visualizar-conductor' conductor.pk %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i>Ver</a>
-                                <a href="{% url 'manifiesto_app:actualizar-conductor' conductor.pk %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i>Modificar</a>
-                                <a href="{% url 'manifiesto_app:eliminar-conductor' conductor.pk %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i>Eliminar</a>
+                                <a href="{% url 'manifiesto_app:actualizar-conductor' conductor.pk %}" class="btn btn-sm btn-quilla"><i class="glyphicon glyphicon-pencil"></i>Modificar</a>
+                                <a href="{% url 'manifiesto_app:eliminar-conductor' conductor.pk %}" class="btn btn-sm btn-quilla"><i class="glyphicon glyphicon-remove"></i>Eliminar</a>
                             </td>
                         </tr>            
                     {% endfor %}
