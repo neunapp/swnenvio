@@ -76,8 +76,9 @@
                             <td>{{ manifest.destination }}</td> 
                             <td>{{ manifest.date_shipping }}</td>
                             <td class="text-center">
-                                <a href="{% url 'manifiesto_app:actualizar-manifiesto' manifest.pk %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i>Carro Lleno</a>
-                                <a href="{% url 'manifiesto_app:eliminar-manifiesto' manifest.pk %}" class="btn btn-sm btn-quilla"><i class="glyphicon glyphicon-remove"></i>Anular Manifiesto</a>
+                                <a href="{% url 'manifiesto_app:full-manifiesto' manifest.pk %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i>Carro Lleno</a>
+                                <a href="{% url 'manifiesto_app:update-manifiesto' manifest.pk %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i>Modificar</a>
+                                <a href="{% url 'manifiesto_app:eliminar-manifiesto' manifest.pk %}" class="btn btn-sm btn-quilla"><i class="glyphicon glyphicon-remove"></i>Anular</a>
                             </td>
                         </tr>            
                         {% endfor %}

@@ -46,15 +46,15 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <h3 class="page-header title-quilla">Datos del Manifiesto</h3>
+            <h3 class="text-danger">¿Esta Seguro de Anular Este Manifiesto?</h3>
         </div>
     </div>
     <form role="form" method="POST" class="form-horizontal">{% csrf_token %}
         <div class="row">
             <div class="col-xs-12">
-                <h5 class="page-header title-quilla">Conductor: {{object.driver}}</h3>
-                <h5 class="page-header title-quilla">Vehiculo: {{object.plaque}}</h3>
-                <h5 class="page-header title-quilla">Notas de Ingreso:</h3>
+                <h5 class="text-danger">Conductor:</h5>{{object.driver}}
+                <h5 class="text-danger">Vehiculo: </h5>{{object.car}}
+                <h5 class="text-danger">Notas de Ingreso:</h5>
                 <table class="table table-bordered table-hover table-condensed table-quilla">
                 <thead>
                     <tr>
@@ -73,11 +73,11 @@
                         </tr>            
                         {% endfor %}
                 </tbody>
-            </table>
-                <h5 class="page-header title-quilla">Direccion de Partida:{{object.origin}}</h3>
-                <h5 class="page-header title-quilla">Nro Direccion de LLegada: {{object.destination}}</h3>
-                <h5 class="page-header title-quilla">Fecha de Salida: {{object.date_shipping}}</h3>
-                <h5 class="page-header title-quilla">Estado: {{object.state}}</h3>
+                </table>
+                <h5 class="text-danger">Direccion de Partida:</h5>{{object.origin}}
+                <h5 class="text-danger">Nro Direccion de LLegada:</h5> {{object.destination}}
+                <h5 class="text-danger">Fecha de Salida: </h5>{{object.date_shipping}}
+                <h5 class="text-danger">Estado: </h5>{{object.state}}
             </div>
         </div>
         <div class="row box-section">

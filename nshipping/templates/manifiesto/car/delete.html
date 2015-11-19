@@ -43,21 +43,26 @@
 
 {% block content_panel %}
 
-
-    <div class="row">
-        <div class="col-xs-12">
-            <h3 class="page-header title-quilla">Ud. Eliminara Este Vehiculo:</h3>
-        </div>
-    </div>
     <form role="form" method="POST" class="form-horizontal">{% csrf_token %}
         <div class="row">
             <div class="col-xs-12">
-                <h5 class="page-header title-quilla">Denominacion: {{object.name}}</h3>
-                <h5 class="page-header title-quilla">Nro de Placa: {{object.plaque}}</h3>
-                <h5 class="page-header title-quilla">Marca del Vehiculo: {{object.marca}}</h3>
-                <h5 class="page-header title-quilla">Codigo de Configuracion Vehicular:{{object.code_ssettings_car}}</h3>
-                <h5 class="page-header title-quilla">Nro de Constancia de Inscripcion:{{object.constancy_inscription}}</h3>
-                <h5 class="page-header title-quilla">Condicion: {{object.condition}}</h3>
+                <div class="panel panel-danger">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">¿Esta Seguro de Eliminar Este Vehiculo?:</h2>
+                    </div>
+                    <div class="panel-body">
+                        <h5 class="text-info">Denominacion</h5>{{object.name}}</h5>
+                        <h5 class="text-info">Nro de Placa: </h5>{{object.plaque}}</h5>
+                        <h5 class="text-info">Marca del Vehiculo: </h5>{{object.marca}}</h5>
+                        <h5 class="text-info">Codigo de Configuracion Vehicular:</h5>{{object.code_ssettings_car}}</h5>
+                        <h5 class="text-info">Nro de Constancia de Inscripcion:</h5>{{object.constancy_inscription}}</h5>
+                        {% if object.condition = '0' %}
+                            <h5 class="text-info">Condicion: <span class="label label-success">Propio</span>
+                        {% else %}
+                            <h5 class="text-info">Condicion: <span class="label label-warning">Sub Contrata</span></h5>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
         </div>
         <div class="row box-section">

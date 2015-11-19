@@ -162,6 +162,14 @@ class ManifestView(FormView):
         return super(ManifestView, self).form_valid(form)
 
 
+#metodo para modificar un manifiesto
+class UpdateManifest(UpdateView):
+    template_name = 'manifiesto/manifest/update.html'
+    model = Manifest
+    form_class = ManifestForm
+    success_url = reverse_lazy('manifiesto_app:listar-manifiesto')
+
+
 class AnulateManifestView(DetailView):
     #metodo para anular un manifiesto
     template_name = 'manifiesto/manifest/delete.html'
@@ -182,9 +190,9 @@ class AnulateManifestView(DetailView):
         )
 
 
-class UpdateManifestView(DetailView):
+class FullManifestView(DetailView):
     #metodo para actualizar estado de manifiesto a lleno
-    template_name = 'manifiesto/manifest/update.html'
+    template_name = 'manifiesto/manifest/full.html'
     model = Manifest
 
     def post(self, request, *args, **kwargs):
@@ -194,6 +202,8 @@ class UpdateManifestView(DetailView):
         #actualizamos los productos a enviado
         for deposit_slip in manifest.deposit_slip.all():
             deposit_slip.state = '1'
+            #guardamos el deposit slip
+            deposit_slip.save()
             print deposit_slip.state
         #actualizamos y guardamos el valor
         manifest.state = True
