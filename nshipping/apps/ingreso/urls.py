@@ -12,6 +12,11 @@ urlpatterns = [
         views.DeliverView.as_view(),
         name='lista_envio'
     ),
+    url(
+        r'^panel/entregar-envio/(?P<pk>\d+)/$',
+        views.DeliverView.as_view(),
+        name='detalle_envio'
+    ),
     # url(
     #     r'^nota-de-ingreso/$',
     #     views.RegisterSlipView.as_view(),

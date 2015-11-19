@@ -128,7 +128,7 @@ class DepositSlipView(FormView):
         )
 
 
-class DeliverView(FormMixin, ListView):
+class DeliverView(ListView):
     #model = Dues.objects.filter(deposit_slip__destination='1')
     context_object_name = 'paquetes'
     template_name = 'ingreso/entrega/entrega.html'
@@ -140,22 +140,14 @@ class DeliverView(FormMixin, ListView):
 
     def get_queryset(self):
         #recuperamos el valor por GET
-        q = self.request.GET.get("serie")
-        r = self.request.GET.get("number")
-        s = self.request.GET.get("sender")
-        t = self.request.GET.get("addressee")
-        u = self.request.GET.get("date")
+        q = self.request.GET.get("serie", '')
+        r = self.request.GET.get("number", '')
+        s = self.request.GET.get("sender", '')
+        t = self.request.GET.get("addressee", '')
+        u = self.request.GET.get("date", '')
         #recuperamos el usuario o sucursal
         user = self.request.user
         user_profile = Profile.objects.get(user=user)
-        # funcion lamda para verificar si es nome
-        xstr = lambda s: s or ''
 
-        q = xstr(q)
-        r = xstr(r)
-        s = xstr(s)
-        t = xstr(t)
-        u = xstr(u)
-
-        queryset = Dues.objects.search(q, r, s, t, user_profile.branch , u)
+        queryset = Dues.objects.search(q, r, s, t, user_profile.branch, u)
         return queryset
