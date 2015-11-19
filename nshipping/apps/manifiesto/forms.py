@@ -110,7 +110,7 @@ class DriverForm(forms.ModelForm):
             msj = 'el Dni solo puede tener 8 digitos'
             self.add_error('dni', msj)
         else:
-            return msj
+            return dni
 
     def clean_phone(self):
         phone = self.cleaned_data['phone']
@@ -248,7 +248,7 @@ class ThirdManifestForm(forms.ModelForm):
             msj = 'el Ruc solo puede tener 11 digitos'
             self.add_error('ruc', msj)
         else:
-            return msj
+            return ruc
 
 
 class RemissionForm(forms.Form):

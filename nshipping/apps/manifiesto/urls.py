@@ -66,8 +66,13 @@ urlpatterns = [
     ),
     url(
         r'^manifiesto/update/(?P<pk>\d+)/$',
-        views.UpdateManifestView.as_view(),
-        name='actualizar-manifiesto'
+        views.UpdateManifest.as_view(),
+        name='update-manifiesto'
+    ),
+    url(
+        r'^manifiesto/full/(?P<pk>\d+)/$',
+        views.FullManifestView.as_view(),
+        name='full-manifiesto'
     ),
     url(
         r'^manifiesto/delete/(?P<pk>\d+)/$',

@@ -3,7 +3,8 @@ from django.views.generic import TemplateView, DetailView, UpdateView
 from django.views.generic.edit import CreateView, FormView, FormMixin
 from django.views.generic.list import ListView
 
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse_lazy, reverse
+from django.http import HttpResponseRedirect
 
 # local.
 from .functions import ClientGetOrCreate
@@ -119,7 +120,12 @@ class DepositSlipView(FormView):
         )
         dues.save()
 
-        return super(DepositSlipView, self).form_valid(form)
+        return HttpResponseRedirect(
+            reverse(
+                'manifiesto_app:register-remission',
+                kwargs={'pk': depositslip.pk},
+            )
+        )
 
 
 class DeliverView(ListView):

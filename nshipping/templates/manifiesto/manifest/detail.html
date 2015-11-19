@@ -43,42 +43,42 @@
 
 {% block content_panel %}
 
-
-    <div class="row">
-        <div class="col-xs-12">
-            <h3 class="page-header title-quilla">Datos del Manifiesto</h3>
-        </div>
-    </div>
     <form role="form" method="POST" class="form-horizontal">{% csrf_token %}
         <div class="row">
             <div class="col-xs-12">
-                <h5 class="page-header title-quilla">Conductor: {{object.driver}}</h3>
-                <h5 class="page-header title-quilla">Vehiculo: {{object.car}}</h3>
-                <h5 class="page-header title-quilla">Notas de Ingreso: </h3>
-                    <table class="table table-bordered table-hover table-condensed table-quilla">
-                <thead>
-                    <tr>
-                        <th>Serie Numero</th>
-                        <th>Origen</th>
-                        <th>Destino</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        {% for deposit_slip in  object.deposit_slip.all %}
-                        <tr>
-                            <td>{{ deposit_slip.serie }}-{{deposit_slip.number}}</td> 
-                            <td>{{ deposit_slip.origin }}</td>
-                            <td>{{ deposit_slip.destination }}</td>
-                        </tr>            
-                        {% endfor %}
-                <h5 class="page-header title-quilla">Cantida de Envios: {{object.deposit_slip.count}}</h3>   
-                <h5 class="page-header title-quilla">Direccion de Partida:{{object.origin}}</h3>
-                <h5 class="page-header title-quilla">Nro Direccion de LLegada: {{object.destination}}</h3>
-                <h5 class="page-header title-quilla">Fecha de Salida: {{object.date_shipping}}</h3>
-                <h5 class="page-header title-quilla">Creado Por: {{object.user_created}}</h3>
-                <h5 class="page-header title-quilla">Ultima Modificacion por: {{object.user_modified}}</h3>
-                <h5 class="page-header title-quilla">Estado: {{object.state}}</h3>
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">Datos del Manifiesto:</h2>
+                    </div>
+                    <div class="panel-body">
+                        <h5 class="text-danger">Conductor:</h5>{{object.driver}}
+                        <h5 class="text-danger">Vehiculo: </h5>{{object.car}}
+                        <h5 class="text-danger">Notas de Ingreso:</h5>
+                        <table class="table table-bordered table-hover table-condensed table-quilla">
+                        <thead>
+                            <tr>
+                                <th>Serie-Numero</th>
+                                <th>Direccion de Partida</th>
+                                <th>Direccion de LLegada</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                {% for deposit_slip in  object.deposit_slip.all %}
+                                <tr>
+                                    <td>{{ deposit_slip.serie }}-{{deposit_slip.number}}</td> 
+                                    <td>{{ deposit_slip.origin }}</td>
+                                    <td>{{ deposit_slip.destination }}</td>
+                                </tr>            
+                                {% endfor %}
+                        </tbody>
+                        </table>
+                        <h5 class="text-danger">Direccion de Partida:</h5>{{object.origin}}
+                        <h5 class="text-danger">Nro Direccion de LLegada:</h5> {{object.destination}}
+                        <h5 class="text-danger">Fecha de Salida: </h5>{{object.date_shipping}}
+                        <h5 class="text-danger">Estado: </h5>{{object.state}}
+                    </div>
+                </div>            
             </div>
         </div>
         <div class="row box-section">

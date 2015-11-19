@@ -1,4 +1,4 @@
-{% extends "ingreso/nota_ingreso/base_nota.html" %}
+{% extends "ingreso/entrega/base_entrega.html" %}
 
 {% block sidenav %}
                         
@@ -46,39 +46,68 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <h3 class="page-header title-quilla">Datos del Manifiesto</h3>
+            <h3 class="page-header title-quilla">Manifiesto: {{object.pk}}</h3>
         </div>
     </div>
+
     <form role="form" method="POST" class="form-horizontal">{% csrf_token %}
+        
+        {% if form.errors %}
+            <div class="row box-section">
+                <div class="col-xs-12">
+                    <div class="alert alert-dismissible alert-errors" role="alert">
+                        <button type="button" class="close cerrar" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <p><strong>Corrija los siguientes errores.</strong></p>
+                    </div>
+                </div>
+            </div>
+            
+        {% endif %}
+
         <div class="row">
-            <div class="col-xs-12">
-                <h5 class="page-header title-quilla">Conductor: {{object.driver}}</h3>
-                <h5 class="page-header title-quilla">Vehiculo: {{object.plaque}}</h3>
-                <h5 class="page-header title-quilla">Notas de Ingreso:</h3>
-                <table class="table table-bordered table-hover table-condensed table-quilla">
-                <thead>
-                    <tr>
-                        <th>Serie - Numero</th>
-                        <th>Direccion de Partida</th>
-                        <th>Direccion de LLegada</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        {% for deposit_slip in  object.deposit_slip.all %}
-                        <tr>
-                            <td>{{ deposit_slip.serie }}-{{deposit_slip.number}}</td> 
-                            <td>{{ deposit_slip.origin }}</td>
-                            <td>{{ deposit_slip.destination }}</td>
-                        </tr>            
+            <div class="col-xs-9">
+                <div class="form-group">
+                    <label for="{{ form.name.id_for_label }}" class="col-xs-3 control-label label-envio">Conductor:</label>
+                    <div class="col-xs-9">
+                        {{ form.driver }}
+                        {% for error in form.name_id.errors %}
+                            <p class="help-block text-error">
+                                {{ error|escape }}
+                            </p>
                         {% endfor %}
-                </tbody>
-            </table>
-                <h5 class="page-header title-quilla">Cantida de Envios: {{object.deposit_slip.count}}</h3>   
-                <h5 class="page-header title-quilla">Direccion de Partida:{{object.origin}}</h3>
-                <h5 class="page-header title-quilla">Nro Direccion de LLegada: {{object.destination}}</h3>
-                <h5 class="page-header title-quilla">Fecha de Salida: {{object.date_shipping}}</h3>
-                <h5 class="page-header title-quilla">Estado: {{object.state}}</h3>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.sender_name.is_for_label }}" class="col-xs-3 control-label label-envio">Vehiculo:</label>
+                    <div class="col-xs-9">
+                        {{ form.car }}                        
+                        {% for error in form.sender_name.errors %}
+                            <p class="help-block text-error">
+                                {{ error|escape }}
+                            </p>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.sender_razonsocial.id_for_label }}" class="col-xs-3 control-label label-envio">Direccion de LLegada:</label>
+                    <div class="col-xs-9">
+                        {{ form.destination }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.sender_razonsocial.id_for_label }}" class="col-xs-3 control-label label-envio">Direccion de Partida:</label>
+                    <div class="col-xs-9">
+                        {{ form.origin}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.sender_razonsocial.id_for_label }}" class="col-xs-3 control-label label-envio">Fecha de Traslado:</label>
+                    <div class="col-xs-9">
+                        {{ form.date_shipping}}
+                    </div>
+                </div>  
+            </div>
+
             </div>
         </div>
         <div class="row box-section">

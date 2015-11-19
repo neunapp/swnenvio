@@ -43,22 +43,24 @@
 
 {% block content_panel %}
 
-
-    <div class="row">
-        <div class="col-xs-12">
-            <h3 class="page-header title-quilla">Datos del Conductor</h3>
-        </div>
-    </div>
     <form role="form" method="POST" class="form-horizontal">{% csrf_token %}
         <div class="row">
             <div class="col-xs-12">
-                <h5 class="page-header title-quilla">Dni: {{object.dni}}</h3>
-                <h5 class="page-header title-quilla">Nombres: {{object.full_name}}</h3>
-                <h5 class="page-header title-quilla">Licensia: {{object.license}}</h3>
-                <h5 class="page-header title-quilla">Direccion:{{object.addreess}}</h3>
-                <h5 class="page-header title-quilla">Telefono:{{object.phone}}</h3>
-                <h5 class="page-header title-quilla">Email: {{object.email}}</h3>
-                <h5 class="page-header title-quilla">Fecha de Nacimiento: {{object.date_birth}}</h3>
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">Datos del Conductor:</h2>
+                    </div>
+                    <div class="panel-body">
+                        <h5 class="text-info">Dni: </h5>{{object.dni}}
+                        <h5 class="text-info">Nombres: </h5>{{object.full_name}}
+                        <h5 class="text-info">Licensia: </h5>{{object.license}}
+                        <h5 class="text-info">Direccion:</h5>{{object.addreess}}
+                        <h5 class="text-info">Telefono:</h5>{{object.phone}}
+                        <h5 class="text-info">Email: </h5>{{object.email}}
+                        <h5 class="text-info">Fecha de Nacimiento: </h5>{{object.date_birth}}
+
+                    </div>
+                </div>
             </div>
         </div>
         <div class="row box-section">
