@@ -296,25 +296,15 @@ class SearchForm(forms.Form):
 
 
 class DetailDeliverForm(forms.Form):
-    # formulario para aplicar el descuento y elegir el tipo de pago
-    TIPO_COMPROBANTE = (
-        ('sc', 'SC'),
-        ('boleta', 'Boleta'),
-        ('factura', 'Factura'),
-    )
     discount = forms.DecimalField(
         label='Descuento',
         max_digits=12,
         decimal_places=5,
         initial='10'
     )
-    tipo = forms.ChoiceField(
-        label='Boleta/Factura',
-        choices=TIPO_COMPROBANTE
-    )
 
     def clean_discount(self):
         descuento = self.cleaned_data['discount']
         if descuento < 0:
-            raise forms.ValidationError("No pede Aplicar Descuentos Negativos")
+            raise forms.ValidationError("No puede aplicar descuento negativo")
         return descuento

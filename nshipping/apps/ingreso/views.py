@@ -145,3 +145,58 @@ class DeliverView(ListView):
 
         queryset = Dues.objects.search(q, r, s, t, user_profile.branch, u)
         return queryset
+
+
+class DetailDeliverView(FormMixin, DetailView):
+    model = DepositSlip
+    form_class = DetailDeliverForm
+    template_name = 'ingreso/entrega/entrega_detalle.html'
+    success_url = reverse_lazy('ingreso_app:lista_envio')
+
+    def get_context_data(self, **kwargs):
+        context = super(DetailDeliverView, self).get_context_data(**kwargs)
+        context['form'] = self.get_form()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        # #recupramos el objeto
+        # objeto = self.object 
+        # #recuperamos el primer pago
+        # prime_pago = Dues.objects.get(deposit_slip=objeto).sub_total
+        # #calculamos el acuenta
+        # acuenta = objeto.total_amount - prime_pago
+        # #recuperamos el descuento
+        # descuento = form.cleaned_data['discount']
+        # #recuperamos el tipo de pago
+        # tipo_pago = form.cleaned_data['tipo']
+        # #calculamos el sub total
+        # sub_total = acuenta - descuento
+        # igv = 0
+        # #vrificamos el tipo de pago
+        # cadena_tipo = 'factura'
+        # if tipo_pago==cadena_tipo:
+        #     igv = (sub_total/100) * 18
+        #     sub_total = sub_total+igv
+        # #registramos el nuevo pago    
+        # cuota = Dues(
+        #              amount=acuenta,
+        #              deposit_slip=objeto,
+        #              date=datetime.now(),
+        #              proof_type=tipo_pago,
+        #              igv=igv,
+        #              sub_total=sub_total,
+        #              discount=descuento,
+        #              )
+        # objeto.commited = True 
+        # objeto.save()
+        # cuota.save()
+        #actualizamos el estado y registramos el descuento
+        return super(DetailDeliverView, self).form_valid(form)

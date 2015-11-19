@@ -14,7 +14,7 @@ urlpatterns = [
     ),
     url(
         r'^panel/entregar-envio/(?P<pk>\d+)/$',
-        views.DeliverView.as_view(),
+        views.DetailDeliverView.as_view(),
         name='detalle_envio'
     ),
     # url(
