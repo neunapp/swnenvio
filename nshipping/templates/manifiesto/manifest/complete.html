@@ -46,48 +46,49 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <h3 class="page-header title-quilla">Manifiestos no Completos</h3>
-            <div class="alert alert-info" role="alert">
-                <a href="{% url 'manifiesto_app:agregar-manifiesto' %}" class="alert-link">Agregar Nuevo Manifiesto</a>
-            </div>
+            <h3 class="text-danger">¿Esta Seguro Que Este Manifiesto Fue Recepcionado?</h3>
         </div>
     </div>
-
-    <div class="row">
-        <div class="col-xs-12">
-            <table class="table table-bordered table-hover table-condensed table-quilla">
+    <form role="form" method="POST" class="form-horizontal">{% csrf_token %}
+        <div class="row">
+            <div class="col-xs-12">
+                <h5 class="text-danger">Conductor:</h5>{{object.driver}}
+                <h5 class="text-danger">Vehiculo: </h5>{{object.car}}
+                <h5 class="text-danger">Notas de Ingreso:</h5>
+                <table class="table table-bordered table-hover table-condensed table-quilla">
                 <thead>
                     <tr>
-                        <th>Vehiculo</th>
-                        <th>Conductor</th>
-                        <th>Direccion Partida</th>
-                        <th>Direccion LLegada</th>
-                        <th>Fecha Traslado</th>
-                        <th class="text-center">Acción</th>
+                        <th>Serie-Numero</th>
+                        <th>Direccion de Partida</th>
+                        <th>Direccion de LLegada</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        {% for manifest in  manifests %}
+                        {% for deposit_slip in  object.deposit_slip.all %}
                         <tr>
-                            <td>{{ manifest.car }}</td> 
-                            <td>{{ manifest.driver }}</td>
-                            <td>{{ manifest.origin }}</td>
-                            <td>{{ manifest.destination }}</td> 
-                            <td>{{ manifest.date_shipping }}</td>
-                            <td class="text-center">
-                                <a href="{% url 'manifiesto_app:full-manifiesto' manifest.pk %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i>Enviar</a>
-                                <a href="{% url 'manifiesto_app:update-manifiesto' manifest.pk %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i>Modificar</a>
-                                <a href="{% url 'manifiesto_app:completar-manifiesto' manifest.pk %}" class="btn btn-sm btn-quilla"><i class="glyphicon glyphicon-remove"></i>Completar</a>
-                            </td>
+                            <td>{{ deposit_slip.serie }}-{{deposit_slip.number}}</td> 
+                            <td>{{ deposit_slip.origin }}</td>
+                            <td>{{ deposit_slip.destination }}</td>
                         </tr>            
                         {% endfor %}
                 </tbody>
-            </table>
+                </table>
+                <h5 class="text-danger">Direccion de Partida:</h5>{{object.origin}}
+                <h5 class="text-danger">Nro Direccion de LLegada:</h5> {{object.destination}}
+                <h5 class="text-danger">Fecha de Salida: </h5>{{object.date_shipping}}
+                <h5 class="text-danger">Estado: </h5>{{object.state}}
+            </div>
         </div>
-    </div>
+        <div class="row box-section">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <button type="submit" class="btn btn-quilla">Completar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 
 {% endblock content_panel %}
-
-
-

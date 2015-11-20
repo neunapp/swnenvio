@@ -89,6 +89,11 @@ urlpatterns = [
         views.ThirdManifestView.as_view(),
         name='agregar-sub contrata'
     ),
+    url(
+        r'^manifiesto/completar-manifiesto/(?P<pk>\d+)/$',
+        views.Complete_Manifest.as_view(),
+        name='completar-manifiesto'
+    ),
     #url para reportes manifiesto
     url(
         r'^manifiesto/crear-remision/(?P<pk>\d+)/$',
@@ -102,7 +107,18 @@ urlpatterns = [
     ),
     url(
         r'^manifiesto/detalle-manifiesto/(?P<pk>\d+)/(?P<br>\d+)/$',
-        views.ReportDetailM.as_view(),
+        views.ReportDetailManifest.as_view(),
         name='detalle-manifiesto'
+    ),
+    #url para rececpcionde notas de ingreso
+    url(
+        r'^manifiesto/recepcion/lista/$',
+        views.Manifest_no_Reception.as_view(),
+        name='manifiesto-no-recepcionado'
+    ),
+    url(
+        r'^manifiesto/recepcion/registrar/(?P<pk>\d+)/$',
+        views.Slip_Reception.as_view(),
+        name='registrar-recepcion'
     ),
 ]
