@@ -87,7 +87,7 @@ urlpatterns = [
     url(
         r'^manifiesto/crear-manifiesto/sub-contrata$',
         views.ThirdManifestView.as_view(),
-        name='agregar-sub contrata'
+        name='agregar-sub_contrata'
     ),
     url(
         r'^manifiesto/completar-manifiesto/(?P<pk>\d+)/$',
