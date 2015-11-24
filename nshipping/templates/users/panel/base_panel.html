@@ -31,7 +31,7 @@
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{ user.get_full_name }} <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{ user.get_full_name|title }} <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
                             <a href="{% url 'users_app:logout' %}"><i class="fa fa-fw fa-power-off"></i> Cerrar Sesión</a>
@@ -54,6 +54,15 @@
         <div id="page-wrapper">
 
             <div class="container-fluid">
+                
+                {% if messages %}
+                    <div class="messages-panel">
+                    {% for message in messages %}
+                        <i class="fa fa-check-square-o fa-lg"></i><span> {{ message }}</span>
+                    {% endfor %}
+                    </div>
+                {% endif %}
+
                 
                 {% block content_panel %}
                     

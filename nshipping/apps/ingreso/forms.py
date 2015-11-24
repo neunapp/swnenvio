@@ -1,11 +1,10 @@
 # -*- encoding: utf-8 -*-
-
-from .functions import is_number
-
 from django import forms
 
-from .models import Branch, Client, DepositSlip, Dues
+from .models import Branch, Client, DepositSlip
 from apps.profiles.models import Profile
+
+from .functions import is_number
 
 
 class ClientForm(forms.ModelForm):
@@ -298,9 +297,16 @@ class SearchForm(forms.Form):
 class DetailDeliverForm(forms.Form):
     discount = forms.DecimalField(
         label='Descuento',
-        max_digits=12,
-        decimal_places=5,
-        initial='10'
+        max_digits=7,
+        decimal_places=2,
+        required=False,
+        initial=0.00,
+        widget=forms.NumberInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'ingrese descuento',
+            }
+        )
     )
 
     def clean_discount(self):

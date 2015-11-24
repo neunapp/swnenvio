@@ -181,7 +181,6 @@ class ManagerDues(models.Manager):
         flat = serie or numero or remitente or destinatario or fecha
         tz = timezone.get_current_timezone()
         if flat:
-            print "entre 4 al menos uno"
             if fecha:
                 "si se ingreso fecha"
                 date = datetime.strptime(fecha, "%d/%m/%Y")
@@ -193,7 +192,6 @@ class ManagerDues(models.Manager):
                 end_date = timezone.now()
                 start_date = timezone.make_aware(date, tz)
         else:
-            print "no ingrese argumento niguno"
             end_date = timezone.now()
             start_date = end_date - timedelta(days=7)
 
@@ -208,7 +206,6 @@ class ManagerDues(models.Manager):
             depositslip__destination=sucursal,
             depositslip__created__range=(start_date, end_date)
         )
-        print busqueda
         return busqueda
 
 

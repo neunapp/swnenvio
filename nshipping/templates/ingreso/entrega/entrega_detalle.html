@@ -33,7 +33,7 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <h3 class="page-header title-quilla">Entrega de envio del sr(a). {{ depositslip.addressee }}</h3>
+            <h3 class="page-header title-quilla">Entrega de envio del sr(a). {{ depositslip.addressee|title }}</h3>
         </div>
     </div>
 
@@ -66,29 +66,40 @@
         </div>
     </div>
 
-
     <div class="row">
-        <div class="col-xs-6">
+        <div class="col-xs-12 col-sm-6">
             <h4 class="title-cliente">Remitente</h4>
             <dl class="dl-horizontal dl-entrega">
-                <dt>D.N.I/R.U.C:</dt>
-                <dd>461878514</dd>
-                <dt>Nombre:</dt>
-                <dd>{{ depositslip.sender.nombres }}</dd>
+                <dt>D.N.I:</dt>
+                <dd>{{ depositslip.sender.dni|default:'-------------------' }}</dd>
+                <dt>R.U.C:</dt>
+                <dd>{{ depositslip.sender.ruc|default:'-------------------' }}</dd>
+                <dt>Nombres:</dt>
+                <dd>{{ depositslip.sender.full_name|default:'-------------------' }}</dd>
+                <dt>Razón Social:</dt>
+                <dd>{{ depositslip.sender.business_name|default:'-------------------' }}</dd>
+                <dt>Dirección:</dt>
+                <dd>{{ depositslip.sender.address|default:'-------------------' }}</dd>
                 <dt>Telefono:</dt>
-                <dd>941648860</dd>
+                <dd>{{ depositslip.sender.phone|default:'-------------------' }}</dd>
             </dl>
         </div>
 
-        <div class="col-xs-6">
+        <div class="col-xs-12 col-sm-6">
             <h4 class="title-cliente">Destenitario</h4>
             <dl class="dl-horizontal dl-entrega">
-                <dt>D.N.I/R.U.C:</dt>
-                <dd>46185127</dd>
-                <dt>Nombre:</dt>
-                <dd>{{ depositslip.addressee.nombres }}</dd>
+                <dt>D.N.I:</dt>
+                <dd>{{ depositslip.addressee.dni|default:'-------------------' }}</dd>
+                <dt>R.U.C:</dt>
+                <dd>{{ depositslip.addressee.ruc|default:'-------------------' }}</dd>
+                <dt>Nombres:</dt>
+                <dd>{{ depositslip.addressee.full_name|default:'-------------------' }}</dd>
+                <dt>Razón Social:</dt>
+                <dd>{{ depositslip.addressee.business_name|default:'-------------------' }}</dd>
+                <dt>Dirección:</dt>
+                <dd>{{ depositslip.addressee.address|default:'-------------------' }}</dd>
                 <dt>Telefono:</dt>
-                <dd>941648860</dd>
+                <dd>{{ depositslip.addressee.phone|default:'-------------------' }}</dd>
             </dl>
 
         </div>
@@ -115,45 +126,56 @@
         </div>
     </div>
 
-    <div class="row box-section">
-
-        <div class="col-xs-12 col-sm-4">
-            <dl class="dl-horizontal dl-entrega">
-                <dt>Total:</dt>
-                <dd>S/200.00</dd>
-            </dl>              
-        </div>
-
-        <div class="col-xs-12 col-sm-4">
-            <dl class="dl-horizontal dl-entrega">
-                <dt>Acuenta:</dt>
-                <dd>S/100.00</dd>
-            </dl>    
-        </div>
-
-        <div class="col-xs-12 col-sm-4">
-            <dl class="dl-horizontal dl-entrega">
-                <dt>Por Cobrar:</dt>
-                <dd class="dd-cobrar">S/100.00</dd>
-            </dl>
-            
-        </div>
-    </div>
     
+    <form Method="POST" class="form-horizontal">{% csrf_token %}
+        <div class="row">
 
-    <div class="row box-section">
-        <div class="col-xs-12">
-            <div class="form-group">
-                <div class="col-sm-12">
-                    <button type="submit" class="btn btn-quilla">Guardar</button>
+            <div class="col-xs-12 col-sm-6">
+                <dl class="dl-horizontal dl-entrega">
+                    <dt>Total:</dt>
+                    <dd>S/{{ depositslip.total_amount|floatformat:'2' }}</dd>
+                    <dt>Acuenta:</dt>
+                    <dd>S/ {{ acuenta|floatformat:'2' }}</dd>
+                    <dt>Por Cobrar:</dt>
+                    <dd class="dd-cobrar">S/ {{ porcobrar|floatformat:'2' }}</dd>
+                </dl>              
+            </div>
+            
+            <div class="col-xs-12 col-sm-6">
+                <div class="form-group">
+                    <label for="{{ form.discount.id_for_label }}" class="col-sm-4 control-label">Descuento:</label>
+                    <div class="col-sm-8">
+                        {{ form.discount }}
+                        {% for error in form.discount.errors %}
+                            <div class="col-xs-12">
+                                <p class="help-block text-error">
+                                    {{ error|escape }}
+                                </p>
+                            </div>
+                        {% empty %}
+                            <div class="col-xs-12">
+                                <p class="help-block text-error">
+                                    Toda tipo de descuento debe ser previa autorización.
+                                </p>
+                            </div>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <form action="" class="form-horizontal">
-                
-
+        
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <button type="submit" class="btn btn-quilla">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </form>
+
+    
+
 
 {% endblock content_panel %}
