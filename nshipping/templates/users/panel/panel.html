@@ -1,30 +1,24 @@
 {% extends "users/panel/base_panel.html" %}
     
-    {% block sidenav %}
-                        
-        <li>
-            <a href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
-        </li>
-        <li>
-            <a href="{% url 'ingreso_app:lista_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envio</a>
-        </li>
-        <li>
-            <a href="#"><i class="fa fa-fw fa-table"></i> Tables</a>
-        </li>
-        <li>
-            <a href="#"><i class="fa fa-fw fa-edit"></i> Forms</a>
-        </li>
-        <li>
-            <a href="#"><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>
-        </li>
-        <li>
-            <a href="#"><i class="fa fa-fw fa-wrench"></i> Bootstrap Grid</a>
-        </li>
-        <li>
-            <a href="#"><i class="fa fa-fw fa-file"></i> Blank Page</a>
-        </li>
-        <li>
-            <a href="#"><i class="fa fa-fw fa-dashboard"></i> RTL Dashboard</a>
-        </li>
+{% block sidenav %}
+                    
+    <li>
+        <a href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
+    </li>
+    <li>
+        <a href="{% url 'ingreso_app:lista_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envio</a>
+    </li>
+    <li>
+        <a href="{% url 'manifiesto_app:manifiesto-no-recepcionado' %}"><i class="fa fa-fw fa-cubes"></i> Recepción De Envio</a>
+    </li>
+    <li>
+        <a href="{% url 'salida_app:listar-egreso' %}"><i class="fa fa-fw fa-money"></i> Registro De Gastos</a>
+    </li>
+    <li>
+        <a href="#"><i class="fa fa-fw fa-bullseye"></i> Manifiesto</a>
+    </li>
+    <li>
+        <a href="#"><i class="fa fa-fw fa-cogs"></i> Mantenimiento</a>
+    </li>
 
-    {% endblock sidenav %}
+{% endblock sidenav %}

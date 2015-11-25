@@ -22,6 +22,10 @@ body {
     background-color: #2694ED;
 }
 
+.navbar-quiila li a.active {
+    background-color: #fafafa;
+}
+
 .brand-quilla {
     color: white;
     font-weight: 500;
@@ -158,6 +162,11 @@ ul.alert-dropdown {
         width: 225px;
         color: #0277bd;
         font-weight: 500;
+    }
+
+    .side-nav>li>a.active {
+        background-color: #b0bec5;
+        color: #fafafa;
     }
 
     .side-nav li a:hover,
