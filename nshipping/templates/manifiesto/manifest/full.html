@@ -7,38 +7,52 @@
     </li>
 
     <li>
-        <a href="{% url 'users_app:entrega_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envio</a>
-
-        <!-- <a class="active" href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
-            </li>
-            <li>
-        <a href="#"><i class="fa fa-fw fa-money"></i> Entrega De Envio</a> -->
+        <a href="{% url 'ingreso_app:lista_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envio</a>
     </li>
 
     <li>
-        <a href="{% url 'manifiesto_app:listar-manifiesto' %}"><i class="fa fa-fw fa-table"></i> Manifiesto</a>
+        <a href="{% url 'manifiesto_app:manifiesto-no-recepcionado' %}"><i class="fa fa-fw fa-table"></i> Recepcion de Paquetes</a>
     </li>
 
     <li>
-        <a href="{% url 'salida_app:listar-egreso' %}"><i class="fa fa-fw fa-edit"></i> Salida</a>
+        <a href="{% url 'salida_app:listar-egreso' %}"><i class="fa fa-fw fa-edit"></i> Registro de Egresos</a>
     </li>
-
-    <li>
-        <a href="{% url 'manifiesto_app:listar-carro' %}"><i class="fa fa-fw fa-desktop"></i> Mantenimientos Vehiculos</a>
-    </li>
-
-    <li>
-        <a href="{% url 'manifiesto_app:listar-conductor' %}"><i class="fa fa-fw fa-wrench"></i> Mantenimientos Conductores </a>
-    </li>
-
-    <li>
-        <a href="{% url 'ingreso_app:listar-branch' %}"><i class="fa fa-fw fa-file"></i> Mantenimiento Sucursales</a>
-    </li>
-
-    <li>
-        <a href="{% url 'profiles_app:agregar-profile' %}"><i class="fa fa-fw fa-dashboard"></i>Desiganar Sucursales</a>
-    </li>
-
+        <ul class="nav nav-tabs">
+        <li role="presentation" class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                Manifiesto<span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a href="{% url 'manifiesto_app:listar-manifiesto' %}"><i class="fa fa-fw fa-edit"></i> Manifiestos en curso</a>
+                </li>
+                <li>
+                    <a href="{% url 'manifiesto_app:agregar-manifiesto' %}"><i class="fa fa-fw fa-edit"></i> Manifiesto Quilla Cargo</a>
+                </li>
+                <li>
+                    <a href="{% url 'manifiesto_app:agregar-sub_contrata' %}"><i class="fa fa-fw fa-edit"></i> Manifiesto Por Sub Contrata </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <ul class="nav nav-tabs">
+        <li role="presentation" class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                Mantenimientos<span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a href="#"><i class="fa fa-fw fa-edit"></i> Sucursales</a>
+                </li>
+                <li>
+                    <a href="{% url 'manifiesto_app:listar-carro' %}"><i class="fa fa-fw fa-edit"></i> Vehiculos</a>
+                </li>
+                <li>
+                    <a href="{% url 'manifiesto_app:listar-conductor' %}"><i class="fa fa-fw fa-edit"></i> Conductores</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
 {% endblock sidenav %}
 
 {% block content_panel %}
@@ -46,7 +60,7 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <h3 class="text-info">Marcara El Manifiesto infonviado</h3>
+            <h3 class="text-info">¿Desea Marcar Este Manifiesto Como Enviado?</h3>
         </div>
     </div>
     <form role="form" method="POST" class="form-horizontal">{% csrf_token %}

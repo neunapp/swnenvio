@@ -84,6 +84,16 @@ class Branch(models.Model):
         return u'%s' % self.name
 
 
+class ManangerDespositSlip(models.Manager):
+
+    def slip_by_manifest(self, manifest, branch):
+        return self.filter(
+            manifest__pk__startswith=manifest,
+            destination__pk=branch,
+            state='1',
+        )
+
+
 class DepositSlip(TimeStampedModel):
 
     COMPROBANTE_CHOICES = (
@@ -159,6 +169,8 @@ class DepositSlip(TimeStampedModel):
         null=True,
         editable=False
     )
+
+    objects = ManangerDespositSlip()
 
     class Meta:
         verbose_name = "nota de ingreso"

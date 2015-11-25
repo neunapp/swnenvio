@@ -61,10 +61,7 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <h3 class="page-header title-quilla">Manifiestos no Completos</h3>
-            <div class="alert alert-info" role="alert">
-                <a href="{% url 'manifiesto_app:agregar-manifiesto' %}" class="alert-link">Agregar Nuevo Manifiesto</a>
-            </div>
+            <h3 class="page-header title-quilla">Manifiestos a Recepcionar</h3>
         </div>
     </div>
 
@@ -91,9 +88,7 @@
                             <td>{{ manifest.destination }}</td> 
                             <td>{{ manifest.date_shipping }}</td>
                             <td class="text-center">
-                                <a href="{% url 'manifiesto_app:full-manifiesto' manifest.pk %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i>Enviar</a>
-                                <a href="{% url 'manifiesto_app:update-manifiesto' manifest.pk %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i>Modificar</a>
-                                <a href="{% url 'manifiesto_app:completar-manifiesto' manifest.pk %}" class="btn btn-sm btn-quilla"><i class="glyphicon glyphicon-remove"></i>Completar</a>
+                                <a href="{% url 'manifiesto_app:registrar-recepcion' manifest.pk %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i>Recepcionar</a>
                             </td>
                         </tr>            
                         {% endfor %}

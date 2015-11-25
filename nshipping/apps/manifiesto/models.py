@@ -126,6 +126,10 @@ class Manifest(TimeStampedModel):
         null=True,
     )
     state = models.BooleanField('Estado')
+    reception = models.BooleanField(
+        default=False,
+        editable=True,
+    )
     canceled = models.BooleanField(
         'anulado',
         default=False,

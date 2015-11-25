@@ -61,48 +61,37 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <h3 class="page-header title-quilla">Manifiestos no Completos</h3>
-            <div class="alert alert-info" role="alert">
-                <a href="{% url 'manifiesto_app:agregar-manifiesto' %}" class="alert-link">Agregar Nuevo Manifiesto</a>
-            </div>
+            <h3 class="page-header title-quilla">Productos Enviados</h3>
         </div>
     </div>
-
+<form role="form" method="POST" class="form-horizontal">{% csrf_token %}
     <div class="row">
         <div class="col-xs-12">
             <table class="table table-bordered table-hover table-condensed table-quilla">
                 <thead>
                     <tr>
-                        <th>Vehiculo</th>
-                        <th>Conductor</th>
-                        <th>Direccion Partida</th>
-                        <th>Direccion LLegada</th>
-                        <th>Fecha Traslado</th>
-                        <th class="text-center">Acción</th>
+                        <th>Nota de Ingreso</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        {% for manifest in  manifests %}
+                        {% for slip in  form.deposit_slip %}
                         <tr>
-                            <td>{{ manifest.car }}</td> 
-                            <td>{{ manifest.driver }}</td>
-                            <td>{{ manifest.origin }}</td>
-                            <td>{{ manifest.destination }}</td> 
-                            <td>{{ manifest.date_shipping }}</td>
-                            <td class="text-center">
-                                <a href="{% url 'manifiesto_app:full-manifiesto' manifest.pk %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i>Enviar</a>
-                                <a href="{% url 'manifiesto_app:update-manifiesto' manifest.pk %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i>Modificar</a>
-                                <a href="{% url 'manifiesto_app:completar-manifiesto' manifest.pk %}" class="btn btn-sm btn-quilla"><i class="glyphicon glyphicon-remove"></i>Completar</a>
-                            </td>
+                            <td>{{slip}}</td>
+
                         </tr>            
                         {% endfor %}
                 </tbody>
             </table>
         </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <button type="submit" class="btn btn-quilla">Guardar</button>
+                    </div>
+                </div>
+            </div>
     </div>
+</form>
 
 {% endblock content_panel %}
-
-
-
