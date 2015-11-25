@@ -57,6 +57,14 @@ docs/_build/
 target/
 nshipping/secrets.json
 
+nshipping/nshipping/settings
+
+nshipping/nshipping/wsgi.py
+
+nshipping/requirements.txt
+
+nshipping/Procfile/
+
 nshipping/apps/ingreso/migrations/
 
 nshipping/apps/ingreso/migrations/*
