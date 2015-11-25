@@ -1,0 +1,158 @@
+.title-quilla {
+    margin: 0.3em 0 0 0;
+}
+
+.title-entrega {
+    margin: 0.3em 0 1em;
+}
+
+.numeracion {
+    border: 2px solid #2694ED;
+    border-radius: 10px;
+    padding: 0;
+}
+
+.box-section {
+    margin-top: 1.3em;
+}
+
+.numeracion>.titulo-numeracion {
+    background-color: #fafafa;
+    border-bottom: 1px solid #2694ED;
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
+    color: #f44336;
+    font-weight: 600;
+    text-align: center;
+    margin: 0;
+    padding: 0.4em 0;
+}
+
+.numeracion>.contenido-numeracion {
+    padding: 1.1em 0.5em 0 0.3em;
+}
+
+.label-hidden {
+    position: relative;
+}
+
+.label-number {
+    color: #f44336;
+    font-weight: 800;
+    padding-top: 0.1em;
+    text-align: right;
+}
+
+.label-envio {
+    color: #37474f;
+}
+
+.title-cliente {
+    color: #f44336;
+    border-bottom: 1px dashed #2694ED;
+}
+
+.label-detail-cant, .label-detail-desc {
+    color: #f44336;
+    background-color: #fafafa;
+    border: 1px solid #2694ED;
+    font-weight: 600;
+    padding: 0.2em 0;
+    text-align: center;
+}
+
+.label-detail-cant {
+    border-top-left-radius: 10px; 
+}
+
+.label-detail-desc {
+    border-top-right-radius: 10px;
+}
+
+.input-detail {
+      margin: 0.35em 0 0 -5px;
+}
+
+.btn-quilla {
+    background-color: #2694ED;
+    color: #fff;
+}
+
+.box-nota {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+}
+
+.table-curved {
+    border-collapse:separate;
+    border: solid #ccc 1px;
+    border-radius: 25px;
+}
+
+.table-curved tr:last-child td
+{
+    border-bottom-left-radius: 25px;    
+    border-bottom-right-radius: 25px;   
+}
+
+.table-quilla {
+    border: 1px solid #2694ED;
+}
+
+.table-quilla > thead > tr > th,
+.table-quilla > tbody > tr > th,
+.table-quilla > thead > tr > td,
+.table-quilla > tbody > tr > td {
+    border: 1px solid #2694ED;
+}
+
+.table-quilla > thead > tr > th,
+.table-bordered > thead > tr > td {
+  border-bottom-width: 2px;
+}
+
+.table-quilla > thead > tr > th {
+    color: #f44336;
+    background-color: #fafafa;
+}
+
+
+.numeracion>.box-numeracion {
+    padding: 0.6em 0 0.6em 0;
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+.numeracion > .box-numeracion > span.serie {
+    color: #304ffe;
+    padding-right: 1em;
+}
+
+.numeracion > .box-numeracion > span.numero {
+    color: #f44336;
+    padding-left: 1em;
+}
+
+.dl-entrega {
+    font-size: 1.15em;
+}
+
+.dl-entrega > dd.dd-cobrar {
+    color: #f44336;
+    font-size: 1.15em;
+    font-weight: 600;
+}
+
+.alert-errors {
+    background-color: #F5594D;
+    border-color: #ef9a9a;
+    color: white;
+}
+
+.alert-dismissible .cerrar {
+    color: #fff;
+}
+
+.text-error {
+    color: #e53935;
+}

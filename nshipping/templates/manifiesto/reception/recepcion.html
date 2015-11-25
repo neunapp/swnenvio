@@ -71,14 +71,15 @@
                 <thead>
                     <tr>
                         <th>Nota de Ingreso</th>
+                        <th>Accion</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         {% for slip in  form.deposit_slip %}
                         <tr>
-                            <td>{{slip}}</td>
-
+                            <td>{{slip.choice_label}}</td>
+                            <td>{{slip.tag}}</td>
                         </tr>            
                         {% endfor %}
                 </tbody>

@@ -296,3 +296,12 @@ class ReceptionForm(forms.Form):
         print deposit_slip
         #asignamos la consulta
         self.fields['deposit_slip'].queryset = deposit_slip
+        self.fields['deposit_slip'].label_from_instance = lambda obj: "%s %s - %s - %s - %s - %s" % (
+            obj.number,
+            obj.serie,
+            obj.origin,
+            obj.sender,
+            obj.addressee,
+            obj.destination,
+        )
+        print self.fields['deposit_slip']
