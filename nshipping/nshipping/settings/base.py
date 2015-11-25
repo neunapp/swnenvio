@@ -8,7 +8,6 @@ BASE_DIR = Path(__file__).ancestor(3)
 with open("secrets.json") as f:
     secrets = json.loads(f.read())
 
-
 def get_secret(secret_name, secrets=secrets):
     try:
         return secrets[secret_name]
@@ -18,9 +17,6 @@ def get_secret(secret_name, secrets=secrets):
 
 SECRET_KEY = get_secret('SECRET_KEY')
 
-DEBUG = True
-
-ALLOWED_HOSTS = []
 
 DJANGO_APPS = (
     'django.contrib.admin',

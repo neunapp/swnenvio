@@ -271,3 +271,37 @@ class RemissionForm(forms.Form):
             origin=sucursal,
             canceled=False,
         )
+
+
+#formulario para recepcionar notas de ingreso
+class ReceptionForm(forms.Form):
+    deposit_slip = forms.ModelMultipleChoiceField(
+        queryset=None,
+        required=False,
+        widget=forms.CheckboxSelectMultiple,
+    )
+
+    def __init__(self, pk, user, *args, **kwargs):
+        super(ReceptionForm, self).__init__(*args, **kwargs)
+        #recupera sucursal
+        branch = Profile.objects.get(user=user).branch.id
+        print('============ esta es la sucursal ==============')
+        print branch
+        #realizamos la consulta
+        deposit_slip = DepositSlip.objects.slip_by_manifest(
+            pk,
+            branch,
+        )
+        print('============ notas de ingreso ==============')
+        print deposit_slip
+        #asignamos la consulta
+        self.fields['deposit_slip'].queryset = deposit_slip
+        self.fields['deposit_slip'].label_from_instance = lambda obj: "%s %s - %s - %s - %s - %s" % (
+            obj.number,
+            obj.serie,
+            obj.origin,
+            obj.sender,
+            obj.addressee,
+            obj.destination,
+        )
+        print self.fields['deposit_slip']

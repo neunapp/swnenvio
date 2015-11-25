@@ -1,0 +1,98 @@
+{% extends "ingreso/nota_ingreso/base_nota.html" %}
+
+{% block sidenav %}
+                        
+    <li>
+        <a class="active" href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
+    </li>
+
+    <li>
+        <a href="{% url 'ingreso_app:lista_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envio</a>
+    </li>
+
+    <li>
+        <a href="{% url 'manifiesto_app:manifiesto-no-recepcionado' %}"><i class="fa fa-fw fa-table"></i> Recepcion de Paquetes</a>
+    </li>
+
+    <li>
+        <a href="{% url 'salida_app:listar-egreso' %}"><i class="fa fa-fw fa-edit"></i> Registro de Egresos</a>
+    </li>
+        <ul class="nav nav-tabs">
+        <li role="presentation" class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                Manifiesto<span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a href="{% url 'manifiesto_app:listar-manifiesto' %}"><i class="fa fa-fw fa-edit"></i> Manifiestos en curso</a>
+                </li>
+                <li>
+                    <a href="{% url 'manifiesto_app:agregar-manifiesto' %}"><i class="fa fa-fw fa-edit"></i> Manifiesto Quilla Cargo</a>
+                </li>
+                <li>
+                    <a href="{% url 'manifiesto_app:agregar-sub_contrata' %}"><i class="fa fa-fw fa-edit"></i> Manifiesto Por Sub Contrata </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <ul class="nav nav-tabs">
+        <li role="presentation" class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                Mantenimientos<span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a href="#"><i class="fa fa-fw fa-edit"></i> Sucursales</a>
+                </li>
+                <li>
+                    <a href="{% url 'manifiesto_app:listar-carro' %}"><i class="fa fa-fw fa-edit"></i> Vehiculos</a>
+                </li>
+                <li>
+                    <a href="{% url 'manifiesto_app:listar-conductor' %}"><i class="fa fa-fw fa-edit"></i> Conductores</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+{% endblock sidenav %}
+
+{% block content_panel %}
+
+
+    <div class="row">
+        <div class="col-xs-12">
+            <h3 class="page-header title-quilla">Productos Enviados</h3>
+        </div>
+    </div>
+<form role="form" method="POST" class="form-horizontal">{% csrf_token %}
+    <div class="row">
+        <div class="col-xs-12">
+            <table class="table table-bordered table-hover table-condensed table-quilla">
+                <thead>
+                    <tr>
+                        <th>Nota de Ingreso</th>
+                        <th>Accion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        {% for slip in  form.deposit_slip %}
+                        <tr>
+                            <td>{{slip.choice_label}}</td>
+                            <td>{{slip.tag}}</td>
+                        </tr>            
+                        {% endfor %}
+                </tbody>
+            </table>
+        </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <button type="submit" class="btn btn-quilla">Guardar</button>
+                    </div>
+                </div>
+            </div>
+    </div>
+</form>
+
+{% endblock content_panel %}

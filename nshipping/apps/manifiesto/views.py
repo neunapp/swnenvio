@@ -17,7 +17,6 @@ from apps.ingreso.models import Dues, Branch, DepositSlip
 from apps.profiles.models import Profile
 
 from .models import Car, Driver, Manifest, SubContract
-
 from .forms import (
     CarForm,
     DriverForm,
@@ -25,6 +24,7 @@ from .forms import (
     ManifestForm,
     RemissionForm,
     ThirdManifestForm,
+    ReceptionForm,
 )
 
 
@@ -128,7 +128,7 @@ class ManifestList(ListView):
     context_object_name = 'manifests'
     queryset = Manifest.objects.filter(
         canceled=False,
-        state=False,
+        reception=False,
     )
 
 
@@ -208,8 +208,26 @@ class FullManifestView(DetailView):
         #actualizamos y guardamos el valor
         manifest.state = True
         manifest.save()
-        print '=========== print objeto acutalizado ======'
-        print manifest
+        return HttpResponseRedirect(
+            reverse(
+                'manifiesto_app:reporte-manifiesto',
+                kwargs={'pk': manifest.pk},
+            )
+        )
+
+
+class Complete_Manifest(DetailView):
+    #metodo para actualizar estado de manifest a Recepcionado
+    template_name = 'manifiesto/manifest/complete.html'
+    model = Manifest
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        #recuperamos el objeto y actualizamos a anulado
+        manifest = self.object
+        #actualizamos el manifiesto a recepcionado
+        manifest.reception = True
+        manifest.save()
         return HttpResponseRedirect(
             reverse(
                 'manifiesto_app:reporte-manifiesto',
@@ -247,8 +265,6 @@ class RemissionView(FormMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(RemissionView, self).get_context_data(**kwargs)
         context['form'] = self.get_form()
-        print 'el objeto es'
-        print self.object
         return context
 
     def post(self, request, *args, **kwargs):
@@ -324,8 +340,6 @@ class ReportManifest(DetailView):
         context = super(ReportManifest, self).get_context_data(**kwargs)
         #recuperamos le manifiesto enviado por url
         manifisto = self.object
-        print '========manifiesto========'
-        print manifisto
         #recuperamos las notas de ingreso de manifiesto
         #slips=lista de notas de ingreso
         slips = manifisto.deposit_slip.all()
@@ -344,11 +358,11 @@ class ReportManifest(DetailView):
 
 
 #proceso para mostrar los notas de ingreso de una sucursal y un manifiesto
-class ReportDetailM(TemplateView):
+class ReportDetailManifest(TemplateView):
     template_name = 'manifiesto/manifest/detalle-reporte.html'
 
     def get_context_data(self, **kwargs):
-        context = super(ReportDetailM, self).get_context_data(**kwargs)
+        context = super(ReportDetailManifest, self).get_context_data(**kwargs)
         #recuperamos manifest y branch de url
         manifiesto = kwargs.get('pk', 0)
         sucursal = kwargs.get('br', 0)
@@ -365,3 +379,51 @@ class ReportDetailM(TemplateView):
         #devolvemos la lista como contexto
         context['slips'] = ldeposit
         return context
+
+
+#lista de manifiestos no recepcionadoss
+class Manifest_no_Reception(ListView):
+    context_object_name = 'manifests'
+    queryset = Manifest.objects.filter(reception=False)
+    template_name = 'manifiesto/reception/list.html'
+
+
+#lista de notas de ingreso a recpcionar
+class Slip_Reception(FormMixin, DetailView):
+    model = Manifest
+    form_class = ReceptionForm
+    template_name = 'manifiesto/reception/recepcion.html'
+
+    def get_success_url(self):
+        return reverse_lazy('ingreso_app:nota-ingreso')
+
+    def get_form_kwargs(self):
+        kwargs = super(Slip_Reception, self).get_form_kwargs()
+        print '=======entro a los kwargs====='
+        kwargs.update({
+            'pk': self.kwargs.get('pk', 0),
+            'user': self.request.user,
+        })
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super(Slip_Reception, self).get_context_data(**kwargs)
+        context['form'] = self.get_form()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        #recuperamos el manifiesto de formulario
+        deposit_slip = form.cleaned_data['deposit_slip']
+        for slip in deposit_slip:
+            slip.state = '2'
+            slip.save()
+        print '======nota de ingreso actualizada======'
+        return super(Slip_Reception, self).form_valid(form)
