@@ -1,5 +1,7 @@
 {% extends "ingreso/nota_ingreso/base_nota.html" %}
 
+{% load filters %}
+
 {% block sidenav %}
                         
     <li>
@@ -42,7 +44,7 @@
             </a>
             <ul class="dropdown-menu">
                 <li>
-                    <a href="#"><i class="fa fa-fw fa-edit"></i> Sucursales</a>
+                    <a href="{% url 'ingreso_app:listar-branch' %}"><i class="fa fa-fw fa-edit"></i> Sucursales</a>
                 </li>
                 <li>
                     <a href="{% url 'manifiesto_app:listar-carro' %}"><i class="fa fa-fw fa-edit"></i> Vehiculos</a>
@@ -71,6 +73,10 @@
                 <thead>
                     <tr>
                         <th>Nota de Ingreso</th>
+                        <th>Origen</th>
+                        <th>Remitente</th>
+                        <th>Destinatario</th>
+                        <th>Destino</th>
                         <th>Accion</th>
                     </tr>
                 </thead>
@@ -78,10 +84,16 @@
                     <tr>
                         {% for slip in  form.deposit_slip %}
                         <tr>
-                            <td>{{slip.choice_label}}</td>
-                            <td>{{slip.tag}}</td>
+                            {% for label in slip.choice_label|split_label %}
+                                <td>
+                                    {{label}}
+                                </td>  
+                            {% endfor %}
+                            <td>
+                                {{slip.tag}}
+                            </td>
                         </tr>            
-                        {% endfor %}
+                    {% endfor %}
                 </tbody>
             </table>
         </div>

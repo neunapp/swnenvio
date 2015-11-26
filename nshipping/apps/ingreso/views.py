@@ -21,30 +21,50 @@ from .forms import (
 )
 
 
-class ListBranch(ListView):
+#Mantenimiento de sucursales
+class ListBranchView(ListView):
     context_object_name = 'sucursales'
-    queryset = Branch.objects.all()
-    template_name = 'ingreso/sucursales/list.html'
+    queryset = Branch.objects.filter(canceled=False)
+    template_name = 'ingreso/sucursal/list.html'
 
 
-class RegisterBranch(CreateView):
-    template_name = 'ingreso/sucursales/add.html'
-    form_class = BranchForm
-    success_url = '.'
-
-
-class UpdateBranch(UpdateView):
-    # matenimietno actualiza carro
-    model = Branch
-    template_name = 'ingreso/sucursales/update.html'
+class RegisterBranchView(CreateView):
+    #mantenimiento registrar sucursal
+    template_name = 'ingreso/sucursal/add.html'
     form_class = BranchForm
     success_url = reverse_lazy('ingreso_app:listar-branch')
 
 
-class RegisterClient(CreateView):
-    template_name = 'ingreso/new_client'
-    form_class = ClientForm
-    success_url = '.'
+class UpdateBranchView(UpdateView):
+    model = Branch
+    form_class = BranchForm
+    success_url = reverse_lazy('ingreso_app:listar-branch')
+
+
+class DeleteBranchView(DetailView):
+    #metodo para inhabilitar un sucursal
+    template_name = 'ingreso/sucursal/delete.html'
+    model = Branch
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        #recuperamos el objeto y actualizamos a anulado
+        branch = self.object
+        #actualizamos y guardamos el valor
+        branch.canceled = True
+        branch.save()
+        print 'print objeto acutalizado'
+        return HttpResponseRedirect(
+            reverse(
+                'ingreso_app:listar-branch'
+            )
+        )
+
+
+class DetailBrachView(DetailView):
+    #metodo para vizualizar los datos de sucursal
+    template_name = 'ingreso/sucursal/detail.html'
+    model = Branch
 
 
 class DepositSlipView(FormView):

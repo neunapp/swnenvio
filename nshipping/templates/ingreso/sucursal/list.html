@@ -61,9 +61,9 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <h3 class="page-header title-quilla">Manifiestos no Completos</h3>
+            <h3 class="page-header title-quilla">Conductores Registrados</h3>
             <div class="alert alert-info" role="alert">
-                <a href="{% url 'manifiesto_app:agregar-manifiesto' %}" class="alert-link">Agregar Nuevo Manifiesto</a>
+                <a href="{% url 'ingreso_app:agregar-branch' %}" class="alert-link">Agregar Nueva Sucursal</a>
             </div>
         </div>
     </div>
@@ -73,30 +73,29 @@
             <table class="table table-bordered table-hover table-condensed table-quilla">
                 <thead>
                     <tr>
-                        <th>Vehiculo</th>
-                        <th>Conductor</th>
-                        <th>Direccion Partida</th>
-                        <th>Direccion LLegada</th>
-                        <th>Fecha Traslado</th>
+                        <th>Direccion</th>
+                        <th>Provinca</th>
+                        <th>Distrito</th>
+                        <th>Phone</th>
                         <th class="text-center">Acción</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        {% for manifest in  manifests %}
+                        {% for sucursal in  sucursales %}
                         <tr>
-                            <td>{{ manifest.car }}</td> 
-                            <td>{{ manifest.driver }}</td>
-                            <td>{{ manifest.origin }}</td>
-                            <td>{{ manifest.destination }}</td> 
-                            <td>{{ manifest.date_shipping }}</td>
+                            <td>{{ sucursal.name }}</td> 
+                            <td>{{ sucursal.provincia }}</td>
+                            <td>{{ sucursal.distrito }}</td>
+                            <td>{{ sucursal.phone }}</td>
+
                             <td class="text-center">
-                                <a href="{% url 'manifiesto_app:full-manifiesto' manifest.pk %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i>Enviar</a>
-                                <a href="{% url 'manifiesto_app:update-manifiesto' manifest.pk %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i>Modificar</a>
-                                <a href="{% url 'manifiesto_app:completar-manifiesto' manifest.pk %}" class="btn btn-sm btn-quilla"><i class="glyphicon glyphicon-remove"></i>Completar</a>
+                                <a href="{% url 'ingreso_app:detalle-branch' sucursal.pk %}" class="btn btn-sm btn-quilla"><i class="glyphicon glyphicon-zoom-in"></i></a>
+                                <a href="{% url 'ingreso_app:actualizar-branch' sucursal.pk %}" class="btn btn-sm btn-quilla"><i class="glyphicon glyphicon-pencil"></i></a>
+                                <a href="{% url 'ingreso_app:eliminar-branch' sucursal.pk %}" class="btn btn-sm btn-quilla"><i class="glyphicon glyphicon-remove"></i></a>
                             </td>
                         </tr>            
-                        {% endfor %}
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
