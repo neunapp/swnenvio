@@ -9,21 +9,25 @@ from django.db.models import F
 from apps.users.models import User
 
 
-class Cash(models.Model):
+class Sesion(models.Model):
     userstart = models.ForeignKey(settings.AUTH_USER_MODEL)
     userfinish = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         related_name="User_userfinish",
     )
-    been = models.BooleanField()
+    state = models.BooleanField()
     capitel = models.DecimalField(
         'Capital',
-        max_digits=5,
-        decimal_places=3,
+        max_digits=7,
+        decimal_places=2,
     )
     hourstart = models.DateTimeField('Fecha Inicio')
     hourfinish = models.DateTimeField('Fecha Fin')
-    observations = models.TextField('Observaciones')
+    amount = models.DecimalField(
+        'Monto Real',
+        max_digits=7,
+        decimal_places=2,
+    )
 
     class Meta:
         verbose_name = "Cash"
@@ -64,6 +68,12 @@ class Expenditur(TimeStampedModel):
     user_modified = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         related_name="user_modified",
+    )
+    sesion = models.ForeignKey(
+        Sesion,
+        editable=False,
+        blank=True,
+        null=True,
     )
 
     objects = ManagerExpenditur()

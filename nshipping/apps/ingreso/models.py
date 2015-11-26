@@ -9,6 +9,8 @@ from datetime import datetime, timedelta
 
 from model_utils.models import TimeStampedModel
 
+from apps.salida.models import Sesion
+
 
 class Client(models.Model):
     dni = models.CharField(
@@ -174,6 +176,12 @@ class DepositSlip(TimeStampedModel):
         null=True,
         editable=False
     )
+    sesion = models.ForeignKey(
+        Sesion,
+        editable=False,
+        blank=True,
+        null=True,
+    )
 
     objects = ManangerDespositSlip()
 
@@ -251,6 +259,12 @@ class Dues(TimeStampedModel):
         null=True,
         editable=False,
     )
+    sesion = models.ForeignKey(
+        Sesion,
+        editable=False,
+        blank=True,
+        null=True,
+    )
 
     objects = ManagerDues()
 
@@ -260,3 +274,20 @@ class Dues(TimeStampedModel):
 
     def __unicode__(self):
         return u'%s' % str(self.depositslip)
+
+
+class Discount(models.Model):
+    depositslip = models.ForeignKey(DepositSlip)
+    amount = models.DecimalField(
+        'Monto',
+        max_digits=7,
+        decimal_places=2
+    )
+    description = models.TextField('Descripcion')
+
+    class Meta:
+        verbose_name = "Descuento"
+        verbose_name_plural = "Descuentos"
+
+    def __unicode__(self):
+        return depositslip

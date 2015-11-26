@@ -7,7 +7,7 @@ from django.http import HttpResponseRedirect
 
 from apps.users.models import User
 
-from .models import Cash, Expenditur
+from .models import Sesion, Expenditur
 from .forms import ExpenditurForm
 
 

@@ -2,7 +2,7 @@
 
 from django import forms
 
-from .models import Cash, Expenditur
+from .models import Sesion, Expenditur
 
 
 class ExpenditurForm(forms.ModelForm):
