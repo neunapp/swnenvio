@@ -35,6 +35,12 @@ body {
     color: #fafafa;
 }
 
+.bar-quilla {
+    background-color: #fafafa;
+    height: 3px !important;
+    width: 24px !important;
+}
+
 #wrapper {
     padding-left: 0;
 }
