@@ -75,6 +75,11 @@ class Branch(models.Model):
         'Telefono',
         max_length=50,
     )
+    canceled = models.BooleanField(
+        'anulado',
+        default=False,
+        editable=False,
+    )
 
     class Meta:
         verbose_name = "sucursal"

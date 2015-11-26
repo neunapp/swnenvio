@@ -1,4 +1,4 @@
-{% extends "ingreso/nota_ingreso/base_nota.html" %}
+{% extends "ingreso/entrega/base_entrega.html" %}
 
 {% block sidenav %}
                         
@@ -53,7 +53,6 @@
             </ul>
         </li>
     </ul>
-
 {% endblock sidenav %}
 
 {% block content_panel %}
@@ -61,38 +60,73 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <h3 class="text-danger">¿Esta Seguro de Anular Este Manifiesto?</h3>
+            <h3 class="page-header title-quilla">Modificar Conductor</h3>
         </div>
     </div>
+
     <form role="form" method="POST" class="form-horizontal">{% csrf_token %}
+        
+        {% if form.errors %}
+            <div class="row box-section">
+                <div class="col-xs-12">
+                    <div class="alert alert-dismissible alert-errors" role="alert">
+                        <button type="button" class="close cerrar" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <p><strong>Corrija los siguientes errores.</strong></p>
+                    </div>
+                </div>
+            </div>
+            
+        {% endif %}
+
         <div class="row">
-            <div class="col-xs-12">
-                <h5 class="text-danger">Conductor:</h5>{{object.driver}}
-                <h5 class="text-danger">Vehiculo: </h5>{{object.car}}
-                <h5 class="text-danger">Notas de Ingreso:</h5>
-                <table class="table table-bordered table-hover table-condensed table-quilla">
-                <thead>
-                    <tr>
-                        <th>Serie-Numero</th>
-                        <th>Direccion de Partida</th>
-                        <th>Direccion de LLegada</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        {% for deposit_slip in  object.deposit_slip.all %}
-                        <tr>
-                            <td>{{ deposit_slip.serie }}-{{deposit_slip.number}}</td> 
-                            <td>{{ deposit_slip.origin }}</td>
-                            <td>{{ deposit_slip.destination }}</td>
-                        </tr>            
+            <div class="col-xs-9">
+                <div class="form-group">
+                    <div class="col-xs-9">                    
+                        {% for error in form.sender_name.errors %}
+                            <p class="help-block text-error">
+                                {{ error|escape }}
+                            </p>
                         {% endfor %}
-                </tbody>
-                </table>
-                <h5 class="text-danger">Direccion de Partida:</h5>{{object.origin}}
-                <h5 class="text-danger">Nro Direccion de LLegada:</h5> {{object.destination}}
-                <h5 class="text-danger">Fecha de Salida: </h5>{{object.date_shipping}}
-                <h5 class="text-danger">Estado: </h5>{{object.state}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.full_name.id_for_label }}" class="col-xs-3 control-label label-envio">Denominacion:</label>
+                    <div class="col-xs-9">
+                        {{ form.name }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.license.id_for_label }}" class="col-xs-3 control-label label-envio">Direccion:</label>
+                    <div class="col-xs-9">
+                        {{ form.address}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.addreess.id_for_label }}" class="col-xs-3 control-label label-envio">Distrito</label>
+                    <div class="col-xs-9">
+                        {{ form.distrito}}
+                    </div>
+                </div> 
+                <div class="form-group">
+                    <label for="{{ form.phone.id_for_label }}" class="col-xs-3 control-label label-envio">Provincia:</label>
+                    <div class="col-xs-9">
+                        {{ form.provincia}}
+                    </div>
+                </div> 
+                <div class="form-group">
+                    <label for="{{ form.email.id_for_label }}" class="col-xs-3 control-label label-envio">Departamento:</label>
+                    <div class="col-xs-9">
+                        {{ form.departamento}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="fecha" class="col-xs-3 control-label">Telefono</label>
+                    <div class="col-xs-9">
+                      {{ form.phone}}
+                    </div>
+                </div>
+            </div>
+
             </div>
         </div>
         <div class="row box-section">

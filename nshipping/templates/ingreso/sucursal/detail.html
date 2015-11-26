@@ -58,51 +58,32 @@
 
 {% block content_panel %}
 
+    <form role="form" method="POST" class="form-horizontal">{% csrf_token %}
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">Datos de la Sucursal:</h2>
+                    </div>
+                    <div class="panel-body">
+                        <h5 class="text-info">Denominacion: </h5>{{object.name}}
+                        <h5 class="text-info">Direccion: </h5>{{object.address}}
+                        <h5 class="text-info">Distrito: </h5>{{object.distrito}}
+                        <h5 class="text-info">Provincia:</h5>{{object.provincia}}
+                        <h5 class="text-info">Departamento:</h5>{{object.departamento}}
+                        <h5 class="text-info">Telefono: </h5>{{object.phone}}
 
-    <div class="row">
-        <div class="col-xs-12">
-            <h3 class="page-header title-quilla">Manifiestos no Completos</h3>
-            <div class="alert alert-info" role="alert">
-                <a href="{% url 'manifiesto_app:agregar-manifiesto' %}" class="alert-link">Agregar Nuevo Manifiesto</a>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-
-    <div class="row">
-        <div class="col-xs-12">
-            <table class="table table-bordered table-hover table-condensed table-quilla">
-                <thead>
-                    <tr>
-                        <th>Vehiculo</th>
-                        <th>Conductor</th>
-                        <th>Direccion Partida</th>
-                        <th>Direccion LLegada</th>
-                        <th>Fecha Traslado</th>
-                        <th class="text-center">Acción</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        {% for manifest in  manifests %}
-                        <tr>
-                            <td>{{ manifest.car }}</td> 
-                            <td>{{ manifest.driver }}</td>
-                            <td>{{ manifest.origin }}</td>
-                            <td>{{ manifest.destination }}</td> 
-                            <td>{{ manifest.date_shipping }}</td>
-                            <td class="text-center">
-                                <a href="{% url 'manifiesto_app:full-manifiesto' manifest.pk %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i>Enviar</a>
-                                <a href="{% url 'manifiesto_app:update-manifiesto' manifest.pk %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i>Modificar</a>
-                                <a href="{% url 'manifiesto_app:completar-manifiesto' manifest.pk %}" class="btn btn-sm btn-quilla"><i class="glyphicon glyphicon-remove"></i>Completar</a>
-                            </td>
-                        </tr>            
-                        {% endfor %}
-                </tbody>
-            </table>
+        <div class="row box-section">
+            <div class="col-xs-12">
+                <div class="col s5">
+                <a class="waves-effect waves-light btn btn-back" href="{% url 'manifiesto_app:listar-conductor' %}"><i class="fa fa-chevron-left left"></i>Regresar</a>    
+            </div>
+            </div>
         </div>
-    </div>
+    </form>
 
 {% endblock content_panel %}
-
-
-

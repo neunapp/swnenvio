@@ -17,35 +17,30 @@ urlpatterns = [
         views.DeliverView.as_view(),
         name='detalle_envio'
     ),
-    # url(
-    #     r'^nota-de-ingreso/$',
-    #     views.RegisterSlipView.as_view(),
-    #     name='nota-ingreso'
-    # ),
-    # url(
-    #     r'^entrega-de-paquetes/$',
-    #     views.DeliverView.as_view(),
-    #     name='entrega-paquete'
-    # ),
-    # url(
-    #     r'^entrega/detalle/(?P<pk>\d+)$',
-    #     views.DetailDeliverView.as_view(),
-    #     name='detalle_entrega'
-    # ),
 #url para manteniminetos de sucursales
     url(
         r'^sucursales/listar/$',
-        views.ListBranch.as_view(),
+        views.ListBranchView.as_view(),
         name='listar-branch'
     ),
     url(
         r'^sucursales/add/$',
-        views.RegisterBranch.as_view(),
+        views.RegisterBranchView.as_view(),
         name='agregar-branch'
     ),
     url(
         r'^sucursales/update/(?P<pk>\d+)$',
-        views.UpdateBranch.as_view(),
+        views.UpdateBranchView.as_view(),
         name='actualizar-branch'
+    ),
+    url(
+        r'^sucursales/detail/(?P<pk>\d+)$',
+        views.DeleteBranchView.as_view(),
+        name='detalle-branch'
+    ),
+    url(
+        r'^sucursales/delete/(?P<pk>\d+)$',
+        views.DeleteBranchView.as_view(),
+        name='eliminar-branch'
     ),
 ]
