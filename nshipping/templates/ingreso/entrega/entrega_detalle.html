@@ -2,57 +2,24 @@
 
 {% block sidenav %}
                         
-       <li>
-        <a class="active" href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
-    </li>
-
     <li>
-        <a href="{% url 'ingreso_app:lista_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envio</a>
+        <a href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
     </li>
-
     <li>
-        <a href="{% url 'manifiesto_app:manifiesto-no-recepcionado' %}"><i class="fa fa-fw fa-table"></i> Recepcion de Paquetes</a>
+        <a class="active" href="{% url 'ingreso_app:lista_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envio</a>
     </li>
-
     <li>
-        <a href="{% url 'salida_app:listar-egreso' %}"><i class="fa fa-fw fa-edit"></i> Registro de Egresos</a>
+        <a href="{% url 'manifiesto_app:manifiesto-no-recepcionado' %}"><i class="fa fa-fw fa-cubes"></i> Recepción De Envio</a>
     </li>
-        <ul class="nav nav-tabs">
-        <li role="presentation" class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                Manifiesto<span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-                <li>
-                    <a href="{% url 'manifiesto_app:listar-manifiesto' %}"><i class="fa fa-fw fa-edit"></i> Manifiestos en curso</a>
-                </li>
-                <li>
-                    <a href="{% url 'manifiesto_app:agregar-manifiesto' %}"><i class="fa fa-fw fa-edit"></i> Manifiesto Quilla Cargo</a>
-                </li>
-                <li>
-                    <a href="{% url 'manifiesto_app:agregar-sub_contrata' %}"><i class="fa fa-fw fa-edit"></i> Manifiesto Por Sub Contrata </a>
-                </li>
-            </ul>
-        </li>
-    </ul>
-    <ul class="nav nav-tabs">
-        <li role="presentation" class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                Mantenimientos<span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-                <li>
-                    <a href="#"><i class="fa fa-fw fa-edit"></i> Sucursales</a>
-                </li>
-                <li>
-                    <a href="{% url 'manifiesto_app:listar-carro' %}"><i class="fa fa-fw fa-edit"></i> Vehiculos</a>
-                </li>
-                <li>
-                    <a href="{% url 'manifiesto_app:listar-conductor' %}"><i class="fa fa-fw fa-edit"></i> Conductores</a>
-                </li>
-            </ul>
-        </li>
-    </ul>
+    <li>
+        <a href="{% url 'salida_app:listar-egreso' %}"><i class="fa fa-fw fa-money"></i> Registro De Gastos</a>
+    </li>
+    <li>
+        <a href="#"><i class="fa fa-fw fa-bullseye"></i> Manifiesto</a>
+    </li>
+    <li>
+        <a href="#"><i class="fa fa-fw fa-cogs"></i> Mantenimiento</a>
+    </li>
 
 {% endblock sidenav %}
 
@@ -60,7 +27,7 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <h3 class="page-header title-quilla">Entrega de envio del sr(a). Henrry Joel Sairitupac Arones</h3>
+            <h3 class="page-header title-quilla">Entrega de envio del sr(a). {{ depositslip.addressee|title }}</h3>
         </div>
     </div>
 
@@ -69,9 +36,9 @@
             <div class="numeracion">
                 <h4 class="titulo-numeracion">NOTA DE INGRESO</h4>
                 <div class="box-numeracion text-center">
-                    <span class="serie">0001</span>
+                    <span class="serie">{{ depositslip.serie }}</span>
                     <span class="">N°</span>
-                    <span class="numero">001437</span>
+                    <span class="numero">{{ depositslip.number }}</span>
                 </div>
             </div>  
         </div>
@@ -81,41 +48,52 @@
         <div class="col-xs-6">
             <dl class="dl-horizontal dl-entrega">
                 <dt>Origen:</dt>
-                <dd>Lima</dd>
+                <dd>{{ depositslip.origin }}</dd>
             </dl>
         </div>
 
         <div class="col-xs-6">
             <dl class="dl-horizontal dl-entrega">
                 <dt>Destino:</dt>
-                <dd>Cusco</dd>
+                <dd>{{ depositslip.destination }}</dd>
             </dl>          
         </div>
     </div>
 
-
     <div class="row">
-        <div class="col-xs-6">
+        <div class="col-xs-12 col-sm-6">
             <h4 class="title-cliente">Remitente</h4>
             <dl class="dl-horizontal dl-entrega">
-                <dt>D.N.I/R.U.C:</dt>
-                <dd>461878514</dd>
-                <dt>Nombre:</dt>
-                <dd>Brenda Paucar Ccopa</dd>
+                <dt>D.N.I:</dt>
+                <dd>{{ depositslip.sender.dni|default:'-------------------' }}</dd>
+                <dt>R.U.C:</dt>
+                <dd>{{ depositslip.sender.ruc|default:'-------------------' }}</dd>
+                <dt>Nombres:</dt>
+                <dd>{{ depositslip.sender.full_name|default:'-------------------' }}</dd>
+                <dt>Razón Social:</dt>
+                <dd>{{ depositslip.sender.business_name|default:'-------------------' }}</dd>
+                <dt>Dirección:</dt>
+                <dd>{{ depositslip.sender.address|default:'-------------------' }}</dd>
                 <dt>Telefono:</dt>
-                <dd>941648860</dd>
+                <dd>{{ depositslip.sender.phone|default:'-------------------' }}</dd>
             </dl>
         </div>
 
-        <div class="col-xs-6">
+        <div class="col-xs-12 col-sm-6">
             <h4 class="title-cliente">Destenitario</h4>
             <dl class="dl-horizontal dl-entrega">
-                <dt>D.N.I/R.U.C:</dt>
-                <dd>46185127</dd>
-                <dt>Nombre:</dt>
-                <dd>Henrry Joel Sairitupac Arones</dd>
+                <dt>D.N.I:</dt>
+                <dd>{{ depositslip.addressee.dni|default:'-------------------' }}</dd>
+                <dt>R.U.C:</dt>
+                <dd>{{ depositslip.addressee.ruc|default:'-------------------' }}</dd>
+                <dt>Nombres:</dt>
+                <dd>{{ depositslip.addressee.full_name|default:'-------------------' }}</dd>
+                <dt>Razón Social:</dt>
+                <dd>{{ depositslip.addressee.business_name|default:'-------------------' }}</dd>
+                <dt>Dirección:</dt>
+                <dd>{{ depositslip.addressee.address|default:'-------------------' }}</dd>
                 <dt>Telefono:</dt>
-                <dd>941648860</dd>
+                <dd>{{ depositslip.addressee.phone|default:'-------------------' }}</dd>
             </dl>
 
         </div>
@@ -133,13 +111,8 @@
                 <tbody>
                     
                     <tr>
-                        <td>10</td>
-                        <td>bultos y cajas</td>            
-                    </tr>
-
-                    <tr>
-                        <td>5</td>
-                        <td>cosaltes color rojos</td>            
+                        <td>{{ depositslip.count }}</td>
+                        <td>{{ depositslip.description }}</td>            
                     </tr>
 
                 </tbody>
@@ -147,45 +120,56 @@
         </div>
     </div>
 
-    <div class="row box-section">
-
-        <div class="col-xs-12 col-sm-4">
-            <dl class="dl-horizontal dl-entrega">
-                <dt>Total:</dt>
-                <dd>S/200.00</dd>
-            </dl>              
-        </div>
-
-        <div class="col-xs-12 col-sm-4">
-            <dl class="dl-horizontal dl-entrega">
-                <dt>Acuenta:</dt>
-                <dd>S/100.00</dd>
-            </dl>    
-        </div>
-
-        <div class="col-xs-12 col-sm-4">
-            <dl class="dl-horizontal dl-entrega">
-                <dt>Por Cobrar:</dt>
-                <dd class="dd-cobrar">S/100.00</dd>
-            </dl>
-            
-        </div>
-    </div>
     
+    <form Method="POST" class="form-horizontal">{% csrf_token %}
+        <div class="row">
 
-    <div class="row box-section">
-        <div class="col-xs-12">
-            <div class="form-group">
-                <div class="col-sm-12">
-                    <button type="submit" class="btn btn-quilla">Guardar</button>
+            <div class="col-xs-12 col-sm-6">
+                <dl class="dl-horizontal dl-entrega">
+                    <dt>Total:</dt>
+                    <dd>S/{{ depositslip.total_amount|floatformat:'2' }}</dd>
+                    <dt>Acuenta:</dt>
+                    <dd>S/ {{ acuenta|floatformat:'2' }}</dd>
+                    <dt>Por Cobrar:</dt>
+                    <dd class="dd-cobrar">S/ {{ porcobrar|floatformat:'2' }}</dd>
+                </dl>              
+            </div>
+            
+            <div class="col-xs-12 col-sm-6">
+                <div class="form-group">
+                    <label for="{{ form.discount.id_for_label }}" class="col-sm-4 control-label">Descuento:</label>
+                    <div class="col-sm-8">
+                        {{ form.discount }}
+                        {% for error in form.discount.errors %}
+                            <div class="col-xs-12">
+                                <p class="help-block text-error">
+                                    {{ error|escape }}
+                                </p>
+                            </div>
+                        {% empty %}
+                            <div class="col-xs-12">
+                                <p class="help-block text-error">
+                                    Toda tipo de descuento debe ser previa autorización.
+                                </p>
+                            </div>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <form action="" class="form-horizontal">
-                
-
+        
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <button type="submit" class="btn btn-quilla">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </form>
+
+    
+
 
 {% endblock content_panel %}

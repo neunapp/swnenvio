@@ -1,14 +1,17 @@
 # -*- encoding: utf-8 -*-
-from django.views.generic import TemplateView, DetailView, UpdateView
+from django.views.generic import DetailView, UpdateView
 from django.views.generic.edit import CreateView, FormView, FormMixin
 from django.views.generic.list import ListView
+from django.contrib.messages.views import SuccessMessageMixin
 
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
 
 # local.
 from .functions import ClientGetOrCreate
-from .models import Branch, Client, Dues, DepositSlip
+from .models import Branch, Dues, DepositSlip
+from apps.profiles.models import Profile
+from apps.salida.models import Expenditur
 from .forms import (
     NotaIngresoForm,
     ClientForm,
@@ -16,8 +19,6 @@ from .forms import (
     DetailDeliverForm,
     BranchForm
 )
-
-from apps.profiles.models import Profile
 
 
 #Mantenimiento de sucursales
@@ -28,22 +29,20 @@ class ListBranchView(ListView):
 
 
 class RegisterBranchView(CreateView):
-    #mantenimiento registrar conductor
+    #mantenimiento registrar sucursal
     template_name = 'ingreso/sucursal/add.html'
     form_class = BranchForm
     success_url = reverse_lazy('ingreso_app:listar-branch')
 
 
 class UpdateBranchView(UpdateView):
-    #mantenimient actualizar conductor
-    template_name = 'ingreso/sucursal/update.html'
     model = Branch
     form_class = BranchForm
     success_url = reverse_lazy('ingreso_app:listar-branch')
 
 
 class DeleteBranchView(DetailView):
-    #metodo para inhabilitar un conductor
+    #metodo para inhabilitar un sucursal
     template_name = 'ingreso/sucursal/delete.html'
     model = Branch
 
@@ -63,7 +62,7 @@ class DeleteBranchView(DetailView):
 
 
 class DetailBrachView(DetailView):
-    #metodo para vizualizar los datos de conductor
+    #metodo para vizualizar los datos de sucursal
     template_name = 'ingreso/sucursal/detail.html'
     model = Branch
 
@@ -150,7 +149,10 @@ class DepositSlipView(FormView):
 
 
 class DeliverView(ListView):
-    #model = Dues.objects.filter(deposit_slip__destination='1')
+    '''
+    Busqueda de paquetes o envios llegados
+    a la sucursal.
+    '''
     context_object_name = 'paquetes'
     template_name = 'ingreso/entrega/entrega.html'
 
@@ -166,9 +168,82 @@ class DeliverView(ListView):
         s = self.request.GET.get("sender", '')
         t = self.request.GET.get("addressee", '')
         u = self.request.GET.get("date", '')
-        #recuperamos el usuario o sucursal
+        # recuperamos el usuario
         user = self.request.user
+        # Recuperamos la sucursal del usuario
         user_profile = Profile.objects.get(user=user)
 
         queryset = Dues.objects.search(q, r, s, t, user_profile.branch, u)
         return queryset
+
+
+class DetailDeliverView(SuccessMessageMixin, FormMixin, DetailView):
+    '''
+    Detalle del envio y registro de la cuota
+    si hay descuento se regitra en la tabla salida.
+    '''
+    model = DepositSlip
+    form_class = DetailDeliverForm
+    template_name = 'ingreso/entrega/entrega_detalle.html'
+    success_url = reverse_lazy('users_app:panel')
+    success_message = "El paquete con nota de ingreso %(serie)s - %(number)s \
+                        fue entregado correctamente."
+
+    def get_success_message(self, cleaned_data):
+        return self.success_message % dict(
+            cleaned_data,
+            serie=self.object.serie,
+            number=self.object.number,
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super(DetailDeliverView, self).get_context_data(**kwargs)
+        dues = Dues.objects.get(pk=self.object.pk, canceled=False)
+        porcobrar = self.object.total_amount - dues.amount
+        context['form'] = self.get_form()
+        context['acuenta'] = dues.amount
+        context['porcobrar'] = porcobrar
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        # recupramos el objeto
+        depositslip = self.object
+        depositslip.state = '3'
+        depositslip.save()
+
+        descuento = form.cleaned_data['discount']
+        user = self.request.user
+        # Recuperamos el monto de la primera cuota.
+        dues1 = Dues.objects.get(pk=self.object.pk, canceled=False)
+        # restamos el de monto total y el monto de la primera cuota.
+        amount = self.object.total_amount - dues1.amount
+        # Creamos y guardamso la segunda cuota.
+        dues2 = Dues(
+            depositslip=depositslip,
+            amount=amount,
+            user_created=user
+        )
+        dues2.save()
+        # Verificamos si el descuento es mayor a cero
+        # para guardalo como salida.
+        if descuento > 0:
+            msj = 'descuento de la nota de ingreso %s %s' \
+                % (depositslip.serie, depositslip.number)
+
+            expenditur = Expenditur(
+                description=msj,
+                amount=descuento,
+                user_created=user,
+                user_modified=user,
+            )
+            expenditur.save()
+
+        return super(DetailDeliverView, self).form_valid(form)
