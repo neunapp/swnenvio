@@ -16,7 +16,53 @@ class ClientForm(forms.ModelForm):
 class BranchForm(forms.ModelForm):
     class Meta:
         model = Branch
-        fields = ("__all__")
+        fields = (
+            'name',
+            'address',
+            'departamento',
+            'provincia',
+            'distrito',
+            'phone'
+        )
+
+        widgets = {
+            'name': forms.TextInput(
+                attrs={
+                    'class': 'form-control input-sm',
+                    'placeholder': 'Ingrese el nombre de la sucursal'
+                }
+            ),
+            'address': forms.TextInput(
+                attrs={
+                    'class': 'form-control input-sm',
+                    'placeholder': 'Ingrese el dirección de la sucursal'
+                }
+            ),
+            'departamento': forms.TextInput(
+                attrs={
+                    'class': 'form-control input-sm',
+                    'placeholder': 'Ingrese el departamento de la sucursal'
+                }
+            ),
+            'provincia': forms.TextInput(
+                attrs={
+                    'class': 'form-control input-sm',
+                    'placeholder': 'Ingrese el provincia de la sucursal'
+                }
+            ),
+            'distrito': forms.TextInput(
+                attrs={
+                    'class': 'form-control input-sm',
+                    'placeholder': 'Ingrese el distrtio de la sucursal'
+                }
+            ),
+            'phone': forms.TextInput(
+                attrs={
+                    'class': 'form-control input-sm',
+                    'placeholder': 'Ingrese el telefono de cantacto'
+                }
+            ),
+        }
 
 
 class NotaIngresoForm(forms.ModelForm):

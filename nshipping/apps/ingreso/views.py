@@ -27,6 +27,12 @@ class ListBranchView(ListView):
     queryset = Branch.objects.filter(canceled=False)
     template_name = 'ingreso/sucursal/list.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(ListBranchView, self).get_context_data(**kwargs)
+        print self.object_list.count
+        context['cantidad'] = self.object_list.count
+        return context
+
 
 class RegisterBranchView(CreateView):
     #mantenimiento registrar sucursal
@@ -37,6 +43,7 @@ class RegisterBranchView(CreateView):
 
 class UpdateBranchView(UpdateView):
     model = Branch
+    template_name = 'ingreso/sucursal/update.html'
     form_class = BranchForm
     success_url = reverse_lazy('ingreso_app:listar-branch')
 
@@ -61,7 +68,7 @@ class DeleteBranchView(DetailView):
         )
 
 
-class DetailBrachView(DetailView):
+class DetailBranchView(DetailView):
     #metodo para vizualizar los datos de sucursal
     template_name = 'ingreso/sucursal/detail.html'
     model = Branch

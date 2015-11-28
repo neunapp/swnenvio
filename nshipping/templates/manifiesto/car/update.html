@@ -1,9 +1,11 @@
 {% extends "ingreso/nota_ingreso/base_nota.html" %}
 
+{% block title %}modificar vehiculo{% endblock title %}
+
 {% block sidenav %}
                         
     <li>
-        <a class="active" href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
+        <a href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
     </li>
 
     <li>
@@ -11,48 +13,48 @@
     </li>
 
     <li>
-        <a href="{% url 'manifiesto_app:manifiesto-no-recepcionado' %}"><i class="fa fa-fw fa-table"></i> Recepcion de Paquetes</a>
+        <a href="{% url 'manifiesto_app:manifiesto-no-recepcionado' %}"><i class="fa fa-fw fa-table"></i> Recepción de Paquetes</a>
     </li>
 
     <li>
         <a href="{% url 'salida_app:listar-egreso' %}"><i class="fa fa-fw fa-edit"></i> Registro de Egresos</a>
     </li>
-        <ul class="nav nav-tabs">
-        <li role="presentation" class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                Manifiesto<span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-                <li>
-                    <a href="{% url 'manifiesto_app:listar-manifiesto' %}"><i class="fa fa-fw fa-edit"></i> Manifiestos en curso</a>
-                </li>
-                <li>
-                    <a href="{% url 'manifiesto_app:agregar-manifiesto' %}"><i class="fa fa-fw fa-edit"></i> Manifiesto Quilla Cargo</a>
-                </li>
-                <li>
-                    <a href="{% url 'manifiesto_app:agregar-sub_contrata' %}"><i class="fa fa-fw fa-edit"></i> Manifiesto Por Sub Contrata </a>
-                </li>
-            </ul>
-        </li>
-    </ul>
-    <ul class="nav nav-tabs">
-        <li role="presentation" class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                Mantenimientos<span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-                <li>
-                    <a href="{% url 'ingreso_app:listar-branch' %}"><i class="fa fa-fw fa-edit"></i> Sucursales</a>
-                </li>
-                <li>
-                    <a href="{% url 'manifiesto_app:listar-carro' %}"><i class="fa fa-fw fa-edit"></i> Vehiculos</a>
-                </li>
-                <li>
-                    <a href="{% url 'manifiesto_app:listar-conductor' %}"><i class="fa fa-fw fa-edit"></i> Conductores</a>
-                </li>
-            </ul>
-        </li>
-    </ul>
+    <li>
+        <a href="javascript:;" data-toggle="collapse" data-target="#manifiesto">
+            <i class="fa fa-fw fa-bullseye"></i>
+            Manifiesto
+            <i class="fa fa-fw fa-caret-down"></i>
+        </a>
+        <ul id="manifiesto" class="collapse">
+            <li>
+                <a href="{% url 'manifiesto_app:listar-manifiesto' %}">Manifiesto En Curso</a>
+            </li>
+            <li>
+                <a href="{% url 'manifiesto_app:agregar-manifiesto' %}">Manifiesto Quilla Cargo</a>
+            </li>
+            <li>
+                <a href="{% url 'manifiesto_app:agregar-sub_contrata' %}">Manifiesto por Sub-Contrata</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a class="active" href="javascript:;" data-toggle="collapse" data-target="#mantenimiento">
+            <i class="fa fa-fw fa-cogs"></i>
+            Mantenimiento
+            <i class="fa fa-fw fa-caret-down"></i>
+        </a>
+        <ul id="mantenimiento" class="collapse">
+            <li>
+                <a href="{% url 'ingreso_app:listar-branch' %}">Sucursales</a>
+            </li>
+            <li>
+                <a href="{% url 'manifiesto_app:listar-carro' %}">Vehiculos</a>
+            </li>
+            <li>
+                <a href="{% url 'manifiesto_app:listar-conductor' %}">Conductores</a>
+            </li>
+        </ul>
+    </li>
 
 {% endblock sidenav %}
 
