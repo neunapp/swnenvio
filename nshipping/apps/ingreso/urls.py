@@ -35,7 +35,7 @@ urlpatterns = [
     ),
     url(
         r'^sucursales/detail/(?P<pk>\d+)$',
-        views.DeleteBranchView.as_view(),
+        views.DetailBranchView.as_view(),
         name='detalle-branch'
     ),
     url(

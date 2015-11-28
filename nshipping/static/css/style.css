@@ -155,6 +155,7 @@
 
 .text-error {
     color: #e53935;
+    margin-bottom: 0;
 }
 
 .modal-quilla {
@@ -181,4 +182,18 @@
     padding: 20px;
     transition: box-shadow .25s;
     font-weight: 600;
+}
+
+
+/*
+    manteniminetos
+*/
+
+.quilla-add {
+    margin: 1em 1.5em 2em;
+}
+
+.quilla-add > .quilla-cantitem {
+    padding-top: 0.5em;
+    font-size: 1.35em;
 }

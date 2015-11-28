@@ -1,9 +1,11 @@
 {% extends "ingreso/nota_ingreso/base_nota.html" %}
 
+{% block title %}Detalle Sucursal{% endblock title %}
+
 {% block sidenav %}
                         
     <li>
-        <a class="active" href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
+        <a href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
     </li>
 
     <li>
@@ -17,73 +19,80 @@
     <li>
         <a href="{% url 'salida_app:listar-egreso' %}"><i class="fa fa-fw fa-edit"></i> Registro de Egresos</a>
     </li>
-        <ul class="nav nav-tabs">
-        <li role="presentation" class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                Manifiesto<span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-                <li>
-                    <a href="{% url 'manifiesto_app:listar-manifiesto' %}"><i class="fa fa-fw fa-edit"></i> Manifiestos en curso</a>
-                </li>
-                <li>
-                    <a href="{% url 'manifiesto_app:agregar-manifiesto' %}"><i class="fa fa-fw fa-edit"></i> Manifiesto Quilla Cargo</a>
-                </li>
-                <li>
-                    <a href="{% url 'manifiesto_app:agregar-sub_contrata' %}"><i class="fa fa-fw fa-edit"></i> Manifiesto Por Sub Contrata </a>
-                </li>
-            </ul>
-        </li>
-    </ul>
-    <ul class="nav nav-tabs">
-        <li role="presentation" class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                Mantenimientos<span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-                <li>
-                    <a href="{% url 'ingreso_app:listar-branch' %}"><i class="fa fa-fw fa-edit"></i> Sucursales</a>
-                </li>
-                <li>
-                    <a href="{% url 'manifiesto_app:listar-carro' %}"><i class="fa fa-fw fa-edit"></i> Vehiculos</a>
-                </li>
-                <li>
-                    <a href="{% url 'manifiesto_app:listar-conductor' %}"><i class="fa fa-fw fa-edit"></i> Conductores</a>
-                </li>
-            </ul>
-        </li>
-    </ul>
+    
+    <li>
+        <a href="javascript:;" data-toggle="collapse" data-target="#manifiesto">
+            <i class="fa fa-fw fa-bullseye"></i>
+            Manifiesto
+            <i class="fa fa-fw fa-caret-down"></i>
+        </a>
+        <ul id="manifiesto" class="collapse">
+            <li>
+                <a href="{% url 'manifiesto_app:listar-manifiesto' %}">Manifiesto En Curso</a>
+            </li>
+            <li>
+                <a href="{% url 'manifiesto_app:agregar-manifiesto' %}">Manifiesto Quilla Cargo</a>
+            </li>
+            <li>
+                <a href="{% url 'manifiesto_app:agregar-sub_contrata' %}">Manifiesto por Sub-Contrata</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a class="active" href="javascript:;" data-toggle="collapse" data-target="#mantenimiento">
+            <i class="fa fa-fw fa-cogs"></i>
+            Mantenimiento
+            <i class="fa fa-fw fa-caret-down"></i>
+        </a>
+        <ul id="mantenimiento" class="collapse">
+            <li>
+                <a href="{% url 'ingreso_app:listar-branch' %}">Sucursales</a>
+            </li>
+            <li>
+                <a href="{% url 'manifiesto_app:listar-carro' %}">Vehiculos</a>
+            </li>
+            <li>
+                <a href="{% url 'manifiesto_app:listar-conductor' %}">Conductores</a>
+            </li>
+        </ul>
+    </li>
+
 
 {% endblock sidenav %}
 
 {% block content_panel %}
 
-    <form role="form" method="POST" class="form-horizontal">{% csrf_token %}
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="panel panel-warning">
-                    <div class="panel-heading">
-                        <h2 class="panel-title">Datos de la Sucursal:</h2>
-                    </div>
-                    <div class="panel-body">
-                        <h5 class="text-info">Denominacion: </h5>{{object.name}}
-                        <h5 class="text-info">Direccion: </h5>{{object.address}}
-                        <h5 class="text-info">Distrito: </h5>{{object.distrito}}
-                        <h5 class="text-info">Provincia:</h5>{{object.provincia}}
-                        <h5 class="text-info">Departamento:</h5>{{object.departamento}}
-                        <h5 class="text-info">Telefono: </h5>{{object.phone}}
+    <div class="row">
+        <div class="col-xs-12">
+            <h3 class="page-header title-quilla">Detalle Sucursal</h3>
+        </div>
+    </div>
 
-                    </div>
-                </div>
-            </div>
+
+     <div class="row box-section">
+        <div class="col-xs-12">
+            <dl class="dl-horizontal">
+                <dt>Nombre:</dt>
+                <dd>{{ branch.name }}</dd>
+                <dt>Direción:</dt>
+                <dd>{{ branch.address }}</dd>
+                <dt>Departamento:</dt>
+                <dd>{{ branch.departamento }}</dd>
+                <dt>Provincia:</dt>
+                <dd>{{ branch.provincia }}</dd>
+                <dt>Distrito:</dt>
+                <dd>{{ branch.distrito }}</dd>
+                <dt>Télefono:</dt>
+                <dd>{{ branch.phone }}</dd>
+            </dl>
+            
         </div>
-        <div class="row box-section">
-            <div class="col-xs-12">
-                <div class="col s5">
-                <a class="waves-effect waves-light btn btn-back" href="{% url 'manifiesto_app:listar-conductor' %}"><i class="fa fa-chevron-left left"></i>Regresar</a>    
-            </div>
-            </div>
+
+        <div class="col-xs-12">
+            <a class="btn btn-warning" role="button" href="{% url 'ingreso_app:actualizar-branch' branch.pk %}" ><i class="fa fa-pencil fa-lg"></i> Editar</a>
+            <a class="btn btn-default" role="button" href="{% url 'ingreso_app:listar-branch' %}" >Regresar a lista</a>
         </div>
-    </form>
+    </div>
+
 
 {% endblock content_panel %}

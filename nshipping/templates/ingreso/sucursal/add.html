@@ -1,5 +1,7 @@
 {% extends "ingreso/entrega/base_entrega.html" %}
 
+{% block title %}Crear Sucursal{% endblock title %}
+
 {% block sidenav %}
                         
     <li>
@@ -17,42 +19,44 @@
     <li>
         <a href="{% url 'salida_app:listar-egreso' %}"><i class="fa fa-fw fa-edit"></i> Registro de Egresos</a>
     </li>
-        <ul class="nav nav-tabs">
-        <li role="presentation" class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                Manifiesto<span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-                <li>
-                    <a href="{% url 'manifiesto_app:listar-manifiesto' %}"><i class="fa fa-fw fa-edit"></i> Manifiestos en curso</a>
-                </li>
-                <li>
-                    <a href="{% url 'manifiesto_app:agregar-manifiesto' %}"><i class="fa fa-fw fa-edit"></i> Manifiesto Quilla Cargo</a>
-                </li>
-                <li>
-                    <a href="{% url 'manifiesto_app:agregar-sub_contrata' %}"><i class="fa fa-fw fa-edit"></i> Manifiesto Por Sub Contrata </a>
-                </li>
-            </ul>
-        </li>
-    </ul>
-    <ul class="nav nav-tabs">
-        <li role="presentation" class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                Mantenimientos<span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-                <li>
-                    <a href="{% url 'ingreso_app:listar-branch' %}"><i class="fa fa-fw fa-edit"></i> Sucursales</a>
-                </li>
-                <li>
-                    <a href="{% url 'manifiesto_app:listar-carro' %}"><i class="fa fa-fw fa-edit"></i> Vehiculos</a>
-                </li>
-                <li>
-                    <a href="{% url 'manifiesto_app:listar-conductor' %}"><i class="fa fa-fw fa-edit"></i> Conductores</a>
-                </li>
-            </ul>
-        </li>
-    </ul>
+    
+    <li>
+        <a href="javascript:;" data-toggle="collapse" data-target="#manifiesto">
+            <i class="fa fa-fw fa-bullseye"></i>
+            Manifiesto
+            <i class="fa fa-fw fa-caret-down"></i>
+        </a>
+        <ul id="manifiesto" class="collapse">
+            <li>
+                <a href="{% url 'manifiesto_app:listar-manifiesto' %}">Manifiesto En Curso</a>
+            </li>
+            <li>
+                <a href="{% url 'manifiesto_app:agregar-manifiesto' %}">Manifiesto Quilla Cargo</a>
+            </li>
+            <li>
+                <a href="{% url 'manifiesto_app:agregar-sub_contrata' %}">Manifiesto por Sub-Contrata</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="javascript:;" data-toggle="collapse" data-target="#mantenimiento">
+            <i class="fa fa-fw fa-cogs"></i>
+            Mantenimiento
+            <i class="fa fa-fw fa-caret-down"></i>
+        </a>
+        <ul id="mantenimiento" class="collapse">
+            <li>
+                <a href="{% url 'ingreso_app:listar-branch' %}">Sucursales</a>
+            </li>
+            <li>
+                <a href="{% url 'manifiesto_app:listar-carro' %}">Vehiculos</a>
+            </li>
+            <li>
+                <a href="{% url 'manifiesto_app:listar-conductor' %}">Conductores</a>
+            </li>
+        </ul>
+    </li>
+
 {% endblock sidenav %}
 
 {% block content_panel %}
@@ -60,84 +64,103 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <h3 class="page-header title-quilla">Modificar Conductor</h3>
+            <h3 class="page-header title-quilla">Crear Sucursal</h3>
         </div>
     </div>
 
-    <form role="form" method="POST" class="form-horizontal">{% csrf_token %}
-        
-        {% if form.errors %}
-            <div class="row box-section">
-                <div class="col-xs-12">
-                    <div class="alert alert-dismissible alert-errors" role="alert">
-                        <button type="button" class="close cerrar" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <p><strong>Corrija los siguientes errores.</strong></p>
-                    </div>
-                </div>
-            </div>
-            
-        {% endif %}
-
-        <div class="row">
-            <div class="col-xs-9">
+    <div class="row box-section">
+        <div class="col-xs-12">
+            <form role="form" method="POST" class="form-horizontal">{% csrf_token %}
+                <p class="lead"><span class="glyphicon glyphicon-info-sign"></span> Ingresa los datos de la Sucursal.</p>
+                    
                 <div class="form-group">
-                    <div class="col-xs-9">                       
-                        {% for error in form.sender_name.errors %}
-                            <p class="help-block text-error">
-                                {{ error|escape }}
-                            </p>
+                    <label for="{{ form.name.id_for_label }}" class="col-xs-12 col-sm-2 control-label label-envio">Nombre:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        {{ form.name }}
+                        {% for error in form.name.errors %}
+                            <div class="col-xs-12">
+                                <p class="help-block text-error">
+                                    {{ error|escape }}
+                                </p>
+                            </div>
                         {% endfor %}
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="{{ form.full_name.id_for_label }}" class="col-xs-3 control-label label-envio">Denominacion:</label>
-                    <div class="col-xs-9">
-                        {{ form.name }}
+                    <label for="{{ form.address.id_for_label }}" class="col-xs-12 col-sm-2 control-label label-envio">Dirección:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        {{ form.address }}
+                        {% for error in form.address.errors %}
+                            <div class="col-xs-12">
+                                <p class="help-block text-error">
+                                    {{ error|escape }}
+                                </p>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="{{ form.license.id_for_label }}" class="col-xs-3 control-label label-envio">Direccion:</label>
-                    <div class="col-xs-9">
-                        {{ form.address}}
+                    <label for="{{ form.departamento.id_for_label }}" class="col-xs-12 col-sm-2 control-label label-envio">Departamento:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        {{ form.departamento }}
+                        {% for error in form.departamento.errors %}
+                            <div class="col-xs-12">
+                                <p class="help-block text-error">
+                                    {{ error|escape }}
+                                </p>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="{{ form.addreess.id_for_label }}" class="col-xs-3 control-label label-envio">Distrito</label>
-                    <div class="col-xs-9">
-                        {{ form.distrito}}
+                    <label for="{{ form.provincia.id_for_label }}" class="col-xs-12 col-sm-2 control-label label-envio">Provincia:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        {{ form.provincia }}
+                        {% for error in form.provincia.errors %}
+                            <div class="col-xs-12">
+                                <p class="help-block text-error">
+                                    {{ error|escape }}
+                                </p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.distrito.id_for_label }}" class="col-xs-12 col-sm-2 control-label label-envio">Distrito:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        {{ form.distrito }}
+                        {% for error in form.distrito.errors %}
+                            <div class="col-xs-12">
+                                <p class="help-block text-error">
+                                    {{ error|escape }}
+                                </p>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div> 
                 <div class="form-group">
-                    <label for="{{ form.phone.id_for_label }}" class="col-xs-3 control-label label-envio">Provincia:</label>
-                    <div class="col-xs-9">
-                        {{ form.provincia}}
-                    </div>
-                </div> 
-                <div class="form-group">
-                    <label for="{{ form.email.id_for_label }}" class="col-xs-3 control-label label-envio">Departamento:</label>
-                    <div class="col-xs-9">
-                        {{ form.departamento}}
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="fecha" class="col-xs-3 control-label">Telefono</label>
-                    <div class="col-xs-9">
-                      {{ form.phone}}
+                    <label for="{{ form.phone.id_for_label }}" class="col-xs-12 col-sm-2 control-label label-envio">Télefono:</label>
+                    <div class="col-xs-12 col-sm-8">
+                      {{ form.phone }}
+                      {% for error in form.phone.errors %}
+                            <div class="col-xs-12">
+                                <p class="help-block text-error">
+                                    {{ error|escape }}
+                                </p>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
-            </div>
 
-            </div>
-        </div>
-        <div class="row box-section">
-            <div class="col-xs-12">
                 <div class="form-group">
-                    <div class="col-sm-12">
-                        <button type="submit" class="btn btn-quilla">Guardar</button>
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-quilla"><i class="fa fa-floppy-o fa-lg"></i> Guardar</button>
+                        <a class="btn btn-default" role="button" href="{% url 'ingreso_app:listar-branch' %}" >Regresar a lista</a>
                     </div>
                 </div>
-            </div>
+            </form>
+            
         </div>
-    </form>
+    </div>
 
 {% endblock content_panel %}
