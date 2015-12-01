@@ -1,4 +1,6 @@
 # -*- encoding: utf-8 -*-
+from braces.views import LoginRequiredMixin
+
 from django.views.generic import DetailView, UpdateView
 from django.views.generic.edit import CreateView, FormView, FormMixin
 from django.views.generic.list import ListView
@@ -11,7 +13,7 @@ from django.http import HttpResponseRedirect
 from .functions import ClientGetOrCreate
 from .models import Branch, Dues, DepositSlip
 from apps.profiles.models import Profile
-from apps.salida.models import Expenditur
+from apps.salida.models import Expenditur, Sesion
 from .forms import (
     NotaIngresoForm,
     ClientForm,
@@ -22,10 +24,11 @@ from .forms import (
 
 
 #Mantenimiento de sucursales
-class ListBranchView(ListView):
+class ListBranchView(LoginRequiredMixin, ListView):
     context_object_name = 'sucursales'
     queryset = Branch.objects.filter(canceled=False)
     template_name = 'ingreso/sucursal/list.html'
+    login_url = reverse_lazy('users_app:login')
 
     def get_context_data(self, **kwargs):
         context = super(ListBranchView, self).get_context_data(**kwargs)
@@ -34,24 +37,27 @@ class ListBranchView(ListView):
         return context
 
 
-class RegisterBranchView(CreateView):
+class RegisterBranchView(LoginRequiredMixin, CreateView):
     #mantenimiento registrar sucursal
     template_name = 'ingreso/sucursal/add.html'
     form_class = BranchForm
     success_url = reverse_lazy('ingreso_app:listar-branch')
+    login_url = reverse_lazy('users_app:login')
 
 
-class UpdateBranchView(UpdateView):
+class UpdateBranchView(LoginRequiredMixin, UpdateView):
     model = Branch
     template_name = 'ingreso/sucursal/update.html'
     form_class = BranchForm
     success_url = reverse_lazy('ingreso_app:listar-branch')
+    login_url = reverse_lazy('users_app:login')
 
 
-class DeleteBranchView(DetailView):
+class DeleteBranchView(LoginRequiredMixin, DetailView):
     #metodo para inhabilitar un sucursal
     template_name = 'ingreso/sucursal/delete.html'
     model = Branch
+    login_url = reverse_lazy('users_app:login')
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -68,19 +74,21 @@ class DeleteBranchView(DetailView):
         )
 
 
-class DetailBranchView(DetailView):
+class DetailBranchView(LoginRequiredMixin, DetailView):
     #metodo para vizualizar los datos de sucursal
     template_name = 'ingreso/sucursal/detail.html'
     model = Branch
+    login_url = reverse_lazy('users_app:login')
 
 
-class DepositSlipView(FormView):
+class DepositSlipView(LoginRequiredMixin, FormView):
     '''
     vista para en registro de la nota de ingreso
     '''
     form_class = NotaIngresoForm
     template_name = 'ingreso/nota_ingreso/nota.html'
     success_url = reverse_lazy('users_app:panel')
+    login_url = reverse_lazy('users_app:login')
 
     def get_form_kwargs(self):
         kwargs = super(DepositSlipView, self).get_form_kwargs()
@@ -111,6 +119,11 @@ class DepositSlipView(FormView):
         addr_razonsocial = form.cleaned_data['addr_razonsocial']
 
         user_created = self.request.user
+        #recuperamos la sesion del usuario
+        sesion = Sesion.objects.get(
+            userstart=user_created,
+            state=True,
+        )
         # Creamos cliente remitente
         sender = ClientGetOrCreate(
             sender_id,
@@ -136,7 +149,8 @@ class DepositSlipView(FormView):
             total_amount=total_amount,
             count=count,
             description=description,
-            user_created=user_created
+            user_created=user_created,
+            sesion=sesion,
         )
         depositslip.save()
 
@@ -155,13 +169,14 @@ class DepositSlipView(FormView):
         )
 
 
-class DeliverView(ListView):
+class DeliverView(LoginRequiredMixin, ListView):
     '''
     Busqueda de paquetes o envios llegados
     a la sucursal.
     '''
     context_object_name = 'paquetes'
     template_name = 'ingreso/entrega/entrega.html'
+    login_url = reverse_lazy('users_app:login')
 
     def get_context_data(self, **kwargs):
         context = super(DeliverView, self).get_context_data(**kwargs)
@@ -184,7 +199,7 @@ class DeliverView(ListView):
         return queryset
 
 
-class DetailDeliverView(SuccessMessageMixin, FormMixin, DetailView):
+class DetailDeliverView(LoginRequiredMixin, SuccessMessageMixin, FormMixin, DetailView):
     '''
     Detalle del envio y registro de la cuota
     si hay descuento se regitra en la tabla salida.
@@ -195,6 +210,7 @@ class DetailDeliverView(SuccessMessageMixin, FormMixin, DetailView):
     success_url = reverse_lazy('users_app:panel')
     success_message = "El paquete con nota de ingreso %(serie)s - %(number)s \
                         fue entregado correctamente."
+    login_url = reverse_lazy('users_app:login')
 
     def get_success_message(self, cleaned_data):
         return self.success_message % dict(

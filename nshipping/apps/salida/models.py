@@ -14,6 +14,8 @@ class Sesion(models.Model):
     userfinish = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         related_name="User_userfinish",
+        blank=True,
+        null=True,
     )
     state = models.BooleanField()
     capitel = models.DecimalField(
@@ -21,8 +23,14 @@ class Sesion(models.Model):
         max_digits=7,
         decimal_places=2,
     )
-    hourstart = models.DateTimeField('Fecha Inicio')
-    hourfinish = models.DateTimeField('Fecha Fin')
+    hourstart = models.DateTimeField(
+        'Fecha Inicio'
+    )
+    hourfinish = models.DateTimeField(
+        'Fecha Fin',
+        blank=True,
+        null=True,
+    )
     amount = models.DecimalField(
         'Monto Real',
         max_digits=7,
@@ -30,11 +38,11 @@ class Sesion(models.Model):
     )
 
     class Meta:
-        verbose_name = "Cash"
-        verbose_name_plural = "Cashs"
+        verbose_name = "Sesion"
+        verbose_name_plural = "Sesiones"
 
     def __unicode__(self):
-        return self.userstart
+        return u'%s' % str(self.userstart)
 
 
 class ManagerExpenditur(models.Manager):
@@ -71,7 +79,7 @@ class Expenditur(TimeStampedModel):
     )
     sesion = models.ForeignKey(
         Sesion,
-        editable=False,
+        editable=True,
         blank=True,
         null=True,
     )
