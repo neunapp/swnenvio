@@ -7,17 +7,14 @@
     <li>
         <a href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
     </li>
-
     <li>
-        <a href="{% url 'ingreso_app:lista_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envio</a>
+        <a href="{% url 'ingreso_app:lista_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envios</a>
     </li>
-
     <li>
         <a href="{% url 'manifiesto_app:manifiesto-no-recepcionado' %}"><i class="fa fa-fw fa-table"></i> Recepción de Paquetes</a>
     </li>
-
     <li>
-        <a href="{% url 'salida_app:listar-egreso' %}"><i class="fa fa-fw fa-edit"></i> Registro de Egresos</a>
+        <a href="{% url 'salida_app:listar-egreso' %}"><i class="fa fa-fw fa-edit"></i> Registro De Egresos</a>
     </li>
     <li>
         <a href="javascript:;" data-toggle="collapse" data-target="#manifiesto">
@@ -60,35 +57,38 @@
 
 {% block content_panel %}
 
-    <form role="form" method="POST" class="form-horizontal">{% csrf_token %}
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="panel panel-warning">
-                    <div class="panel-heading">
-                        <h2 class="panel-title">¿Esta Seguro de eliminar Este Conductor?</h2>
-                    </div>
-                    <div class="panel-body">
-                        <h5 class="text-info">Dni: </h5>{{object.dni}}
-                        <h5 class="text-info">Nombres: </h5>{{object.full_name}}
-                        <h5 class="text-info">Licensia: </h5>{{object.license}}
-                        <h5 class="text-info">Direccion:</h5>{{object.addreess}}
-                        <h5 class="text-info">Telefono:</h5>{{object.phone}}
-                        <h5 class="text-info">Email: </h5>{{object.email}}
-                        <h5 class="text-info">Fecha de Nacimiento: </h5>{{object.date_birth}}
+    <div class="row">
+        <div class="col-xs-12">
+            <h3 class="page-header title-quilla">Eliminar Conductor</h3>
+        </div>
+    </div>
 
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row box-section">
-            <div class="col-xs-12">
-                <div class="form-group">
-                    <div class="col-sm-12">
-                        <button type="submit" class="btn btn-quilla">Eliminar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
+    <div class="row box-section">
+            
+        <div class="col-md-12">
+
+            <form role="form" action="{% url 'manifiesto_app:eliminar-conductor' driver.id %}" method="POST">{% csrf_token %}
+                <p class="">¿Desea eliminar el Conductor <strong>{{ driver.full_name }}</strong>?</p>
+                <dl class="dl-horizontal">
+                    <dt>DNI:</dt>
+                    <dd>{{ driver.dni }}</dd>
+                    <dt>Licencia:</dt>
+                    <dd>{{ driver.license }}</dd>
+                    <dt>Dirección:</dt>
+                    <dd>{{ driver.addreess }}</dd>
+                    <dt>Télefono:</dt>
+                    <dd>{{ driver.phone }}</dd>
+                    <dt>Email:</dt>
+                    <dd>{{ driver.email }}</dd>
+                    <dt>Fecha de nacimiento:</dt>
+                    <dd>{{ driver.date_birth }}</dd>
+                </dl>
+                <button type="submit" class="btn btn-danger">Sí</button>
+                <a href="{% url 'manifiesto_app:listar-conductor' %}" class="btn btn-default">No</a>
+            </form>
+
+        </div><!-- col-md-12 -->
+
+    </div><!-- /row -->
 
 {% endblock content_panel %}

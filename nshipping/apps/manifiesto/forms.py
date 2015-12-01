@@ -93,11 +93,12 @@ class DriverForm(forms.ModelForm):
                 }
             ),
 
-            'date_birth': forms.TextInput(
+            'date_birth': forms.DateInput(
                 attrs={
                     'class': 'form-control input-sm datepicker',
                     'placeholder': 'Seleccione un fecha'
-                }
+                },
+                format='%d/%m/%Y'
             ),
         }
 

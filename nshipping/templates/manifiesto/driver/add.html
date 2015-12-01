@@ -7,17 +7,14 @@
     <li>
         <a href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
     </li>
-
     <li>
-        <a href="{% url 'ingreso_app:lista_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envio</a>
+        <a href="{% url 'ingreso_app:lista_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envios</a>
     </li>
-
     <li>
         <a href="{% url 'manifiesto_app:manifiesto-no-recepcionado' %}"><i class="fa fa-fw fa-table"></i> Recepción de Paquetes</a>
     </li>
-
     <li>
-        <a href="{% url 'salida_app:listar-egreso' %}"><i class="fa fa-fw fa-edit"></i> Registro de Egresos</a>
+        <a href="{% url 'salida_app:listar-egreso' %}"><i class="fa fa-fw fa-edit"></i> Registro De Egresos</a>
     </li>
     <li>
         <a href="javascript:;" data-toggle="collapse" data-target="#manifiesto">
@@ -60,89 +57,119 @@
 
 {% block content_panel %}
 
-
     <div class="row">
         <div class="col-xs-12">
-            <h3 class="page-header title-quilla">Modificar Conductor</h3>
+            <h3 class="page-header title-quilla">Crear Conductor</h3>
         </div>
     </div>
 
-    <form role="form" method="POST" class="form-horizontal">{% csrf_token %}
-        
-        {% if form.errors %}
-            <div class="row box-section">
-                <div class="col-xs-12">
-                    <div class="alert alert-dismissible alert-errors" role="alert">
-                        <button type="button" class="close cerrar" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <p><strong>Corrija los siguientes errores.</strong></p>
-                    </div>
-                </div>
-            </div>
-            
-        {% endif %}
-
-        <div class="row">
-            <div class="col-xs-9">
+    <div class="row box-section">
+        <div class="col-xs-12">
+            <form role="form" method="POST" class="form-horizontal">{% csrf_token %}
+                <p class="lead"><span class="glyphicon glyphicon-info-sign"></span> Ingresa los datos de Conductor.</p>
+                    
                 <div class="form-group">
-                    <label for="{{ form.sender_name.is_for_label }}" class="col-xs-3 control-label label-envio">DNI:</label>
-                    <div class="col-xs-9">
-                        {{ form.dni }}                        
-                        {% for error in form.sender_name.errors %}
-                            <p class="help-block text-error">
-                                {{ error|escape }}
-                            </p>
+                    <label for="{{ form.dni.id_for_label }}" class="col-xs-12 col-sm-2 control-label label-envio">DNI:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        {{ form.dni }}
+                        {% for error in form.dni.errors %}
+                            <div class="col-xs-12">
+                                <p class="help-block text-error">
+                                    {{ error|escape }}
+                                </p>
+                            </div>
                         {% endfor %}
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="{{ form.full_name.id_for_label }}" class="col-xs-3 control-label label-envio">Nombres:</label>
-                    <div class="col-xs-9">
+                    <label for="{{ form.full_name.id_for_label }}" class="col-xs-12 col-sm-2 control-label label-envio">Nombres:</label>
+                    <div class="col-xs-12 col-sm-8">
                         {{ form.full_name }}
+                        {% for error in form.full_name.errors %}
+                            <div class="col-xs-12">
+                                <p class="help-block text-error">
+                                    {{ error|escape }}
+                                </p>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="{{ form.license.id_for_label }}" class="col-xs-3 control-label label-envio">Licencia de Conducir:</label>
-                    <div class="col-xs-9">
-                        {{ form.license}}
+                    <label for="{{ form.license.id_for_label }}" class="col-xs-12 col-sm-2 control-label label-envio">Licencia de Conducir:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        {{ form.license }}
+                        {% for error in form.license.errors %}
+                            <div class="col-xs-12">
+                                <p class="help-block text-error">
+                                    {{ error|escape }}
+                                </p>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="{{ form.addreess.id_for_label }}" class="col-xs-3 control-label label-envio">Direccion</label>
-                    <div class="col-xs-9">
-                        {{ form.addreess}}
+                    <label for="{{ form.addreess.id_for_label }}" class="col-xs-12 col-sm-2 control-label label-envio">Dirección:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        {{ form.addreess }}
+                        {% for error in form.addreess.errors %}
+                            <div class="col-xs-12">
+                                <p class="help-block text-error">
+                                    {{ error|escape }}
+                                </p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.phone.id_for_label }}" class="col-xs-12 col-sm-2 control-label label-envio">Télefono:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        {{ form.phone }}
+                        {% for error in form.phone.errors %}
+                            <div class="col-xs-12">
+                                <p class="help-block text-error">
+                                    {{ error|escape }}
+                                </p>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div> 
                 <div class="form-group">
-                    <label for="{{ form.phone.id_for_label }}" class="col-xs-3 control-label label-envio">Telefono:</label>
-                    <div class="col-xs-9">
-                        {{ form.phone}}
-                    </div>
-                </div> 
-                <div class="form-group">
-                    <label for="{{ form.email.id_for_label }}" class="col-xs-3 control-label label-envio">email:</label>
-                    <div class="col-xs-9">
-                        {{ form.email}}
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="fecha" class="col-xs-3 control-label">Fecha</label>
-                    <div class="col-xs-9">
-                      {{ form.date_birth}}
+                    <label for="{{ form.email.id_for_label }}" class="col-xs-12 col-sm-2 control-label label-envio">E-mail:</label>
+                    <div class="col-xs-12 col-sm-8">
+                      {{ form.email }}
+                      {% for error in form.email.errors %}
+                            <div class="col-xs-12">
+                                <p class="help-block text-error">
+                                    {{ error|escape }}
+                                </p>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
-            </div>
 
-            </div>
-        </div>
-        <div class="row box-section">
-            <div class="col-xs-12">
                 <div class="form-group">
-                    <div class="col-sm-12">
-                        <button type="submit" class="btn btn-quilla">Guardar</button>
+                    <label for="{{ form.date_birth.id_for_label }}" class="col-xs-12 col-sm-2 control-label label-envio">Fecha de Nacimineto:</label>
+                    <div class="col-xs-12 col-sm-8">
+                      {{ form.date_birth }}
+                      {% for error in form.date_birth.errors %}
+                            <div class="col-xs-12">
+                                <p class="help-block text-error">
+                                    {{ error|escape }}
+                                </p>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
-            </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-quilla"><i class="fa fa-floppy-o fa-lg"></i> Guardar</button>
+                        <a class="btn btn-default" role="button" href="{% url 'manifiesto_app:listar-conductor' %}" >Regresar a lista</a>
+                    </div>
+                </div>
+            </form>            
         </div>
-    </form>
+    </div>
+
 
 {% endblock content_panel %}

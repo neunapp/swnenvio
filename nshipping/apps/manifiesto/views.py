@@ -31,14 +31,25 @@ from .forms import (
 
 #mantenimiento para tabla Car
 class ListCarView(LoginRequiredMixin, ListView):
+    '''
+    Lista de vehiculos.
+    '''
     context_object_name = 'carros'
     queryset = Car.objects.filter(canceled=False)
     template_name = 'manifiesto/car/list.html'
     login_url = reverse_lazy('users_app:login')
 
+    def get_context_data(self, **kwargs):
+        context = super(ListCarView, self).get_context_data(**kwargs)
+        context['cantidad'] = self.object_list.count
+        return context
+
 
 class RegisterCarView(LoginRequiredMixin, CreateView):
 #mantenimiento agregar Carro
+    '''
+    Agregar vehiculo.
+    '''
     form_class = CarForm
     template_name = 'manifiesto/car/add.html'
     success_url = reverse_lazy('manifiesto_app:listar-carro')
@@ -47,6 +58,9 @@ class RegisterCarView(LoginRequiredMixin, CreateView):
 
 class UpdateCarView(LoginRequiredMixin, UpdateView):
     #matenimietno actualiza carro
+    '''
+    Modificar vehiculo.
+    '''
     model = Car
     template_name = 'manifiesto/car/update.html'
     form_class = CarForm
@@ -55,6 +69,9 @@ class UpdateCarView(LoginRequiredMixin, UpdateView):
 
 
 class DeleteCarView(LoginRequiredMixin, DetailView):
+    '''
+    Modifcar estado de vehiculo.
+    '''
     template_name = 'manifiesto/car/delete.html'
     model = Car
     login_url = reverse_lazy('users_app:login')
@@ -86,6 +103,11 @@ class ListDriverView(LoginRequiredMixin, ListView):
     queryset = Driver.objects.filter(canceled=False)
     template_name = 'manifiesto/driver/list.html'
     login_url = reverse_lazy('users_app:login')
+
+    def get_context_data(self, **kwargs):
+        context = super(ListDriverView, self).get_context_data(**kwargs)
+        context['cantidad'] = self.object_list.count
+        return context
 
 
 class RegisterDriverView(LoginRequiredMixin, CreateView):

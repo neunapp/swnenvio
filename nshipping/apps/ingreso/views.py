@@ -32,7 +32,6 @@ class ListBranchView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ListBranchView, self).get_context_data(**kwargs)
-        print self.object_list.count
         context['cantidad'] = self.object_list.count
         return context
 
