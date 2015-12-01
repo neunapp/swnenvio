@@ -28,22 +28,33 @@ from .forms import (
 )
 
 
-#mantenimiento para tabla Car
 class ListCarView(ListView):
+    '''
+    Lista de vehiculos.
+    '''
     context_object_name = 'carros'
     queryset = Car.objects.filter(canceled=False)
     template_name = 'manifiesto/car/list.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(ListCarView, self).get_context_data(**kwargs)
+        context['cantidad'] = self.object_list.count
+        return context
+
 
 class RegisterCarView(CreateView):
-#mantenimiento agregar Carro
+    '''
+    Agregar vehiculo.
+    '''
     form_class = CarForm
     template_name = 'manifiesto/car/add.html'
     success_url = reverse_lazy('manifiesto_app:listar-carro')
 
 
 class UpdateCarView(UpdateView):
-    #matenimietno actualiza carro
+    '''
+    Modificar vehiculo.
+    '''
     model = Car
     template_name = 'manifiesto/car/update.html'
     form_class = CarForm
@@ -51,6 +62,9 @@ class UpdateCarView(UpdateView):
 
 
 class DeleteCarView(DetailView):
+    '''
+    Modifcar estado de vehiculo.
+    '''
     template_name = 'manifiesto/car/delete.html'
     model = Car
 
@@ -74,11 +88,15 @@ class DetailCarView(DetailView):
     model = Car
 
 
-#mantenimeinto para tabla Conductor
 class ListDriverView(ListView):
     context_object_name = 'conductores'
     queryset = Driver.objects.filter(canceled=False)
     template_name = 'manifiesto/driver/list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ListDriverView, self).get_context_data(**kwargs)
+        context['cantidad'] = self.object_list.count
+        return context
 
 
 class RegisterDriverView(CreateView):

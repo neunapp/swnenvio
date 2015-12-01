@@ -7,17 +7,14 @@
     <li>
         <a href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
     </li>
-
     <li>
-        <a href="{% url 'ingreso_app:lista_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envio</a>
+        <a href="{% url 'ingreso_app:lista_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envios</a>
     </li>
-
     <li>
         <a href="{% url 'manifiesto_app:manifiesto-no-recepcionado' %}"><i class="fa fa-fw fa-table"></i> Recepción de Paquetes</a>
     </li>
-
     <li>
-        <a href="{% url 'salida_app:listar-egreso' %}"><i class="fa fa-fw fa-edit"></i> Registro de Egresos</a>
+        <a href="{% url 'salida_app:listar-egreso' %}"><i class="fa fa-fw fa-edit"></i> Registro De Egresos</a>
     </li>
     <li>
         <a href="javascript:;" data-toggle="collapse" data-target="#manifiesto">
@@ -60,88 +57,110 @@
 
 {% block content_panel %}
 
-
     <div class="row">
         <div class="col-xs-12">
-            <h3 class="page-header title-quilla">Vehiculo</h3>
+            <h3 class="page-header title-quilla">Modificar Vehículo</h3>
         </div>
     </div>
-
-    <form role="form" method="POST" class="form-horizontal">{% csrf_token %}
-        
-        {% if form.errors %}
-            <div class="row box-section">
-                <div class="col-xs-12">
-                    <div class="alert alert-dismissible alert-errors" role="alert">
-                        <button type="button" class="close cerrar" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <p><strong>Corrija los siguientes errores.</strong></p>
-                    </div>
-                </div>
-            </div>
-            
-        {% endif %}
-
-        <div class="row">
-            <div class="col-xs-9">
+    
+    <div class="row box-section">
+        <div class="col-xs-12">
+            <form role="form" method="POST" class="form-horizontal">{% csrf_token %}
+                <p class="lead"><span class="glyphicon glyphicon-info-sign"></span> Ingresa los datos a modificar del vehículo.</p>
+                    
                 <div class="form-group">
-                    <label for="{{ form.name.id_for_label }}" class="col-xs-3 control-label label-envio">Denominacio:</label>
-                    <div class="col-xs-9">
+                    <label for="{{ form.name.id_for_label }}" class="col-xs-12 col-sm-2 control-label label-envio">Denominación:</label>
+                    <div class="col-xs-12 col-sm-8">
                         {{ form.name }}
-                        {% for error in form.name_id.errors %}
-                            <p class="help-block text-error">
-                                {{ error|escape }}
-                            </p>
+                        {% for error in form.name.errors %}
+                            <div class="col-xs-12">
+                                <p class="help-block text-error">
+                                    {{ error|escape }}
+                                </p>
+                            </div>
                         {% endfor %}
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="{{ form.sender_name.is_for_label }}" class="col-xs-3 control-label label-envio">Placa del vehiculo:</label>
-                    <div class="col-xs-9">
-                        {{ form.plaque }}                        
-                        {% for error in form.sender_name.errors %}
-                            <p class="help-block text-error">
-                                {{ error|escape }}
-                            </p>
-                        {% endfor %}
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="{{ form.sender_razonsocial.id_for_label }}" class="col-xs-3 control-label label-envio">Marca del Vehiculo:</label>
-                    <div class="col-xs-9">
-                        {{ form.marca }}
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="{{ form.sender_razonsocial.id_for_label }}" class="col-xs-3 control-label label-envio">Codigo de Configuracion Vehicular:</label>
-                    <div class="col-xs-9">
-                        {{ form.code_ssettings_car}}
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="{{ form.sender_razonsocial.id_for_label }}" class="col-xs-3 control-label label-envio">N° de Contancia de Inscripcion:</label>
-                    <div class="col-xs-9">
-                        {{ form.constancy_inscription}}
-                    </div>
-                </div> 
-                <div class="form-group">
-                    <label for="{{ form.sender_razonsocial.id_for_label }}" class="col-xs-3 control-label label-envio">Condicion:</label>
-                    <div class="col-xs-9">
-                        {{ form.condition}}
-                    </div>
-                </div> 
-            </div>
 
-            </div>
-        </div>
-        <div class="row box-section">
-            <div class="col-xs-12">
                 <div class="form-group">
-                    <div class="col-sm-12">
-                        <button type="submit" class="btn btn-quilla">Guardar</button>
+                    <label for="{{ form.plaque.id_for_label }}" class="col-xs-12 col-sm-2 control-label label-envio">Placa:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        {{ form.plaque }}
+                        {% for error in form.plaque.errors %}
+                            <div class="col-xs-12">
+                                <p class="help-block text-error">
+                                    {{ error|escape }}
+                                </p>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
-            </div>
+
+                <div class="form-group">
+                    <label for="{{ form.marca.id_for_label }}" class="col-xs-12 col-sm-2 control-label label-envio">Marca:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        {{ form.marca }}
+                        {% for error in form.marca.errors %}
+                            <div class="col-xs-12">
+                                <p class="help-block text-error">
+                                    {{ error|escape }}
+                                </p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.code_ssettings_car.id_for_label }}" class="col-xs-12 col-sm-2 control-label label-envio">Cod. Configuración Vehícular:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        {{ form.code_ssettings_car }}
+                        {% for error in form.code_ssettings_car.errors %}
+                            <div class="col-xs-12">
+                                <p class="help-block text-error">
+                                    {{ error|escape }}
+                                </p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.constancy_inscription.id_for_label }}" class="col-xs-12 col-sm-2 control-label label-envio">N° de Constancia de Inscripción:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        {{ form.constancy_inscription }}
+                        {% for error in form.constancy_inscription.errors %}
+                            <div class="col-xs-12">
+                                <p class="help-block text-error">
+                                    {{ error|escape }}
+                                </p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.condition.id_for_label }}" class="col-xs-12 col-sm-2 control-label label-envio">Condición:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        {{ form.condition }}
+                        {% for error in form.condition.errors %}
+                            <div class="col-xs-12">
+                                <p class="help-block text-error">
+                                    {{ error|escape }}
+                                </p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-quilla"><i class="fa fa-floppy-o fa-lg"></i> Guardar</button>
+                        <a class="btn btn-default" role="button" href="{% url 'manifiesto_app:listar-carro' %}" >Regresar a lista</a>
+                    </div>
+                </div>
+            </form>
+            
         </div>
-    </form>
+    </div>
 
 {% endblock content_panel %}

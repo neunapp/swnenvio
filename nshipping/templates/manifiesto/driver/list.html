@@ -60,46 +60,61 @@
 
 {% block content_panel %}
 
-
     <div class="row">
         <div class="col-xs-12">
-            <h3 class="page-header title-quilla">Conductores Registrados</h3>
-            <div class="alert alert-info" role="alert">
-                <a href="{% url 'manifiesto_app:agregar-conductor' %}" class="alert-link">Agregar Nuevo Conductor</a>
-            </div>
+            <h3 class="page-header title-quilla">Lista de Conductores</h3>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-xs-12">
-            <table class="table table-bordered table-hover table-condensed table-quilla">
-                <thead>
-                    <tr>
-                        <th>Dni</th>
-                        <th>Nombres</th>
-                        <th>Licensia</th>
-                        <th>Telefono</th>
-                        <th class="text-center">Acción</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        {% for conductor in  conductores %}
-                        <tr>
-                            <td>{{ conductor.dni }}</td> 
-                            <td>{{ conductor.full_name }}</td>
-                            <td>{{ conductor.license }}</td>
-                            <td>{{ conductor.phone }}</td>
+        <div class="clo-xs-12">
+            <div class="quilla-add">
+                <span class="quilla-cantitem">
+                    Tienes <span class="label label-warning">{{ cantidad }}</span> Conductores Disponibles
+                </span>
+                <a class="btn btn-quilla pull-right" href="{% url 'manifiesto_app:agregar-conductor' %}">
+                    <span class="fa fa-plus"></span> Crear Nuevo Conductor
+                </a>    
+            </div>
+            
+        </div>
+    </div><!-- page-header -->
 
-                            <td class="text-center">
-                                <a href="{% url 'manifiesto_app:visualizar-conductor' conductor.pk %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i>Ver</a>
-                                <a href="{% url 'manifiesto_app:actualizar-conductor' conductor.pk %}" class="btn btn-sm btn-quilla"><i class="glyphicon glyphicon-pencil"></i>Modificar</a>
-                                <a href="{% url 'manifiesto_app:eliminar-conductor' conductor.pk %}" class="btn btn-sm btn-quilla"><i class="glyphicon glyphicon-remove"></i>Eliminar</a>
-                            </td>
-                        </tr>            
-                    {% endfor %}
-                </tbody>
-            </table>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover table-condensed table-quilla">
+                    <thead>
+                        <tr>
+                            <th>Dni</th>
+                            <th>Nombres</th>
+                            <th>Licencia</th>
+                            <th>Dirección</th>
+                            <th>Telefono</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for conductor in  conductores %}
+                            <tr>
+                                <td>{{ conductor.dni }}</td> 
+                                <td>{{ conductor.full_name }}</td>
+                                <td>{{ conductor.license }}</td>
+                                <td>{{ conductor.addreess }}</td>
+                                <td>{{ conductor.phone }}</td>
+
+                                <td class="text-center">
+                                    <a href="{% url 'manifiesto_app:visualizar-conductor' conductor.pk %}" class="btn btn-sm btn-success"><i class="fa fa-fw fa-eye"></i></a>
+                                    <a href="{% url 'manifiesto_app:actualizar-conductor' conductor.pk %}" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-pencil"></i></a>
+                                    <a href="{% url 'manifiesto_app:eliminar-conductor' conductor.pk %}" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <td colspan="5">Lo sentimos no hay conductores disponibles</td>            
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 

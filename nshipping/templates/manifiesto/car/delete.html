@@ -7,17 +7,14 @@
     <li>
         <a href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
     </li>
-
     <li>
-        <a href="{% url 'ingreso_app:lista_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envio</a>
+        <a href="{% url 'ingreso_app:lista_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envios</a>
     </li>
-
     <li>
         <a href="{% url 'manifiesto_app:manifiesto-no-recepcionado' %}"><i class="fa fa-fw fa-table"></i> Recepción de Paquetes</a>
     </li>
-
     <li>
-        <a href="{% url 'salida_app:listar-egreso' %}"><i class="fa fa-fw fa-edit"></i> Registro de Egresos</a>
+        <a href="{% url 'salida_app:listar-egreso' %}"><i class="fa fa-fw fa-edit"></i> Registro De Egresos</a>
     </li>
     <li>
         <a href="javascript:;" data-toggle="collapse" data-target="#manifiesto">
@@ -60,37 +57,36 @@
 
 {% block content_panel %}
 
-    <form role="form" method="POST" class="form-horizontal">{% csrf_token %}
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="panel panel-danger">
-                    <div class="panel-heading">
-                        <h2 class="panel-title">¿Esta Seguro de Eliminar Este Vehiculo?:</h2>
-                    </div>
-                    <div class="panel-body">
-                        <h5 class="text-info">Denominacion</h5>{{object.name}}</h5>
-                        <h5 class="text-info">Nro de Placa: </h5>{{object.plaque}}</h5>
-                        <h5 class="text-info">Marca del Vehiculo: </h5>{{object.marca}}</h5>
-                        <h5 class="text-info">Codigo de Configuracion Vehicular:</h5>{{object.code_ssettings_car}}</h5>
-                        <h5 class="text-info">Nro de Constancia de Inscripcion:</h5>{{object.constancy_inscription}}</h5>
-                        {% if object.condition = '0' %}
-                            <h5 class="text-info">Condicion: <span class="label label-success">Propio</span>
-                        {% else %}
-                            <h5 class="text-info">Condicion: <span class="label label-warning">Sub Contrata</span></h5>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <h3 class="page-header title-quilla">Eliminar Vehículo</h3>
         </div>
-        <div class="row box-section">
-            <div class="col-xs-12">
-                <div class="form-group">
-                    <div class="col-sm-12">
-                        <button type="submit" class="btn btn-quilla">Eliminar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
+    </div>
+
+    <div class="row box-section">
+            
+        <div class="col-md-12">
+
+            <form role="form" action="{% url 'manifiesto_app:eliminar-carro' car.id %}" method="POST">{% csrf_token %}
+                <p class="">¿Desea eliminar el Vehículo <strong>{{ car.name }}</strong>?</p>
+                <dl class="dl-horizontal">
+                    <dt>Placa:</dt>
+                    <dd>{{ car.plaque }}</dd>
+                    <dt>Marca:</dt>
+                    <dd>{{ car.marca }}</dd>
+                    <dt>Cod. Configuración Vehícular:</dt>
+                    <dd>{{ car.code_ssettings_car }}</dd>
+                    <dt>N° de Constancia de Inscripción:</dt>
+                    <dd>{{ car.constancy_inscription }}</dd>
+                    <dt>Condición:</dt>
+                    <dd>{{ car.get_condition_display }}</dd>
+                </dl>
+                <button type="submit" class="btn btn-danger">Sí</button>
+                <a href="{% url 'manifiesto_app:listar-carro' %}" class="btn btn-default">No</a>
+            </form>
+
+        </div><!-- col-md-12 -->
+
+    </div><!-- /row -->
 
 {% endblock content_panel %}
