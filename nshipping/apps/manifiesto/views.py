@@ -1,3 +1,4 @@
+from braces.views import LoginRequiredMixin
 from datetime import datetime
 
 from django.shortcuts import render
@@ -28,13 +29,15 @@ from .forms import (
 )
 
 
-class ListCarView(ListView):
+#mantenimiento para tabla Car
+class ListCarView(LoginRequiredMixin, ListView):
     '''
     Lista de vehiculos.
     '''
     context_object_name = 'carros'
     queryset = Car.objects.filter(canceled=False)
     template_name = 'manifiesto/car/list.html'
+    login_url = reverse_lazy('users_app:login')
 
     def get_context_data(self, **kwargs):
         context = super(ListCarView, self).get_context_data(**kwargs)
@@ -42,16 +45,19 @@ class ListCarView(ListView):
         return context
 
 
-class RegisterCarView(CreateView):
+class RegisterCarView(LoginRequiredMixin, CreateView):
+#mantenimiento agregar Carro
     '''
     Agregar vehiculo.
     '''
     form_class = CarForm
     template_name = 'manifiesto/car/add.html'
     success_url = reverse_lazy('manifiesto_app:listar-carro')
+    login_url = reverse_lazy('users_app:login')
 
 
-class UpdateCarView(UpdateView):
+class UpdateCarView(LoginRequiredMixin, UpdateView):
+    #matenimietno actualiza carro
     '''
     Modificar vehiculo.
     '''
@@ -59,14 +65,16 @@ class UpdateCarView(UpdateView):
     template_name = 'manifiesto/car/update.html'
     form_class = CarForm
     success_url = reverse_lazy('manifiesto_app:listar-carro')
+    login_url = reverse_lazy('users_app:login')
 
 
-class DeleteCarView(DetailView):
+class DeleteCarView(LoginRequiredMixin, DetailView):
     '''
     Modifcar estado de vehiculo.
     '''
     template_name = 'manifiesto/car/delete.html'
     model = Car
+    login_url = reverse_lazy('users_app:login')
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -83,15 +91,18 @@ class DeleteCarView(DetailView):
         )
 
 
-class DetailCarView(DetailView):
+class DetailCarView(LoginRequiredMixin, DetailView):
     template_name = 'manifiesto/car/detail.html'
     model = Car
+    login_url = reverse_lazy('users_app:login')
 
 
-class ListDriverView(ListView):
+#mantenimeinto para tabla Conductor
+class ListDriverView(LoginRequiredMixin, ListView):
     context_object_name = 'conductores'
     queryset = Driver.objects.filter(canceled=False)
     template_name = 'manifiesto/driver/list.html'
+    login_url = reverse_lazy('users_app:login')
 
     def get_context_data(self, **kwargs):
         context = super(ListDriverView, self).get_context_data(**kwargs)
@@ -99,25 +110,28 @@ class ListDriverView(ListView):
         return context
 
 
-class RegisterDriverView(CreateView):
+class RegisterDriverView(LoginRequiredMixin, CreateView):
     #mantenimiento registrar conductor
     template_name = 'manifiesto/driver/add.html'
     form_class = DriverForm
     success_url = reverse_lazy('manifiesto_app:listar-conductor')
+    login_url = reverse_lazy('users_app:login')
 
 
-class UpdateDriverView(UpdateView):
+class UpdateDriverView(LoginRequiredMixin, UpdateView):
     #mantenimient actualizar conductor
     template_name = 'manifiesto/driver/update.html'
     model = Driver
     form_class = DriverForm
     success_url = reverse_lazy('manifiesto_app:listar-conductor')
+    login_url = reverse_lazy('users_app:login')
 
 
-class DeleteDriverView(DetailView):
+class DeleteDriverView(LoginRequiredMixin, DetailView):
     #metodo para inhabilitar un conductor
     template_name = 'manifiesto/driver/delete.html'
     model = Driver
+    login_url = reverse_lazy('users_app:login')
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -134,27 +148,30 @@ class DeleteDriverView(DetailView):
         )
 
 
-class DetailDriverView(DetailView):
+class DetailDriverView(LoginRequiredMixin, DetailView):
     #metodo para vizualizar los datos de conductor
     template_name = 'manifiesto/driver/detail.html'
     model = Driver
+    login_url = reverse_lazy('users_app:login')
 
 
 #mantinimietos de manifeisto
-class ManifestList(ListView):
+class ManifestList(LoginRequiredMixin, ListView):
     template_name = 'manifiesto/manifest/list.html'
     context_object_name = 'manifests'
     queryset = Manifest.objects.filter(
         canceled=False,
         reception=False,
     )
+    login_url = reverse_lazy('users_app:login')
 
 
 # #proceso para registrar manifiesto
-class ManifestView(FormView):
+class ManifestView(LoginRequiredMixin, FormView):
     template_name = 'manifiesto/manifest/add.html'
     form_class = ManifestForm
     success_url = reverse_lazy('manifiesto_app:listar-manifiesto')
+    login_url = reverse_lazy('users_app:login')
 
     def form_valid(self, form):
         #recuperamos los datos para manifest
@@ -181,17 +198,19 @@ class ManifestView(FormView):
 
 
 #metodo para modificar un manifiesto
-class UpdateManifest(UpdateView):
+class UpdateManifest(LoginRequiredMixin, UpdateView):
     template_name = 'manifiesto/manifest/update.html'
     model = Manifest
     form_class = ManifestForm
     success_url = reverse_lazy('manifiesto_app:listar-manifiesto')
+    login_url = reverse_lazy('users_app:login')
 
 
-class AnulateManifestView(DetailView):
+class AnulateManifestView(LoginRequiredMixin, DetailView):
     #metodo para anular un manifiesto
     template_name = 'manifiesto/manifest/delete.html'
     model = Manifest
+    login_url = reverse_lazy('users_app:login')
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -208,10 +227,11 @@ class AnulateManifestView(DetailView):
         )
 
 
-class FullManifestView(DetailView):
+class FullManifestView(LoginRequiredMixin, DetailView):
     #metodo para actualizar estado de manifiesto a lleno
     template_name = 'manifiesto/manifest/full.html'
     model = Manifest
+    login_url = reverse_lazy('users_app:login')
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -234,10 +254,11 @@ class FullManifestView(DetailView):
         )
 
 
-class Complete_Manifest(DetailView):
+class Complete_Manifest(LoginRequiredMixin, DetailView):
     #metodo para actualizar estado de manifest a Recepcionado
     template_name = 'manifiesto/manifest/complete.html'
     model = Manifest
+    login_url = reverse_lazy('users_app:login')
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -254,19 +275,21 @@ class Complete_Manifest(DetailView):
         )
 
 
-class DetailManifestView(DetailView):
+class DetailManifestView(LoginRequiredMixin, DetailView):
     #metodo para vizualizar los datos de conductor
     template_name = 'manifiesto/manifest/detail.html'
     model = Manifest
+    login_url = reverse_lazy('users_app:login')
 
 
 #proceso para registrar una guia de remision
-class RemissionView(FormMixin, DetailView):
+class RemissionView(LoginRequiredMixin, FormMixin, DetailView):
     '''vista para registrar las notas de ingreso
         en un manifiesto '''
     model = DepositSlip
     form_class = RemissionForm
     template_name = 'manifiesto/remision/add.html'
+    login_url = reverse_lazy('users_app:login')
 
     def get_success_url(self):
         return reverse_lazy('ingreso_app:nota-ingreso')
@@ -305,10 +328,11 @@ class RemissionView(FormMixin, DetailView):
 
 
 #manifieto con cotrata a terceros
-class ThirdManifestView(FormView):
+class ThirdManifestView(LoginRequiredMixin, FormView):
     template_name = 'manifiesto/manifest/subcontrata.html'
     form_class = ThirdManifestForm
     success_url = reverse_lazy('manifiesto_app:listar-manifiesto')
+    login_url = reverse_lazy('users_app:login')
 
     def form_valid(self, form):
         #recuperamos los datos para manifest
@@ -350,9 +374,10 @@ class ThirdManifestView(FormView):
 
 
 #proceso para listar destinos de un manifiesto
-class ReportManifest(DetailView):
+class ReportManifest(LoginRequiredMixin, DetailView):
     model = Manifest
     template_name = 'manifiesto/manifest/report.html'
+    login_url = reverse_lazy('users_app:login')
 
     def get_context_data(self, **kwargs):
         context = super(ReportManifest, self).get_context_data(**kwargs)
@@ -376,8 +401,9 @@ class ReportManifest(DetailView):
 
 
 #proceso para mostrar los notas de ingreso de una sucursal y un manifiesto
-class ReportDetailManifest(TemplateView):
+class ReportDetailManifest(LoginRequiredMixin, TemplateView):
     template_name = 'manifiesto/manifest/detalle-reporte.html'
+    login_url = reverse_lazy('users_app:login')
 
     def get_context_data(self, **kwargs):
         context = super(ReportDetailManifest, self).get_context_data(**kwargs)
@@ -400,17 +426,19 @@ class ReportDetailManifest(TemplateView):
 
 
 #lista de manifiestos no recepcionadoss
-class Manifest_no_Reception(ListView):
+class Manifest_no_Reception(LoginRequiredMixin, ListView):
     context_object_name = 'manifests'
     queryset = Manifest.objects.filter(reception=False)
     template_name = 'manifiesto/reception/list.html'
+    login_url = reverse_lazy('users_app:login')
 
 
 #lista de notas de ingreso a recpcionar
-class Slip_Reception(FormMixin, DetailView):
+class Slip_Reception(LoginRequiredMixin, FormMixin, DetailView):
     model = Manifest
     form_class = ReceptionForm
     template_name = 'manifiesto/reception/recepcion.html'
+    login_url = reverse_lazy('users_app:login')
 
     def get_success_url(self):
         return reverse_lazy('ingreso_app:nota-ingreso')

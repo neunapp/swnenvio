@@ -155,4 +155,45 @@
 
 .text-error {
     color: #e53935;
+    margin-bottom: 0;
+}
+
+.modal-quilla {
+    background-color: #2694ED;
+    border-top-left-radius: 5px;    
+    border-top-right-radius: 5px;   
+}
+
+.tiulo-danger {
+    color: #FAFEFF;
+    font-weight: 600;
+}
+
+.modal-grupo {
+    margin-bottom: -4px;
+}
+
+.messages-panel {
+    background-color: #4db6ac;
+    border-radius: 3px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    color: #fafafa;
+    margin: 0.5rem 0 1rem 0;
+    padding: 20px;
+    transition: box-shadow .25s;
+    font-weight: 600;
+}
+
+
+/*
+    manteniminetos
+*/
+
+.quilla-add {
+    margin: 1em 1.5em 2em;
+}
+
+.quilla-add > .quilla-cantitem {
+    padding-top: 0.5em;
+    font-size: 1.35em;
 }

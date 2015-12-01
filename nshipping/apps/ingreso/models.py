@@ -178,7 +178,7 @@ class DepositSlip(TimeStampedModel):
     )
     sesion = models.ForeignKey(
         Sesion,
-        editable=False,
+        editable=True,
         blank=True,
         null=True,
     )
@@ -261,7 +261,7 @@ class Dues(TimeStampedModel):
     )
     sesion = models.ForeignKey(
         Sesion,
-        editable=False,
+        editable=True,
         blank=True,
         null=True,
     )
