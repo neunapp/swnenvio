@@ -3,102 +3,115 @@
 {% block sidenav %}
                         
     <li>
-        <a class="active" href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
+        <a href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
     </li>
-
     <li>
-        <a href="{% url 'ingreso_app:lista_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envio</a>
+        <a href="{% url 'ingreso_app:lista_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envios</a>
     </li>
-
     <li>
-        <a href="{% url 'manifiesto_app:manifiesto-no-recepcionado' %}"><i class="fa fa-fw fa-table"></i> Recepcion de Paquetes</a>
+        <a href="{% url 'manifiesto_app:manifiesto-no-recepcionado' %}"><i class="fa fa-fw fa-table"></i> Recepción de Paquetes</a>
     </li>
-
     <li>
-        <a href="{% url 'salida_app:listar-egreso' %}"><i class="fa fa-fw fa-edit"></i> Registro de Egresos</a>
+        <a href="{% url 'salida_app:listar-egreso' %}"><i class="fa fa-fw fa-edit"></i> Registro De Egresos</a>
     </li>
-        <ul class="nav nav-tabs">
-        <li role="presentation" class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                Manifiesto<span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-                <li>
-                    <a href="{% url 'manifiesto_app:listar-manifiesto' %}"><i class="fa fa-fw fa-edit"></i> Manifiestos en curso</a>
-                </li>
-                <li>
-                    <a href="{% url 'manifiesto_app:agregar-manifiesto' %}"><i class="fa fa-fw fa-edit"></i> Manifiesto Quilla Cargo</a>
-                </li>
-                <li>
-                    <a href="{% url 'manifiesto_app:agregar-sub_contrata' %}"><i class="fa fa-fw fa-edit"></i> Manifiesto Por Sub Contrata </a>
-                </li>
-            </ul>
-        </li>
-    </ul>
-    <ul class="nav nav-tabs">
-        <li role="presentation" class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                Mantenimientos<span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-                <li>
-                    <a href="{% url 'ingreso_app:listar-branch' %}"><i class="fa fa-fw fa-edit"></i> Sucursales</a>
-                </li>
-                <li>
-                    <a href="{% url 'manifiesto_app:listar-carro' %}"><i class="fa fa-fw fa-edit"></i> Vehiculos</a>
-                </li>
-                <li>
-                    <a href="{% url 'manifiesto_app:listar-conductor' %}"><i class="fa fa-fw fa-edit"></i> Conductores</a>
-                </li>
-            </ul>
-        </li>
-    </ul>
+    <li>
+        <a class="active" href="javascript:;" data-toggle="collapse" data-target="#manifiesto">
+            <i class="fa fa-fw fa-bullseye"></i>
+            Manifiesto
+            <i class="fa fa-fw fa-caret-down"></i>
+        </a>
+        <ul id="manifiesto" class="collapse">
+            <li>
+                <a href="{% url 'manifiesto_app:listar-manifiesto' %}">Manifiesto En Curso</a>
+            </li>
+            <li>
+                <a href="{% url 'manifiesto_app:agregar-manifiesto' %}">Manifiesto Quilla Cargo</a>
+            </li>
+            <li>
+                <a href="{% url 'manifiesto_app:agregar-sub_contrata' %}">Manifiesto por Sub-Contrata</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="javascript:;" data-toggle="collapse" data-target="#mantenimiento">
+            <i class="fa fa-fw fa-cogs"></i>
+            Mantenimiento
+            <i class="fa fa-fw fa-caret-down"></i>
+        </a>
+        <ul id="mantenimiento" class="collapse">
+            <li>
+                <a href="{% url 'ingreso_app:listar-branch' %}">Sucursales</a>
+            </li>
+            <li>
+                <a href="{% url 'manifiesto_app:listar-carro' %}">Vehiculos</a>
+            </li>
+            <li>
+                <a href="{% url 'manifiesto_app:listar-conductor' %}">Conductores</a>
+            </li>
+        </ul>
+    </li>
 
 {% endblock sidenav %}
 
 {% block content_panel %}
 
-
     <div class="row">
         <div class="col-xs-12">
-            <h3 class="page-header title-quilla">Manifiestos no Completos</h3>
-            <div class="alert alert-info" role="alert">
-                <a href="{% url 'manifiesto_app:agregar-manifiesto' %}" class="alert-link">Agregar Nuevo Manifiesto</a>
-            </div>
+            <h3 class="page-header title-quilla">Lista de Manifiestos no Completos</h3>
         </div>
     </div>
 
     <div class="row">
+        <div class="clo-xs-12">
+            <div class="quilla-add">
+                <span class="quilla-cantitem">
+                    Tienes <span class="label label-warning">{{ cantidad }}</span> manifiestos no completos
+                </span>
+                <a class="btn btn-quilla pull-right" href="{% url 'manifiesto_app:agregar-manifiesto' %}">
+                    <span class="fa fa-plus"></span> Crear Nuevo Manifiesto
+                </a>    
+            </div>
+            
+        </div>
+    </div><!-- page-header -->
+
+    <div class="row">
         <div class="col-xs-12">
-            <table class="table table-bordered table-hover table-condensed table-quilla">
-                <thead>
-                    <tr>
-                        <th>Vehiculo</th>
-                        <th>Conductor</th>
-                        <th>Direccion Partida</th>
-                        <th>Direccion LLegada</th>
-                        <th>Fecha Traslado</th>
-                        <th class="text-center">Acción</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
+            <div class="table-responsive">
+                
+                <table class="table table-bordered table-hover table-condensed table-quilla">
+                    <thead>
+                        <thead>
+                            <tr>
+                                <th>Vehículo</th>
+                                <th>Conductor</th>
+                                <th>Dirección Partida</th>
+                                <th>Dirección LLegada</th>
+                                <th>Fecha Traslado</th>
+                                <th class="text-center">Acción</th>
+                            </tr>
+                        </thead>
+                    </thead>
+                    <tbody>
                         {% for manifest in  manifests %}
-                        <tr>
-                            <td>{{ manifest.car }}</td> 
-                            <td>{{ manifest.driver }}</td>
-                            <td>{{ manifest.origin }}</td>
-                            <td>{{ manifest.destination }}</td> 
-                            <td>{{ manifest.date_shipping }}</td>
-                            <td class="text-center">
-                                <a href="{% url 'manifiesto_app:full-manifiesto' manifest.pk %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i>Enviar</a>
-                                <a href="{% url 'manifiesto_app:update-manifiesto' manifest.pk %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i>Modificar</a>
-                                <a href="{% url 'manifiesto_app:completar-manifiesto' manifest.pk %}" class="btn btn-sm btn-quilla"><i class="glyphicon glyphicon-remove"></i>Completar</a>
-                            </td>
-                        </tr>            
+                            <tr>
+                                <td>{{ manifest.car }}</td> 
+                                <td>{{ manifest.driver }}</td>
+                                <td>{{ manifest.origin }}</td>
+                                <td>{{ manifest.destination }}</td>
+                                <td>{{ manifest.date_shipping }}</td>
+                                <td class="text-center">
+                                    <a href="{% url 'manifiesto_app:full-manifiesto' manifest.pk %}" class="btn btn-sm btn-success"><i class="fa fa-fw fa-check"></i></a>
+                                    <a href="{% url 'manifiesto_app:update-manifiesto' manifest.pk %}" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-pencil"></i></a>
+                                    <a href="{% url 'manifiesto_app:completar-manifiesto' manifest.pk %}" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+                                </td>
+                            </tr>
+                        {% empty %} 
+                                <td colspan="7">Lo sentimos no hay manifiestos</td>
                         {% endfor %}
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 

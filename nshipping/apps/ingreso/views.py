@@ -14,7 +14,6 @@ from apps.profiles.models import Profile
 from apps.salida.models import Expenditur
 from .forms import (
     NotaIngresoForm,
-    ClientForm,
     SearchForm,
     DetailDeliverForm,
     BranchForm
