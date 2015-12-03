@@ -12,6 +12,7 @@ def ClientGetOrCreate(DniOrRuc, full_name, business_name):
                 'business_name': business_name
             }
         )
+
         if not(created):
             obj.full_name = full_name
             obj.business_name = business_name
