@@ -8,6 +8,11 @@ urlpatterns = [
         name='login'
     ),
     url(
+        r'^administrador/verificar/(?P<pk>\d+)/$',
+        views.LogAdmin.as_view(),
+        name='login-admin'
+    ),
+    url(
         r'^users/salir/$',
         'apps.users.views.LogOut',
         name='logout'
