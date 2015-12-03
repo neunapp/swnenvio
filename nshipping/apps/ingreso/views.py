@@ -22,7 +22,7 @@ from .forms import (
 )
 
 
-#Mantenimiento de sucursales
+# Mantenimiento de sucursales
 class ListBranchView(LoginRequiredMixin, ListView):
     context_object_name = 'sucursales'
     queryset = Branch.objects.filter(canceled=False)
@@ -36,7 +36,7 @@ class ListBranchView(LoginRequiredMixin, ListView):
 
 
 class RegisterBranchView(LoginRequiredMixin, CreateView):
-    #mantenimiento registrar sucursal
+    # mantenimiento registrar sucursal
     template_name = 'ingreso/sucursal/add.html'
     form_class = BranchForm
     success_url = reverse_lazy('ingreso_app:listar-branch')
@@ -52,16 +52,16 @@ class UpdateBranchView(LoginRequiredMixin, UpdateView):
 
 
 class DeleteBranchView(LoginRequiredMixin, DetailView):
-    #metodo para inhabilitar un sucursal
+    # metodo para inhabilitar un sucursal
     template_name = 'ingreso/sucursal/delete.html'
     model = Branch
     login_url = reverse_lazy('users_app:login')
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-        #recuperamos el objeto y actualizamos a anulado
+        # recuperamos el objeto y actualizamos a anulado
         branch = self.object
-        #actualizamos y guardamos el valor
+        # actualizamos y guardamos el valor
         branch.canceled = True
         branch.save()
         print 'print objeto acutalizado'
@@ -73,7 +73,7 @@ class DeleteBranchView(LoginRequiredMixin, DetailView):
 
 
 class DetailBranchView(LoginRequiredMixin, DetailView):
-    #metodo para vizualizar los datos de sucursal
+    # metodo para vizualizar los datos de sucursal
     template_name = 'ingreso/sucursal/detail.html'
     model = Branch
     login_url = reverse_lazy('users_app:login')
@@ -117,7 +117,7 @@ class DepositSlipView(LoginRequiredMixin, FormView):
         addr_razonsocial = form.cleaned_data['addr_razonsocial']
 
         user_created = self.request.user
-        #recuperamos la sesion del usuario
+        # recuperamos la sesion del usuario
         sesion = Sesion.objects.get(
             userstart=user_created,
             state=True,
@@ -182,7 +182,7 @@ class DeliverView(LoginRequiredMixin, ListView):
         return context
 
     def get_queryset(self):
-        #recuperamos el valor por GET
+        # recuperamos el valor por GET
         q = self.request.GET.get("serie", '')
         r = self.request.GET.get("number", '')
         s = self.request.GET.get("sender", '')

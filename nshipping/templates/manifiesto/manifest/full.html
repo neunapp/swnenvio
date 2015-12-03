@@ -3,102 +3,123 @@
 {% block sidenav %}
                         
     <li>
-        <a class="active" href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
+        <a href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
+    </li>
+    <li>
+        <a href="{% url 'ingreso_app:lista_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envios</a>
+    </li>
+    <li>
+        <a href="{% url 'manifiesto_app:manifiesto-no-recepcionado' %}"><i class="fa fa-fw fa-table"></i> Recepción de Paquetes</a>
+    </li>
+    <li>
+        <a href="{% url 'salida_app:listar-egreso' %}"><i class="fa fa-fw fa-edit"></i> Registro De Egresos</a>
+    </li>
+    <li>
+        <a class="active" href="javascript:;" data-toggle="collapse" data-target="#manifiesto">
+            <i class="fa fa-fw fa-bullseye"></i>
+            Manifiesto
+            <i class="fa fa-fw fa-caret-down"></i>
+        </a>
+        <ul id="manifiesto" class="collapse">
+            <li>
+                <a href="{% url 'manifiesto_app:listar-manifiesto' %}">Manifiesto En Curso</a>
+            </li>
+            <li>
+                <a href="{% url 'manifiesto_app:agregar-manifiesto' %}">Manifiesto Quilla Cargo</a>
+            </li>
+            <li>
+                <a href="{% url 'manifiesto_app:agregar-sub_contrata' %}">Manifiesto por Sub-Contrata</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="javascript:;" data-toggle="collapse" data-target="#mantenimiento">
+            <i class="fa fa-fw fa-cogs"></i>
+            Mantenimiento
+            <i class="fa fa-fw fa-caret-down"></i>
+        </a>
+        <ul id="mantenimiento" class="collapse">
+            <li>
+                <a href="{% url 'ingreso_app:listar-branch' %}">Sucursales</a>
+            </li>
+            <li>
+                <a href="{% url 'manifiesto_app:listar-carro' %}">Vehiculos</a>
+            </li>
+            <li>
+                <a href="{% url 'manifiesto_app:listar-conductor' %}">Conductores</a>
+            </li>
+        </ul>
     </li>
 
-    <li>
-        <a href="{% url 'ingreso_app:lista_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envio</a>
-    </li>
-
-    <li>
-        <a href="{% url 'manifiesto_app:manifiesto-no-recepcionado' %}"><i class="fa fa-fw fa-table"></i> Recepcion de Paquetes</a>
-    </li>
-
-    <li>
-        <a href="{% url 'salida_app:listar-egreso' %}"><i class="fa fa-fw fa-edit"></i> Registro de Egresos</a>
-    </li>
-        <ul class="nav nav-tabs">
-        <li role="presentation" class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                Manifiesto<span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-                <li>
-                    <a href="{% url 'manifiesto_app:listar-manifiesto' %}"><i class="fa fa-fw fa-edit"></i> Manifiestos en curso</a>
-                </li>
-                <li>
-                    <a href="{% url 'manifiesto_app:agregar-manifiesto' %}"><i class="fa fa-fw fa-edit"></i> Manifiesto Quilla Cargo</a>
-                </li>
-                <li>
-                    <a href="{% url 'manifiesto_app:agregar-sub_contrata' %}"><i class="fa fa-fw fa-edit"></i> Manifiesto Por Sub Contrata </a>
-                </li>
-            </ul>
-        </li>
-    </ul>
-    <ul class="nav nav-tabs">
-        <li role="presentation" class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                Mantenimientos<span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-                <li>
-                    <a href="{% url 'ingreso_app:listar-branch' %}"><i class="fa fa-fw fa-edit"></i> Sucursales</a>
-                </li>
-                <li>
-                    <a href="{% url 'manifiesto_app:listar-carro' %}"><i class="fa fa-fw fa-edit"></i> Vehiculos</a>
-                </li>
-                <li>
-                    <a href="{% url 'manifiesto_app:listar-conductor' %}"><i class="fa fa-fw fa-edit"></i> Conductores</a>
-                </li>
-            </ul>
-        </li>
-    </ul>
 {% endblock sidenav %}
 
 {% block content_panel %}
 
+    <div class="row">
+        <div class="col-xs-12">
+            <h3 class="page-header title-quilla">¿Desea marcar este manifiesto como enviado?</h3>
+        </div>
+    </div>
+
+    <div class="row box-section">
+        <div class="col-xs-12">
+            <dl class="dl-horizontal">
+                <dt>Vehículo:</dt>
+                <dd>{{ object.car }}</dd>
+                <dt>Conductor:</dt>
+                <dd>{{ object.driver }}</dd>
+                <dt>Partida:</dt>
+                <dd>{{ object.origin }}</dd>
+                <dt>Destino:</dt>
+                <dd>{{ object.destination }}</dd>
+                <dt>Fecha de Salida:</dt>
+                <dd>{{ object.date_shipping }}</dd>
+                <dt>Estado:</dt>
+                <dd>{{ object.state }}</dd>
+            </dl>
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-xs-12">
-            <h3 class="text-info">¿Desea Marcar Este Manifiesto Como Enviado?</h3>
+            <div class="table-responsive">
+                
+                <table class="table table-bordered table-hover table-condensed table-quilla">
+                    <thead>
+                        <thead>
+                            <tr>
+                                <th>Nota de Ingreso</th>
+                                <th>Fecha de Partida</th>
+                                <th>Partida</th>
+                                <th>Destino</th>
+                            </tr>
+                        </thead>
+                    </thead>
+                    <tbody>
+                        {% for deposit_slip in  object.deposit_slip.all %}
+                            <tr>
+                                <td>{{ deposit_slip.serie }} - {{ deposit_slip.number }}</td> 
+                                <td>{{ deposit_slip.created }}</td>
+                                <td>{{ deposit_slip.origin }}</td>
+                                <td>{{ deposit_slip.destination }}</td>
+                            </tr>
+                        {% empty %} 
+                                <td colspan="7">Lo sentimos todavia no hay notas de ingreso en el manifiestos</td>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
+
+
     <form role="form" method="POST" class="form-horizontal">{% csrf_token %}
         <div class="row">
             <div class="col-xs-12">
-                <h5 class="text-info">Conductor:</h5>{{object.driver}}
-                <h5 class="text-info">Vehiculo: </h5>{{object.car}}
-                <h5 class="text-info">Notas de Ingreso:</h5>
-                <table class="table table-bordered table-hover table-condensed table-quilla">
-                <thead>
-                    <tr>
-                        <th>Serie-Numero</th>
-                        <th>Direccion de Partida</th>
-                        <th>Direccion de LLegada</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        {% for deposit_slip in  object.deposit_slip.all %}
-                        <tr>
-                            <td>{{ deposit_slip.serie }}-{{deposit_slip.number}}</td> 
-                            <td>{{ deposit_slip.origin }}</td>
-                            <td>{{ deposit_slip.destination }}</td>
-                        </tr>            
-                        {% endfor %}
-                </tbody>
-                </table>
-                <h5 class="text-info">Direccion de Partida:</h5>{{object.origin}}
-                <h5 class="text-info">Nro Direccion de LLegada:</h5> {{object.destination}}
-                <h5 class="text-info">Fecha de Salida: </h5>{{object.date_shipping}}
-                <h5 class="text-info">Estado: </h5>{{object.state}}
-            </div>
-        </div>
-        <div class="row box-section">
-            <div class="col-xs-12">
                 <div class="form-group">
                     <div class="col-sm-12">
-                        <button type="submit" class="btn btn-quilla">Guardar</button>
+                        <button type="submit" class="btn btn-quilla">Enviar</button>
+                        <a class="btn btn-default" role="button" href="{% url 'manifiesto_app:listar-manifiesto' %}" >Regresar a lista</a>
                     </div>
                 </div>
             </div>

@@ -201,7 +201,7 @@ class DepositSlip(TimeStampedModel):
 
 class ManagerDues(models.Manager):
 
-    #funcion que busca un ingreso por numero-serie remitente y destinatari
+    # funcion que busca un ingreso por numero-serie remitente y destinatari
     def search(self, serie, numero, remitente, destinatario, sucursal, fecha):
         flat = serie or numero or remitente or destinatario or fecha
         tz = timezone.get_current_timezone()

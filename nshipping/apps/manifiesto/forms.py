@@ -113,12 +113,6 @@ class DriverForm(forms.ModelForm):
         else:
             return dni
 
-    def clean_phone(self):
-        phone = self.cleaned_data['phone']
-        if not phone.isdigit():
-            raise forms.ValidationError("Ingrese un numero de telefono valido")
-        return phone
-
 
 class FilterForm(forms.Form):
     # formulario para busquedas por filtro
@@ -150,11 +144,12 @@ class ManifestForm(forms.ModelForm):
             'origin': forms.Select(
                 attrs={'class': 'form-control input-sm'}
             ),
-            'date_shipping': forms.TextInput(
+            'date_shipping': forms.DateInput(
                 attrs={
                     'class': 'form-control input-sm datepicker',
-                    'placeholder': 'Seleccione un fecha'
-                }
+                    'placeholder': 'Seleccione una fecha'
+                },
+                format='%d/%m/%Y'
             ),
         }
 
@@ -170,13 +165,15 @@ class ManifestForm(forms.ModelForm):
 
 
 class ThirdManifestForm(forms.ModelForm):
-    """ Formulario para el Registro de Manifiesto"""
+    """
+    Formulario para el Registro de Manifiesto
+    """
     full_name = forms.CharField(
         label='Nombres/RazonSocial',
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control input-detail',
-                'placeholder': 'Ingrese Nombre Completo',
+                'placeholder': 'Ingrese nombres o razón social',
             }
         ),
     )
@@ -185,7 +182,7 @@ class ThirdManifestForm(forms.ModelForm):
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control input-detail',
-                'placeholder': 'Ingrese Numero de Ruc',
+                'placeholder': 'Ingrese numero de ruc',
             }
         ),
     )
@@ -193,7 +190,7 @@ class ThirdManifestForm(forms.ModelForm):
         widget=forms.Textarea(
             attrs={
                 'class': 'form-control input-detail',
-                'placeholder': 'Ingrese descripción',
+                'placeholder': 'Ingrese observación',
                 'rows': '4'
             }
         ),
@@ -241,11 +238,11 @@ class ThirdManifestForm(forms.ModelForm):
         )
 
     def clean_ruc(self):
-        ruc = slef.cleaned_data['ruc']
+        ruc = self.cleaned_data['ruc']
         if not ruc.isdigit():
             msj = 'el Ruc solo deben contener numeros'
             self.add_error('ruc', msj)
-        elif len(dni) != 11:
+        elif len(ruc) != 11:
             msj = 'el Ruc solo puede tener 11 digitos'
             self.add_error('ruc', msj)
         else:
@@ -274,7 +271,7 @@ class RemissionForm(forms.Form):
         )
 
 
-#formulario para recepcionar notas de ingreso
+# formulario para recepcionar notas de ingreso
 class ReceptionForm(forms.Form):
     deposit_slip = forms.ModelMultipleChoiceField(
         queryset=None,
@@ -284,20 +281,19 @@ class ReceptionForm(forms.Form):
 
     def __init__(self, pk, user, *args, **kwargs):
         super(ReceptionForm, self).__init__(*args, **kwargs)
-        #recupera sucursal
+        # recupera sucursal
         branch = Profile.objects.get(user=user).branch.id
-        print('============ esta es la sucursal ==============')
         print branch
-        #realizamos la consulta
+        # realizamos la consulta
         deposit_slip = DepositSlip.objects.slip_by_manifest(
             pk,
             branch,
         )
-        print('============ notas de ingreso ==============')
         print deposit_slip
-        #asignamos la consulta
+        # asignamos la consulta
         self.fields['deposit_slip'].queryset = deposit_slip
-        self.fields['deposit_slip'].label_from_instance = lambda obj: "%s %s - %s - %s - %s - %s" % (
+        self.fields['deposit_slip'].label_from_instance = \
+            lambda obj: "%s %s - %s - %s - %s - %s" % (
             obj.number,
             obj.serie,
             obj.origin,

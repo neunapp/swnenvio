@@ -1,11 +1,11 @@
 # -*- encoding: utf-8 -*-
-#import utils
+# import utils
 from model_utils.models import TimeStampedModel
-#import django
+# import django
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
-#import local
+# import local
 from apps.ingreso.models import Branch, DepositSlip
 from apps.users.models import User
 
@@ -100,15 +100,11 @@ class Manifest(TimeStampedModel):
     car = models.ForeignKey(Car)
     deposit_slip = models.ManyToManyField(
         DepositSlip,
-        blank=True,
-        null=True,
     )
     destination = models.ForeignKey(Branch)
     origin = models.ForeignKey(
         Branch,
         related_name="Branch_origin",
-        blank=True,
-        null=True,
     )
     user_created = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -122,8 +118,6 @@ class Manifest(TimeStampedModel):
     )
     date_shipping = models.DateField(
         'fecha de Traslado',
-        blank=True,
-        null=True,
     )
     state = models.BooleanField('Estado')
     reception = models.BooleanField(
