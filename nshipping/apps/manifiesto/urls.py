@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from . import views
 
-urlpatterns = [     
+urlpatterns = [
     url(
         r'^manifiesto/car/listar/$',
         views.ListCarView.as_view(),
@@ -27,7 +27,7 @@ urlpatterns = [
         views.DetailCarView.as_view(),
         name='visualizar-carro'
     ),
-    #url conductor
+    # url conductor
     url(
         r'^manifiesto/driver/listar/$',
         views.ListDriverView.as_view(),
@@ -53,7 +53,7 @@ urlpatterns = [
         views.DeleteDriverView.as_view(),
         name='eliminar-conductor'
     ),
-    #url para mantenimietno manifiesto
+    # url para mantenimietno manifiesto
     url(
         r'^manifiesto/listar/$',
         views.ManifestList.as_view(),
@@ -94,7 +94,7 @@ urlpatterns = [
         views.Complete_Manifest.as_view(),
         name='completar-manifiesto'
     ),
-    #url para reportes manifiesto
+    # url para reportes manifiesto
     url(
         r'^manifiesto/crear-remision/(?P<pk>\d+)/$',
         views.RemissionView.as_view(),
@@ -110,7 +110,7 @@ urlpatterns = [
         views.ReportDetailManifest.as_view(),
         name='detalle-manifiesto'
     ),
-    #url para rececpcionde notas de ingreso
+    # url para rececpcionde notas de ingreso
     url(
         r'^manifiesto/recepcion/lista/$',
         views.Manifest_no_Reception.as_view(),

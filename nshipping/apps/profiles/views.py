@@ -5,6 +5,7 @@ from .models import Profile
 from .forms import ProfileForm
 # Create your views here.
 
+
 class ListProfile(ListView):
     context_object_name = 'perfiles'
     queryset = Profile.objects.all()
@@ -18,7 +19,7 @@ class RegisterProfile(CreateView):
 
 
 class UpdateProfile(UpdateView):
-    #matenimietno actualiza carro
+    # matenimietno actualiza carro
     model = Profile
     template_name = 'profile/update.html'
     form_class = ProfileForm

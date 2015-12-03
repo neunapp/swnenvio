@@ -1,8 +1,9 @@
 from django.db import models
 
-from apps.users.models import User 
+from apps.users.models import User
 from apps.ingreso.models import Branch
 # Create your models here.
+
 
 class ManagerProfile(models.Manager):
 
@@ -16,6 +17,7 @@ class ManagerProfile(models.Manager):
             sucursales.append(perfil.branch)
 
         return sucursales
+
 
 class Profile(models.Model):
     user = models.ForeignKey(User)

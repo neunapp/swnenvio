@@ -17,7 +17,7 @@ urlpatterns = [
         views.DetailDeliverView.as_view(),
         name='detalle_envio'
     ),
-#url para manteniminetos de sucursales
+    # url para manteniminetos de sucursales
     url(
         r'^sucursales/listar/$',
         views.ListBranchView.as_view(),
