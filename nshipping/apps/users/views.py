@@ -9,6 +9,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse_lazy
 
 from apps.salida.models import Sesion
+from apps.profiles.models import Profile
 
 
 class LogIn(FormView):
@@ -24,16 +25,38 @@ class LogIn(FormView):
         if user is not None:
             if user.is_active:
                 login(self.request, user)
-                #creamos la nueva sesion del usuario
-                sesion = Sesion(
+                #recuperamos la sesion
+                s = Sesion.objects.filter(
                     userstart=user,
                     state=True,
-                    capitel=0.00,
-                    hourstart=datetime.today(),
-                    amount=0.00,
                 )
-                sesion.save()
-                print '== sesion activada =='
+                #si la sesion no existe la creamos
+                if s.count() < 1:
+                    #recuperamos la sucursal del usuario
+                    perfil = Profile.objects.filter(user=user)
+                    #si exste la sucursal no es admin
+                    if perfil.count() > 0:
+                        sesion = Sesion(
+                            userstart=user,
+                            state=True,
+                            branch=perfil[0].branch,
+                            capitel=0.00,
+                            hourstart=datetime.today(),
+                            amount=0.00,
+                        )
+                        sesion.save()
+                        print 'Sesion usuario normal'
+                    else:
+                        sesion = Sesion(
+                            userstart=user,
+                            state=True,
+                            capitel=0.00,
+                            hourstart=datetime.today(),
+                            amount=0.00,
+                        )
+                        sesion.save()
+                        print 'sesion usuario administrador'
+
         return super(LogIn, self).form_valid(form)
 
 

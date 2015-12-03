@@ -156,7 +156,8 @@ class DepositSlipView(LoginRequiredMixin, FormView):
         dues = Dues(
             depositslip=depositslip,
             amount=acuenta,
-            user_created=user_created
+            user_created=user_created,
+            sesion=sesion
         )
         dues.save()
 

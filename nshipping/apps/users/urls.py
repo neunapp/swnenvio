@@ -27,5 +27,4 @@ urlpatterns = [
         views.Panel3View.as_view(),
         name='entrega_detalle'
     ),
-
 ]

@@ -6,11 +6,17 @@ from django.db import models
 from django.conf import settings
 from django.db.models import F
 
+# from apps.ingreso.models import Branch
 from apps.users.models import User
 
 
 class Sesion(models.Model):
     userstart = models.ForeignKey(settings.AUTH_USER_MODEL)
+    branch = models.ForeignKey(
+        'ingreso.Branch',
+        blank=True,
+        null=True,
+    )
     userfinish = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         related_name="User_userfinish",
@@ -71,11 +77,11 @@ class Expenditur(TimeStampedModel):
     )
     user_created = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        related_name="user_created"
+        related_name="egreso_created"
     )
     user_modified = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        related_name="user_modified",
+        related_name="egreso_modified",
     )
     sesion = models.ForeignKey(
         Sesion,

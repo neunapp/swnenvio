@@ -29,3 +29,28 @@ class ExpenditurForm(forms.ModelForm):
             raise forms.ValidationError("Ingrese un numero de telefono valido")
         else:
             return monto
+
+
+class RealAmountForm(forms.Form):
+    amount = forms.DecimalField(
+        label='Monto Real',
+        required=True,
+        widget=forms.NumberInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': '0.00',
+            }
+        )
+    )
+
+
+class SearchForm(forms.Form):
+    kwarg = forms.CharField(
+        label='Usuario',
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control input-sm',
+                'placeholder': 'nombre de usuario',
+            }
+        )
+    )

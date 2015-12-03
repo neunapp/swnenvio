@@ -1,0 +1,122 @@
+{% extends "ingreso/entrega/base_entrega.html" %}
+
+{% block sidenav %}
+                        
+    <li>
+        <a href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
+    </li>
+
+    <li>
+        <a  class="active" href="{% url 'ingreso_app:lista_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envio</a>
+    </li>
+
+    <li>
+        <a href="{% url 'manifiesto_app:manifiesto-no-recepcionado' %}"><i class="fa fa-fw fa-cubes"></i> Recepción De Envio</a>
+    </li>
+
+    <li>
+        <a href="{% url 'salida_app:listar-egreso' %}"><i class="fa fa-fw fa-money"></i> Registro De Gastos</a>
+    </li>
+
+    <li>
+        <a href="javascript:;" data-toggle="collapse" data-target="#manifiesto">
+            <i class="fa fa-fw fa-bullseye"></i>
+            Manifiesto
+            <i class="fa fa-fw fa-caret-down"></i>
+        </a>
+        <ul id="manifiesto" class="collapse">
+            <li>
+                <a href="{% url 'manifiesto_app:listar-manifiesto' %}">Manifiesto En Curso</a>
+            </li>
+            <li>
+                <a href="{% url 'manifiesto_app:agregar-manifiesto' %}">Manifiesto Quilla Cargo</a>
+            </li>
+            <li>
+                <a href="{% url 'manifiesto_app:agregar-sub_contrata' %}">Manifiesto por Sub-Contrata</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="javascript:;" data-toggle="collapse" data-target="#mantenimiento">
+            <i class="fa fa-fw fa-cogs"></i>
+            Mantenimiento
+            <i class="fa fa-fw fa-caret-down"></i>
+        </a>
+        <ul id="mantenimiento" class="collapse">
+            <li>
+                <a href="{% url 'ingreso_app:listar-branch' %}">Sucursales</a>
+            </li>
+            <li>
+                <a href="{% url 'manifiesto_app:listar-carro' %}">Vehiculos</a>
+            </li>
+            <li>
+                <a href="{% url 'manifiesto_app:listar-conductor' %}">Conductores</a>
+            </li>
+        </ul>
+    </li>
+
+{% endblock sidenav %}
+
+{% block content_panel %}
+    <div class="row">
+        <div class="col-xs-12">
+            <h3 class="page-header title-entrega">Usuarios Activos</h3>
+        </div>
+    </div>
+    
+    <form method="get" class="form-horizontal">{% csrf_token %}
+            <div class="col-xs-12 col-md-6">
+                <div class="form-group">
+                    <label for="destinatario" class="col-xs-3 control-label">Usuario</label>
+                    <div class="col-xs-9">
+                        {{form.kwarg }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="form-group">
+                    <div class="col-sm-offset-1 col-sm-10">
+                      <button type="submit" class="btn btn-quilla">Buscar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="row">
+        <div class="col-xs-12">
+          <table class="table table-bordered table-hover table-condensed table-quilla">
+                <thead>
+                    <tr>
+                        <th>Dni</th>
+                        <th>Nombres</th>
+                        <th>Apellidos</th>
+                        <th>Sucursal</th>
+                        <th class="text-center">Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for usuario in usuarios %}
+                        <tr>
+                            <td>{{ usuario.userstart.username }}</td>
+                            <td>{{ usuario.userstart.first_name }}</td>
+                            <td>{{ usuario.userstart.last_name }}</td>
+                            <td>{{ usuario.branch }}</td>
+                            <td class="text-center">
+                                <a href="{% url 'salida_app:reporte-salidas' usuario.userstart.pk %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i> Ver </a>
+                                
+                            </td>
+                        </tr>
+                    {% empty %} 
+                        <td colspan="6">Lo sentimos no hay resultados en la busqueda :(</td>    
+                    {% endfor %}
+            
+                </tbody>
+          </table>  
+        </div>
+    </div>
+
+{% endblock content_panel %}

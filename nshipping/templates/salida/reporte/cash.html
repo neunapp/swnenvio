@@ -1,0 +1,132 @@
+
+{% extends "ingreso/nota_ingreso/base_nota.html" %}
+
+{% block sidenav %}
+                        
+    <li>
+        <a href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
+    </li>
+    <li>
+        <a href="{% url 'ingreso_app:lista_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envio</a>
+    </li>
+    <li>
+        <a href="{% url 'manifiesto_app:manifiesto-no-recepcionado' %}"><i class="fa fa-fw fa-cubes"></i> Recepción De Envio</a>
+    </li>
+    <li>
+        <a class="active" href="{% url 'salida_app:listar-egreso' %}"><i class="fa fa-fw fa-money"></i> Registro De Gastos</a>
+    </li>
+    
+    <li>
+        <a href="javascript:;" data-toggle="collapse" data-target="#manifiesto">
+            <i class="fa fa-fw fa-bullseye"></i>
+            Manifiesto
+            <i class="fa fa-fw fa-caret-down"></i>
+        </a>
+        <ul id="manifiesto" class="collapse">
+            <li>
+                <a href="{% url 'manifiesto_app:listar-manifiesto' %}">Manifiesto En Curso</a>
+            </li>
+            <li>
+                <a href="{% url 'manifiesto_app:agregar-manifiesto' %}">Manifiesto Quilla Cargo</a>
+            </li>
+            <li>
+                <a href="{% url 'manifiesto_app:agregar-sub_contrata' %}">Manifiesto por Sub-Contrata</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="javascript:;" data-toggle="collapse" data-target="#mantenimiento">
+            <i class="fa fa-fw fa-cogs"></i>
+            Mantenimiento
+            <i class="fa fa-fw fa-caret-down"></i>
+        </a>
+        <ul id="mantenimiento" class="collapse">
+            <li>
+                <a href="{% url 'ingreso_app:listar-branch' %}">Sucursales</a>
+            </li>
+            <li>
+                <a href="{% url 'manifiesto_app:listar-carro' %}">Vehiculos</a>
+            </li>
+            <li>
+                <a href="{% url 'manifiesto_app:listar-conductor' %}">Conductores</a>
+            </li>
+        </ul>
+    </li>
+
+{% endblock sidenav %}
+
+{% block content_panel %}
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-6">
+            <dl class="dl-horizontal dl-entrega">
+                <dt>Monto en Caja:</dt>
+                <dd class="dd-cobrar">S/{{ total|floatformat:'2' }}</dd>
+                <dt>Monto Anulado:</dt>
+                <dd>S/ {{ anulate|floatformat:'2' }}</dd>
+                <dt>Monto Procesado:</dt>
+                <dd>S/ {{ total|add:anulate|floatformat:'2' }}</dd>
+            </dl>              
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <table class="table table-bordered table-hover table-condensed table-quilla">
+                <thead>
+                    <tr>
+                        <th>Estado</th>
+                        <th>Descripcion</th>
+                        <th>Monto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        {% for salida in  lista %}
+                        <tr>
+                            <td>
+                            {% if salida.state == True %}
+                                <span class="label label-warning">Cancelada</span> 
+                            {% else %}
+                                <span class="label label-info">Correcto</span> 
+                            {% endif %}
+                            </td>
+                            <td>{{ salida.description}}</td>
+                            <td>{{ salida.amount}}</td> 
+                        </tr>            
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+<div class="row">
+    <form role="form" method="POST" class="form-horizontal">{% csrf_token %}
+                <div class="row box-section">
+
+            <div class="col-xs-12 col-sm-4">
+                <div class="input-group margin-bottom-sm">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-usd"></i> Monto Real</span>
+                    {{ form.amount }}
+                </div>
+                {% for error in form.amount.errors %}
+                    <p class="help-block text-error">
+                        {{ error|escape }}
+                    </p>
+                {% endfor %}   
+            </div>
+            <div class="col-xs-12 col-sm-4">
+                <div class="input-group margin-bottom-sm">
+                    <div class="col-sm-12">
+                        <button type="submit" class="btn btn-quilla">Guardar</button>
+                    </div>
+                </div> 
+            </div>
+
+        </div>
+    </form>
+</div>
+
+{% endblock content_panel %}
+
+
+

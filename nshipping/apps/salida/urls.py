@@ -22,4 +22,14 @@ urlpatterns = [
         views.AnulateExpenditur.as_view(),
         name='anular-egreso'
     ),
+    url(
+        r'^salidas/reporte/lista/(?P<pk>\d+)/$',
+        views.CountableCahs.as_view(),
+        name='reporte-salidas'
+    ),
+    url(
+        r'^salidas/reporte/lista/$',
+        views.ListActives.as_view(),
+        name='users-activos'
+    ),
 ]
