@@ -6,7 +6,8 @@ from django.views.generic.edit import FormView
 from .forms import LoginForm
 from django.contrib.auth import authenticate, login, logout
 
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse_lazy, reverse
+from django.http import HttpResponseRedirect
 
 from apps.salida.models import Sesion
 from apps.profiles.models import Profile
@@ -58,6 +59,27 @@ class LogIn(FormView):
                         print 'sesion usuario administrador'
 
         return super(LogIn, self).form_valid(form)
+
+
+class LogAdmin(FormView):
+    form_class = LoginForm
+    template_name = "users/login.html"
+    success_url = '/'
+
+    def form_valid(self, form):
+        user = authenticate(
+            username=form.cleaned_data['username'],
+            password=form.cleaned_data['password']
+        )
+        if user is not None:
+            if user.is_active:
+                login(self.request, user)
+                return HttpResponseRedirect(
+                    reverse(
+                        'salida_app:reporte-salidas',
+                        kwargs={'pk': self.kwargs.get('pk', 0)},
+                    )
+                )
 
 
 def LogOut(request):
