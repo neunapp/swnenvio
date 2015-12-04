@@ -1,7 +1,7 @@
 {% extends "ingreso/nota_ingreso/base_nota.html" %}
 
 {% block sidenav %}
-                        
+
     <li>
         <a class="active" href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
     </li>
@@ -11,11 +11,11 @@
     </li>
 
     <li>
-        <a href="{% url 'manifiesto_app:manifiesto-no-recepcionado' %}"><i class="fa fa-fw fa-table"></i> Recepcion de Paquetes</a>
+        <a href="{% url 'manifiesto_app:manifiesto-no-recepcionado' %}"><i class="fa fa-fw fa-cubes"></i> Recepcion de Paquetes</a>
     </li>
 
     <li>
-        <a href="{% url 'salida_app:listar-egreso' %}"><i class="fa fa-fw fa-edit"></i> Registro de Egresos</a>
+        <a href="{% url 'salida_app:listar-egreso' %}"><i class="fa fa-fw fa-money"></i> Registro de Egresos</a>
     </li>
         <ul class="nav nav-tabs">
         <li role="presentation" class="dropdown">
@@ -24,13 +24,13 @@
             </a>
             <ul class="dropdown-menu">
                 <li>
-                    <a href="{% url 'manifiesto_app:listar-manifiesto' %}"><i class="fa fa-fw fa-edit"></i> Manifiestos en curso</a>
+                    <a href="{% url 'manifiesto_app:listar-manifiesto' %}"><i class="fa fa-fw fa-money"></i> Manifiestos en curso</a>
                 </li>
                 <li>
-                    <a href="{% url 'manifiesto_app:agregar-manifiesto' %}"><i class="fa fa-fw fa-edit"></i> Manifiesto Quilla Cargo</a>
+                    <a href="{% url 'manifiesto_app:agregar-manifiesto' %}"><i class="fa fa-fw fa-money"></i> Manifiesto Quilla Cargo</a>
                 </li>
                 <li>
-                    <a href="{% url 'manifiesto_app:agregar-sub_contrata' %}"><i class="fa fa-fw fa-edit"></i> Manifiesto Por Sub Contrata </a>
+                    <a href="{% url 'manifiesto_app:agregar-sub_contrata' %}"><i class="fa fa-fw fa-money"></i> Manifiesto Por Sub Contrata </a>
                 </li>
             </ul>
         </li>
@@ -42,13 +42,13 @@
             </a>
             <ul class="dropdown-menu">
                 <li>
-                    <a href="{% url 'ingreso_app:listar-branch' %}"><i class="fa fa-fw fa-edit"></i> Sucursales</a>
+                    <a href="{% url 'ingreso_app:listar-branch' %}"><i class="fa fa-fw fa-money"></i> Sucursales</a>
                 </li>
                 <li>
-                    <a href="{% url 'manifiesto_app:listar-carro' %}"><i class="fa fa-fw fa-edit"></i> Vehiculos</a>
+                    <a href="{% url 'manifiesto_app:listar-carro' %}"><i class="fa fa-fw fa-money"></i> Vehiculos</a>
                 </li>
                 <li>
-                    <a href="{% url 'manifiesto_app:listar-conductor' %}"><i class="fa fa-fw fa-edit"></i> Conductores</a>
+                    <a href="{% url 'manifiesto_app:listar-conductor' %}"><i class="fa fa-fw fa-money"></i> Conductores</a>
                 </li>
             </ul>
         </li>
@@ -81,10 +81,10 @@
                             <tr>
                                 {% for deposit_slip in  object.deposit_slip.all %}
                                 <tr>
-                                    <td>{{ deposit_slip.serie }}-{{deposit_slip.number}}</td> 
+                                    <td>{{ deposit_slip.serie }}-{{deposit_slip.number}}</td>
                                     <td>{{ deposit_slip.origin }}</td>
                                     <td>{{ deposit_slip.destination }}</td>
-                                </tr>            
+                                </tr>
                                 {% endfor %}
                         </tbody>
                         </table>
@@ -93,13 +93,13 @@
                         <h5 class="text-danger">Fecha de Salida: </h5>{{object.date_shipping}}
                         <h5 class="text-danger">Estado: </h5>{{object.state}}
                     </div>
-                </div>            
+                </div>
             </div>
         </div>
         <div class="row box-section">
             <div class="col-xs-12">
                 <div class="col s5">
-                <a class="waves-effect waves-light btn btn-back" href="{% url 'manifiesto_app:listar-manifiesto' %}"><i class="fa fa-chevron-left left"></i>Regresar</a>    
+                <a class="waves-effect waves-light btn btn-back" href="{% url 'manifiesto_app:listar-manifiesto' %}"><i class="fa fa-chevron-left left"></i>Regresar</a>
             </div>
         </div>
         </div>

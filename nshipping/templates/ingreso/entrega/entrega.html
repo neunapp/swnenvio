@@ -1,13 +1,13 @@
 {% extends "ingreso/entrega/base_entrega.html" %}
 
 {% block sidenav %}
-                        
+
     <li>
         <a href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
     </li>
 
     <li>
-        <a  class="active" href="{% url 'ingreso_app:lista_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envio</a>
+        <a  class="active" href="{% url 'ingreso_app:lista_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envios</a>
     </li>
 
     <li>
@@ -63,9 +63,9 @@
             <h3 class="page-header title-entrega">Entrega De Envios</h3>
         </div>
     </div>
-    
+
     <form method="get" class="form-horizontal">{% csrf_token %}
-        
+
         <div class="row">
 
             <div class="col-xs-12 col-md-6">
@@ -108,7 +108,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="row">
             <div class="col-xs-6">
                 <div class="form-group">
@@ -158,15 +158,15 @@
 
                             <td class="text-center">
                                 <a href="{% url 'ingreso_app:detalle_envio' paquete.pk %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i> Detalle</a>
-                                
+
                             </td>
                         </tr>
-                    {% empty %} 
-                        <td colspan="6">Lo sentimos no hay resultados en la busqueda :(</td>    
+                    {% empty %}
+                        <td colspan="6">Lo sentimos no hay resultados en la busqueda :(</td>
                     {% endfor %}
-            
+
                 </tbody>
-          </table>  
+          </table>
         </div>
     </div>
 

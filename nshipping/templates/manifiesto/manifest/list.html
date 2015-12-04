@@ -1,7 +1,7 @@
 {% extends "ingreso/nota_ingreso/base_nota.html" %}
 
 {% block sidenav %}
-                        
+
     <li>
         <a href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
     </li>
@@ -9,10 +9,10 @@
         <a href="{% url 'ingreso_app:lista_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envios</a>
     </li>
     <li>
-        <a href="{% url 'manifiesto_app:manifiesto-no-recepcionado' %}"><i class="fa fa-fw fa-table"></i> Recepción de Paquetes</a>
+        <a href="{% url 'manifiesto_app:manifiesto-no-recepcionado' %}"><i class="fa fa-fw fa-cubes"></i> Recepción de Paquetes</a>
     </li>
     <li>
-        <a href="{% url 'salida_app:listar-egreso' %}"><i class="fa fa-fw fa-edit"></i> Registro De Egresos</a>
+        <a href="{% url 'salida_app:listar-egreso' %}"><i class="fa fa-fw fa-money"></i> Registro De Egresos</a>
     </li>
     <li>
         <a class="active" href="javascript:;" data-toggle="collapse" data-target="#manifiesto">
@@ -69,16 +69,16 @@
                 </span>
                 <a class="btn btn-quilla pull-right" href="{% url 'manifiesto_app:agregar-manifiesto' %}">
                     <span class="fa fa-plus"></span> Crear Nuevo Manifiesto
-                </a>    
+                </a>
             </div>
-            
+
         </div>
     </div><!-- page-header -->
 
     <div class="row">
         <div class="col-xs-12">
             <div class="table-responsive">
-                
+
                 <table class="table table-bordered table-hover table-condensed table-quilla">
                     <thead>
                         <thead>
@@ -95,7 +95,7 @@
                     <tbody>
                         {% for manifest in  manifests %}
                             <tr>
-                                <td>{{ manifest.car }}</td> 
+                                <td>{{ manifest.car }}</td>
                                 <td>{{ manifest.driver }}</td>
                                 <td>{{ manifest.origin }}</td>
                                 <td>{{ manifest.destination }}</td>
@@ -106,7 +106,7 @@
                                     <a href="{% url 'manifiesto_app:completar-manifiesto' manifest.pk %}" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
                                 </td>
                             </tr>
-                        {% empty %} 
+                        {% empty %}
                                 <td colspan="7">Lo sentimos no hay manifiestos</td>
                         {% endfor %}
                     </tbody>
@@ -116,6 +116,3 @@
     </div>
 
 {% endblock content_panel %}
-
-
-

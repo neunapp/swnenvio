@@ -1,21 +1,21 @@
 {% extends "ingreso/nota_ingreso/base_nota.html" %}
 
 {% block sidenav %}
-                        
+
     <li>
         <a class="active" href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
     </li>
 
     <li>
-        <a href="{% url 'ingreso_app:lista_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envio</a>
+        <a href="{% url 'ingreso_app:lista_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envios</a>
     </li>
 
     <li>
-        <a href="{% url 'manifiesto_app:manifiesto-no-recepcionado' %}"><i class="fa fa-fw fa-table"></i> Recepcion de Paquetes</a>
+        <a href="{% url 'manifiesto_app:manifiesto-no-recepcionado' %}"><i class="fa fa-fwfa-cubes"></i> Recepcion de Paquetes</a>
     </li>
 
     <li>
-        <a href="{% url 'salida_app:listar-egreso' %}"><i class="fa fa-fw fa-edit"></i> Registro de Egresos</a>
+        <a href="{% url 'salida_app:listar-egreso' %}"><i class="fa fa-fw fa-money"></i> Registro de Egresos</a>
     </li>
         <ul class="nav nav-tabs">
         <li role="presentation" class="dropdown">
@@ -24,13 +24,13 @@
             </a>
             <ul class="dropdown-menu">
                 <li>
-                    <a href="{% url 'manifiesto_app:listar-manifiesto' %}"><i class="fa fa-fw fa-edit"></i> Manifiestos en curso</a>
+                    <a href="{% url 'manifiesto_app:listar-manifiesto' %}"><i class="fa fa-fw fa-money"></i> Manifiestos en curso</a>
                 </li>
                 <li>
-                    <a href="{% url 'manifiesto_app:agregar-manifiesto' %}"><i class="fa fa-fw fa-edit"></i> Manifiesto Quilla Cargo</a>
+                    <a href="{% url 'manifiesto_app:agregar-manifiesto' %}"><i class="fa fa-fw fa-money"></i> Manifiesto Quilla Cargo</a>
                 </li>
                 <li>
-                    <a href="{% url 'manifiesto_app:agregar-sub_contrata' %}"><i class="fa fa-fw fa-edit"></i> Manifiesto Por Sub Contrata </a>
+                    <a href="{% url 'manifiesto_app:agregar-sub_contrata' %}"><i class="fa fa-fw fa-money"></i> Manifiesto Por Sub Contrata </a>
                 </li>
             </ul>
         </li>
@@ -42,13 +42,13 @@
             </a>
             <ul class="dropdown-menu">
                 <li>
-                    <a href="{% url 'ingreso_app:listar-branch' %}"><i class="fa fa-fw fa-edit"></i> Sucursales</a>
+                    <a href="{% url 'ingreso_app:listar-branch' %}"><i class="fa fa-fw fa-money"></i> Sucursales</a>
                 </li>
                 <li>
-                    <a href="{% url 'manifiesto_app:listar-carro' %}"><i class="fa fa-fw fa-edit"></i> Vehiculos</a>
+                    <a href="{% url 'manifiesto_app:listar-carro' %}"><i class="fa fa-fw fa-money"></i> Vehiculos</a>
                 </li>
                 <li>
-                    <a href="{% url 'manifiesto_app:listar-conductor' %}"><i class="fa fa-fw fa-edit"></i> Conductores</a>
+                    <a href="{% url 'manifiesto_app:listar-conductor' %}"><i class="fa fa-fw fa-money"></i> Conductores</a>
                 </li>
             </ul>
         </li>
@@ -82,15 +82,15 @@
                     <tr>
                         {% for manifest in  manifests %}
                         <tr>
-                            <td>{{ manifest.car }}</td> 
+                            <td>{{ manifest.car }}</td>
                             <td>{{ manifest.driver }}</td>
                             <td>{{ manifest.origin }}</td>
-                            <td>{{ manifest.destination }}</td> 
+                            <td>{{ manifest.destination }}</td>
                             <td>{{ manifest.date_shipping }}</td>
                             <td class="text-center">
                                 <a href="{% url 'manifiesto_app:registrar-recepcion' manifest.pk %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i>Recepcionar</a>
                             </td>
-                        </tr>            
+                        </tr>
                         {% endfor %}
                 </tbody>
             </table>
@@ -98,6 +98,3 @@
     </div>
 
 {% endblock content_panel %}
-
-
-

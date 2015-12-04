@@ -25,16 +25,16 @@ class LogIn(FormView):
         if user is not None:
             if user.is_active:
                 login(self.request, user)
-                #recuperamos la sesion
+                # recuperamos la sesion
                 s = Sesion.objects.filter(
                     userstart=user,
                     state=True,
                 )
-                #si la sesion no existe la creamos
+                # si la sesion no existe la creamos
                 if s.count() < 1:
-                    #recuperamos la sucursal del usuario
+                    # recuperamos la sucursal del usuario
                     perfil = Profile.objects.filter(user=user)
-                    #si exste la sucursal no es admin
+                    # si exste la sucursal no es admin
                     if perfil.count() > 0:
                         sesion = Sesion(
                             userstart=user,

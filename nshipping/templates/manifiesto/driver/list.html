@@ -3,21 +3,21 @@
 {% block title %}lista de conductores{% endblock title %}
 
 {% block sidenav %}
-                        
+
     <li>
         <a href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
     </li>
 
     <li>
-        <a href="{% url 'ingreso_app:lista_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envio</a>
+        <a href="{% url 'ingreso_app:lista_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envios</a>
     </li>
 
     <li>
-        <a href="{% url 'manifiesto_app:manifiesto-no-recepcionado' %}"><i class="fa fa-fw fa-table"></i> Recepción de Paquetes</a>
+        <a href="{% url 'manifiesto_app:manifiesto-no-recepcionado' %}"><i class="fa fa-fw fa-cubes"></i> Recepción de Paquetes</a>
     </li>
 
     <li>
-        <a href="{% url 'salida_app:listar-egreso' %}"><i class="fa fa-fw fa-edit"></i> Registro de Egresos</a>
+        <a href="{% url 'salida_app:listar-egreso' %}"><i class="fa fa-fw fa-money"></i> Registro de Egresos</a>
     </li>
     <li>
         <a href="javascript:;" data-toggle="collapse" data-target="#manifiesto">
@@ -74,9 +74,9 @@
                 </span>
                 <a class="btn btn-quilla pull-right" href="{% url 'manifiesto_app:agregar-conductor' %}">
                     <span class="fa fa-plus"></span> Crear Nuevo Conductor
-                </a>    
+                </a>
             </div>
-            
+
         </div>
     </div><!-- page-header -->
 
@@ -97,7 +97,7 @@
                     <tbody>
                         {% for conductor in  conductores %}
                             <tr>
-                                <td>{{ conductor.dni }}</td> 
+                                <td>{{ conductor.dni }}</td>
                                 <td>{{ conductor.full_name }}</td>
                                 <td>{{ conductor.license }}</td>
                                 <td>{{ conductor.addreess }}</td>
@@ -110,7 +110,7 @@
                                 </td>
                             </tr>
                         {% empty %}
-                            <td colspan="5">Lo sentimos no hay conductores disponibles</td>            
+                            <td colspan="5">Lo sentimos no hay conductores disponibles</td>
                         {% endfor %}
                     </tbody>
                 </table>
@@ -119,6 +119,3 @@
     </div>
 
 {% endblock content_panel %}
-
-
-
