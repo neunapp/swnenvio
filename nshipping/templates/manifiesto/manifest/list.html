@@ -81,16 +81,14 @@
 
                 <table class="table table-bordered table-hover table-condensed table-quilla">
                     <thead>
-                        <thead>
-                            <tr>
-                                <th>Vehículo</th>
-                                <th>Conductor</th>
-                                <th>Dirección Partida</th>
-                                <th>Dirección LLegada</th>
-                                <th>Fecha Traslado</th>
-                                <th class="text-center">Acción</th>
-                            </tr>
-                        </thead>
+                        <tr>
+                            <th>Vehículo</th>
+                            <th>Conductor</th>
+                            <th>Dirección Partida</th>
+                            <th>Dirección LLegada</th>
+                            <th>Fecha Traslado</th>
+                            <th class="text-center">Acción</th>
+                        </tr>
                     </thead>
                     <tbody>
                         {% for manifest in  manifests %}
@@ -107,7 +105,7 @@
                                 </td>
                             </tr>
                         {% empty %}
-                                <td colspan="7">Lo sentimos no hay manifiestos</td>
+                                <td colspan="6">Lo sentimos no hay manifiestos a recepionar</td>
                         {% endfor %}
                     </tbody>
                 </table>

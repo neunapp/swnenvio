@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+
 from django import forms
 from django.forms.models import ModelMultipleChoiceField
 
@@ -9,6 +10,9 @@ from apps.profiles.models import Profile
 
 
 class CarForm(forms.ModelForm):
+    '''
+    Formulario para agregar un carro.
+    '''
     class Meta:
         model = Car
         fields = ("__all__")
@@ -294,11 +298,11 @@ class ReceptionForm(forms.Form):
         self.fields['deposit_slip'].queryset = deposit_slip
         self.fields['deposit_slip'].label_from_instance = \
             lambda obj: "%s %s - %s - %s - %s - %s" % (
-            obj.number,
-            obj.serie,
-            obj.origin,
-            obj.sender,
-            obj.addressee,
-            obj.destination,
-        )
+                obj.number,
+                obj.serie,
+                obj.origin,
+                obj.sender,
+                obj.addressee,
+                obj.destination,
+            )
         print self.fields['deposit_slip']
