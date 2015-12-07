@@ -12,7 +12,10 @@ class ExpenditurForm(forms.ModelForm):
 
         widgets = {
             'amount': forms.NumberInput(
-                attrs={'class': 'form-control'}
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': '0.00',
+                }
             ),
             'description': forms.Textarea(
                 attrs={

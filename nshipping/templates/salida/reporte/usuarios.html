@@ -16,12 +16,12 @@
     </li>
 
     <li>
-        <a href="javascript:;" data-toggle="collapse" data-target="#manifiesto">
+        <a href="javascript:;" data-toggle="collapse" data-target="#caja">
             <i class="fa fa-fw fa-bullseye"></i>
             Caja Chica
             <i class="fa fa-fw fa-caret-down"></i>
         </a>
-        <ul id="manifiesto" class="collapse">
+        <ul id="caja" class="collapse">
             <li>
                 <a href="{% url 'users_app:login-admin' user.pk %}">Cuadrar Caja</a>
             </li>
@@ -78,21 +78,22 @@
     </div>
     
     <form method="get" class="form-horizontal">{% csrf_token %}
+        <div class="row">
+
             <div class="col-xs-12 col-md-6">
                 <div class="form-group">
-                    <label for="destinatario" class="col-xs-3 control-label">Usuario</label>
-                    <div class="col-xs-9">
-                        {{form.kwarg }}
+                    <label for="serie-numero" class="col-xs-3 control-label">Usuario:</label>
+                    <div class="input-group col-xs-9 box-nota">
+                        {{ form.kwarg }}
                     </div>
                 </div>
             </div>
-        </div>
         
         <div class="row">
             <div class="col-xs-6">
                 <div class="form-group">
                     <div class="col-sm-offset-1 col-sm-10">
-                      <button type="submit" class="btn btn-quilla">Buscar</button>
+                      <button type="submit" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-search"></i></button>
                     </div>
                 </div>
             </div>
@@ -119,7 +120,7 @@
                             <td>{{ usuario.userstart.last_name }}</td>
                             <td>{{ usuario.branch }}</td>
                             <td class="text-center">
-                                <a href="{% url 'salida_app:reporte-salidas' usuario.userstart.pk %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i> Ver </a>
+                                <a href="{% url 'salida_app:reporte-salidas' usuario.userstart.pk %}" class="btn btn-sm btn-success"><i class="fa fa-fw fa-eye"></i> Ver </a>
                                 
                             </td>
                         </tr>

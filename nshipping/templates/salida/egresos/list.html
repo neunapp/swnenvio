@@ -16,12 +16,12 @@
     </li>
 
     <li>
-        <a href="javascript:;" data-toggle="collapse" data-target="#manifiesto">
+        <a href="javascript:;" data-toggle="collapse" data-target="#caja">
             <i class="fa fa-fw fa-bullseye"></i>
             Caja Chica
             <i class="fa fa-fw fa-caret-down"></i>
         </a>
-        <ul id="manifiesto" class="collapse">
+        <ul id="caja" class="collapse">
             <li>
                 <a href="{% url 'users_app:login-admin' user.pk %}">Cuadrar Caja</a>
             </li>
@@ -74,10 +74,14 @@
 
 
     <div class="row">
-        <div class="col-xs-12">
-            <h3 class="page-header title-quilla">Egrosos Economicos Registrados</h3>
-            <div class="alert alert-info" role="alert">
-                <a href="{% url 'salida_app:agregar-egreso' %}" class="alert-link">Agregar Nuevo Egreso Economico</a>
+        <div class="clo-xs-12">
+            <div class="quilla-add">
+                <span class="quilla-cantitem">
+                    Tienes <span class="label label-warning">{{ egresos.count }}</span> Salidas Registradas
+                </span>
+                <a class="btn btn-quilla pull-right" href="{% url 'salida_app:agregar-egreso' %}">
+                    <span class="fa fa-plus"></span> Registrar Nueva Salida
+                </a>
             </div>
         </div>
     </div>
@@ -103,8 +107,8 @@
                             <td>{{ egreso.created }}</td>
                             <td>{{ egreso.user_created }}</td> 
                             <td class="text-center">
-                                <a href="{% url 'salida_app:visualizar-egreso' egreso.pk %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i>Ver</a>
-                                <a href="{% url 'salida_app:anular-egreso' egreso.pk %}" class="btn btn-sm btn-quilla"><i class="glyphicon glyphicon-remove"></i>Anular</a>
+                                <a href="{% url 'salida_app:visualizar-egreso' egreso.pk %}" class="btn btn-sm btn-success"><i class="fa fa-fw fa-eye"></i></a>
+                                <a href="{% url 'salida_app:anular-egreso' egreso.pk %}" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
                             </td>
                         </tr>            
                     {% endfor %}

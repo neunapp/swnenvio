@@ -135,7 +135,6 @@ class DepositSlip(TimeStampedModel):
         'total',
         max_digits=7,
         decimal_places=2,
-        default=0.00
     )
     igv = models.DecimalField(
         'IGV',

@@ -189,7 +189,10 @@ class NotaIngresoForm(forms.ModelForm):
                 attrs={'class': 'form-control input-sm'}
             ),
             'total_amount': forms.NumberInput(
-                attrs={'class': 'form-control'}
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': '0.00',
+                }
             ),
             'count': forms.NumberInput(
                 attrs={
