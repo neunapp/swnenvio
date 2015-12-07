@@ -3,21 +3,34 @@
 {% block sidenav %}
 
     <li>
-        <a href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
+        <a class="active" href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
+    </li>
+    <li>
+        <a href="{% url 'ingreso_app:lista_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envios</a>
+    </li>
+    <li>
+        <a href="{% url 'manifiesto_app:manifiesto-no-recepcionado' %}"><i class="fa fa-fw fa-cubes"></i> Recepcion de Paquetes</a>
+    </li>
+    <li>
+        <a href="{% url 'salida_app:listar-egreso' %}"><i class="fa fa-fw fa-money"></i> Registro de Egresos</a>
     </li>
 
     <li>
-        <a  class="active" href="{% url 'ingreso_app:lista_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envios</a>
+        <a href="javascript:;" data-toggle="collapse" data-target="#caja">
+            <i class="fa fa-fw fa-bullseye"></i>
+            Caja Chica
+            <i class="fa fa-fw fa-caret-down"></i>
+        </a>
+        <ul id="manifiesto" class="collapse">
+            <li>
+                <a href="{% url 'users_app:login-admin' user.pk %}">Cuadrar Caja</a>
+            </li>
+            <li>
+                <a href="{% url 'salida_app:users-activos' %}">Consultar Agencias</a>
+            </li>
+        </ul>
     </li>
-
-    <li>
-        <a href="{% url 'manifiesto_app:manifiesto-no-recepcionado' %}"><i class="fa fa-fw fa-cubes"></i> Recepción De Envio</a>
-    </li>
-
-    <li>
-        <a href="{% url 'salida_app:listar-egreso' %}"><i class="fa fa-fw fa-money"></i> Registro De Gastos</a>
-    </li>
-
+        
     <li>
         <a href="javascript:;" data-toggle="collapse" data-target="#manifiesto">
             <i class="fa fa-fw fa-bullseye"></i>
@@ -61,7 +74,7 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <h3 class="page-header title-quilla">Entrega de envio del sr(a). {{ depositslip.addressee|title }}</h3>
+            <h3 class="page-header title-quilla">Entrega de envio del sr(a). {{ dues.depositslip.addressee|title }}</h3>
         </div>
     </div>
 
@@ -70,9 +83,9 @@
             <div class="numeracion">
                 <h4 class="titulo-numeracion">NOTA DE INGRESO</h4>
                 <div class="box-numeracion text-center">
-                    <span class="serie">{{ depositslip.serie }}</span>
+                    <span class="serie">{{ dues.depositslip.serie }}</span>
                     <span class="">N°</span>
-                    <span class="numero">{{ depositslip.number }}</span>
+                    <span class="numero">{{ dues.depositslip.number }}</span>
                 </div>
             </div>
         </div>
@@ -82,15 +95,15 @@
         <div class="col-xs-6">
             <dl class="dl-horizontal dl-entrega">
                 <dt>Origen:</dt>
-                <dd>{{ depositslip.origin }}</dd>
+                <dd>{{ dues.depositslip.origin }}</dd>
             </dl>
         </div>
 
         <div class="col-xs-6">
             <dl class="dl-horizontal dl-entrega">
                 <dt>Destino:</dt>
-                <dd>{{ depositslip.destination }}</dd>
-            </dl>
+                <dd>{{ dues.depositslip.destination }}</dd>
+            </dl> 
         </div>
     </div>
 
@@ -99,17 +112,17 @@
             <h4 class="title-cliente">Remitente</h4>
             <dl class="dl-horizontal dl-entrega">
                 <dt>D.N.I:</dt>
-                <dd>{{ depositslip.sender.dni|default:'-------------------' }}</dd>
+                <dd>{{ dues.depositslip.sender.dni|default:'-------------------' }}</dd>
                 <dt>R.U.C:</dt>
-                <dd>{{ depositslip.sender.ruc|default:'-------------------' }}</dd>
+                <dd>{{ dues.depositslip.sender.ruc|default:'-------------------' }}</dd>
                 <dt>Nombres:</dt>
-                <dd>{{ depositslip.sender.full_name|default:'-------------------' }}</dd>
+                <dd>{{ dues.depositslip.sender.full_name|default:'-------------------' }}</dd>
                 <dt>Razón Social:</dt>
-                <dd>{{ depositslip.sender.business_name|default:'-------------------' }}</dd>
+                <dd>{{ dues.depositslip.sender.business_name|default:'-------------------' }}</dd>
                 <dt>Dirección:</dt>
-                <dd>{{ depositslip.sender.address|default:'-------------------' }}</dd>
+                <dd>{{ dues.depositslip.sender.address|default:'-------------------' }}</dd>
                 <dt>Telefono:</dt>
-                <dd>{{ depositslip.sender.phone|default:'-------------------' }}</dd>
+                <dd>{{ dues.depositslip.sender.phone|default:'-------------------' }}</dd>
             </dl>
         </div>
 
@@ -117,17 +130,17 @@
             <h4 class="title-cliente">Destenitario</h4>
             <dl class="dl-horizontal dl-entrega">
                 <dt>D.N.I:</dt>
-                <dd>{{ depositslip.addressee.dni|default:'-------------------' }}</dd>
+                <dd>{{ dues.depositslip.addressee.dni|default:'-------------------' }}</dd>
                 <dt>R.U.C:</dt>
-                <dd>{{ depositslip.addressee.ruc|default:'-------------------' }}</dd>
+                <dd>{{ dues.depositslip.addressee.ruc|default:'-------------------' }}</dd>
                 <dt>Nombres:</dt>
-                <dd>{{ depositslip.addressee.full_name|default:'-------------------' }}</dd>
+                <dd>{{ dues.depositslip.addressee.full_name|default:'-------------------' }}</dd>
                 <dt>Razón Social:</dt>
-                <dd>{{ depositslip.addressee.business_name|default:'-------------------' }}</dd>
+                <dd>{{ dues.depositslip.addressee.business_name|default:'-------------------' }}</dd>
                 <dt>Dirección:</dt>
-                <dd>{{ depositslip.addressee.address|default:'-------------------' }}</dd>
+                <dd>{{ dues.depositslip.addressee.address|default:'-------------------' }}</dd>
                 <dt>Telefono:</dt>
-                <dd>{{ depositslip.addressee.phone|default:'-------------------' }}</dd>
+                <dd>{{ dues.depositslip.addressee.phone|default:'-------------------' }}</dd>
             </dl>
 
         </div>
@@ -145,8 +158,8 @@
                 <tbody>
 
                     <tr>
-                        <td>{{ depositslip.count }}</td>
-                        <td>{{ depositslip.description }}</td>
+                        <td>{{ dues.depositslip.count }}</td>
+                        <td>{{ dues.depositslip.description }}</td>            
                     </tr>
 
                 </tbody>
@@ -161,7 +174,7 @@
             <div class="col-xs-12 col-sm-6">
                 <dl class="dl-horizontal dl-entrega">
                     <dt>Total:</dt>
-                    <dd>S/{{ depositslip.total_amount|floatformat:'2' }}</dd>
+                    <dd>S/{{ dues.depositslip.total_amount|floatformat:'2' }}</dd>
                     <dt>Acuenta:</dt>
                     <dd>S/ {{ acuenta|floatformat:'2' }}</dd>
                     <dt>Por Cobrar:</dt>

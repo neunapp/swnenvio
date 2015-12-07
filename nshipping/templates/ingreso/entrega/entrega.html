@@ -3,21 +3,34 @@
 {% block sidenav %}
 
     <li>
-        <a href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
+        <a class="active" href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
+    </li>
+    <li>
+        <a href="{% url 'ingreso_app:lista_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envios</a>
+    </li>
+    <li>
+        <a href="{% url 'manifiesto_app:manifiesto-no-recepcionado' %}"><i class="fa fa-fw fa-cubes"></i> Recepcion de Paquetes</a>
+    </li>
+    <li>
+        <a href="{% url 'salida_app:listar-egreso' %}"><i class="fa fa-fw fa-money"></i> Registro de Egresos</a>
     </li>
 
     <li>
-        <a  class="active" href="{% url 'ingreso_app:lista_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envios</a>
+        <a href="javascript:;" data-toggle="collapse" data-target="#caja">
+            <i class="fa fa-fw fa-bullseye"></i>
+            Caja Chica
+            <i class="fa fa-fw fa-caret-down"></i>
+        </a>
+        <ul id="caja" class="collapse">
+            <li>
+                <a href="{% url 'users_app:login-admin' user.pk %}">Cuadrar Caja</a>
+            </li>
+            <li>
+                <a href="{% url 'salida_app:users-activos' %}">Consultar Agencias</a>
+            </li>
+        </ul>
     </li>
-
-    <li>
-        <a href="{% url 'manifiesto_app:manifiesto-no-recepcionado' %}"><i class="fa fa-fw fa-cubes"></i> Recepción De Envio</a>
-    </li>
-
-    <li>
-        <a href="{% url 'salida_app:listar-egreso' %}"><i class="fa fa-fw fa-money"></i> Registro De Gastos</a>
-    </li>
-
+        
     <li>
         <a href="javascript:;" data-toggle="collapse" data-target="#manifiesto">
             <i class="fa fa-fw fa-bullseye"></i>

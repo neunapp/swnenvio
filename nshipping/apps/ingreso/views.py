@@ -117,11 +117,6 @@ class DepositSlipView(LoginRequiredMixin, FormView):
         addr_razonsocial = form.cleaned_data['addr_razonsocial']
 
         user_created = self.request.user
-        # recuperamos la sesion del usuario
-        sesion = Sesion.objects.get(
-            userstart=user_created,
-            state=True,
-        )
         # Creamos cliente remitente
         sender = ClientGetOrCreate(
             sender_id,
@@ -134,6 +129,8 @@ class DepositSlipView(LoginRequiredMixin, FormView):
             addr_name,
             addr_razonsocial
         )
+        # recuperamos la sesion
+        sesion = Sesion.objects.get(userstart=user_created, state=True)
 
         depositslip = DepositSlip(
             serie=serie,
@@ -156,7 +153,6 @@ class DepositSlipView(LoginRequiredMixin, FormView):
             depositslip=depositslip,
             amount=acuenta,
             user_created=user_created,
-            sesion=sesion
         )
         dues.save()
 
@@ -203,7 +199,7 @@ class DetailDeliverView(LoginRequiredMixin, SuccessMessageMixin, FormMixin, Deta
     Detalle del envio y registro de la cuota
     si hay descuento se regitra en la tabla salida.
     '''
-    model = DepositSlip
+    model = Dues
     form_class = DetailDeliverForm
     template_name = 'ingreso/entrega/entrega_detalle.html'
     success_url = reverse_lazy('users_app:panel')
@@ -214,16 +210,16 @@ class DetailDeliverView(LoginRequiredMixin, SuccessMessageMixin, FormMixin, Deta
     def get_success_message(self, cleaned_data):
         return self.success_message % dict(
             cleaned_data,
-            serie=self.object.serie,
-            number=self.object.number,
+            serie=self.object.depositslip.serie,
+            number=self.object.depositslip.number,
         )
 
     def get_context_data(self, **kwargs):
         context = super(DetailDeliverView, self).get_context_data(**kwargs)
-        dues = Dues.objects.get(pk=self.object.pk, canceled=False)
-        porcobrar = self.object.total_amount - dues.amount
+        # dues = Dues.objects.get(pk=self.object.pk, canceled=False)
+        porcobrar = self.object.depositslip.total_amount - self.object.amount
         context['form'] = self.get_form()
-        context['acuenta'] = dues.amount
+        context['acuenta'] = self.object.amount
         context['porcobrar'] = porcobrar
         return context
 
@@ -236,8 +232,13 @@ class DetailDeliverView(LoginRequiredMixin, SuccessMessageMixin, FormMixin, Deta
             return self.form_invalid(form)
 
     def form_valid(self, form):
+        #recuperamos la sesion
+        sesion = Sesion.objects.get(
+            userstart=self.request.user,
+            state=True,
+        )
         # recupramos el objeto
-        depositslip = self.object
+        depositslip = self.object.depositslip
         depositslip.state = '3'
         depositslip.save()
 
@@ -246,12 +247,13 @@ class DetailDeliverView(LoginRequiredMixin, SuccessMessageMixin, FormMixin, Deta
         # Recuperamos el monto de la primera cuota.
         dues1 = Dues.objects.get(pk=self.object.pk, canceled=False)
         # restamos el de monto total y el monto de la primera cuota.
-        amount = self.object.total_amount - dues1.amount
+        amount = self.object.depositslip.total_amount - dues1.amount
         # Creamos y guardamso la segunda cuota.
         dues2 = Dues(
             depositslip=depositslip,
             amount=amount,
-            user_created=user
+            user_created=user,
+            sesion=sesion
         )
         dues2.save()
         # Verificamos si el descuento es mayor a cero
@@ -265,6 +267,7 @@ class DetailDeliverView(LoginRequiredMixin, SuccessMessageMixin, FormMixin, Deta
                 amount=descuento,
                 user_created=user,
                 user_modified=user,
+                sesion=sesion
             )
             expenditur.save()
 

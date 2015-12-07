@@ -50,6 +50,57 @@
             </li>
         </ul>
     </li>
+    <li>
+        <a href="javascript:;" data-toggle="collapse" data-target="#caja">
+            <i class="fa fa-fw fa-bullseye"></i>
+            Caja Chica
+            <i class="fa fa-fw fa-caret-down"></i>
+        </a>
+        <ul id="caja" class="collapse">
+            <li>
+                <a href="{% url 'users_app:login-admin' user.pk %}">Cuadrar Caja</a>
+            </li>
+            <li>
+                <a href="{% url 'salida_app:users-activos' %}">Consultar Agencias</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="javascript:;" data-toggle="collapse" data-target="#manifiesto">
+            <i class="fa fa-fw fa-bullseye"></i>
+            Manifiesto
+            <i class="fa fa-fw fa-caret-down"></i>
+        </a>
+        <ul id="manifiesto" class="collapse">
+            <li>
+                <a href="{% url 'manifiesto_app:listar-manifiesto' %}">Manifiesto En Curso</a>
+            </li>
+            <li>
+                <a href="{% url 'manifiesto_app:agregar-manifiesto' %}">Manifiesto Quilla Cargo</a>
+            </li>
+            <li>
+                <a href="{% url 'manifiesto_app:agregar-sub_contrata' %}">Manifiesto por Sub-Contrata</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="javascript:;" data-toggle="collapse" data-target="#mantenimiento">
+            <i class="fa fa-fw fa-cogs"></i>
+            Mantenimiento
+            <i class="fa fa-fw fa-caret-down"></i>
+        </a>
+        <ul id="mantenimiento" class="collapse">
+            <li>
+                <a href="{% url 'ingreso_app:listar-branch' %}">Sucursales</a>
+            </li>
+            <li>
+                <a href="{% url 'manifiesto_app:listar-carro' %}">Vehiculos</a>
+            </li>
+            <li>
+                <a href="{% url 'manifiesto_app:listar-conductor' %}">Conductores</a>
+            </li>
+        </ul>
+    </li>
 
 {% endblock sidenav %}
 

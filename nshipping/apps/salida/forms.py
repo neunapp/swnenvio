@@ -12,7 +12,10 @@ class ExpenditurForm(forms.ModelForm):
 
         widgets = {
             'amount': forms.NumberInput(
-                attrs={'class': 'form-control'}
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': '0.00',
+                }
             ),
             'description': forms.Textarea(
                 attrs={
@@ -51,6 +54,22 @@ class SearchForm(forms.Form):
             attrs={
                 'class': 'form-control input-sm',
                 'placeholder': 'nombre de usuario',
+            }
+        )
+    )
+
+
+class FilterForm(forms.Form):
+    TIPO_CHOICES = (
+        ('0', 'Corecctos'),
+        ('1', 'Anulados'),
+    )
+    tipo = forms.ChoiceField(
+        choices=TIPO_CHOICES,
+        required=True,
+        widget=forms.Select(
+            attrs={
+                'class': 'form-control input-sm'
             }
         )
     )
