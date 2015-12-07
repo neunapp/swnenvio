@@ -227,7 +227,7 @@ class ManagerDues(models.Manager):
             depositslip__number__icontains=numero,
             depositslip__sender__full_name__icontains=remitente,
             depositslip__addressee__full_name__icontains=destinatario,
-            depositslip__state='0',
+            depositslip__state='2',
             depositslip__destination=sucursal,
             depositslip__created__range=(start_date, end_date)
         )

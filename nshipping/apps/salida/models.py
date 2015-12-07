@@ -82,6 +82,8 @@ class Expenditur(TimeStampedModel):
     user_modified = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         related_name="egreso_modified",
+        blank=True,
+        null=True,
     )
     sesion = models.ForeignKey(
         Sesion,

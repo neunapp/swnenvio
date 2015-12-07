@@ -54,3 +54,19 @@ class SearchForm(forms.Form):
             }
         )
     )
+
+
+class FilterForm(forms.Form):
+    TIPO_CHOICES = (
+        ('0', 'Corecctos'),
+        ('1', 'Anulados'),
+    )
+    tipo = forms.ChoiceField(
+        choices=TIPO_CHOICES,
+        required=True,
+        widget=forms.Select(
+            attrs={
+                'class': 'form-control input-sm'
+            }
+        )
+    )

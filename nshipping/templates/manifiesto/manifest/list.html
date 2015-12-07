@@ -94,18 +94,33 @@
                     </thead>
                     <tbody>
                         {% for manifest in  manifests %}
-                            <tr>
-                                <td>{{ manifest.car }}</td> 
-                                <td>{{ manifest.driver }}</td>
-                                <td>{{ manifest.origin }}</td>
-                                <td>{{ manifest.destination }}</td>
-                                <td>{{ manifest.date_shipping }}</td>
-                                <td class="text-center">
-                                    <a href="{% url 'manifiesto_app:full-manifiesto' manifest.pk %}" class="btn btn-sm btn-success"><i class="fa fa-fw fa-check"></i></a>
-                                    <a href="{% url 'manifiesto_app:update-manifiesto' manifest.pk %}" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-pencil"></i></a>
-                                    <a href="{% url 'manifiesto_app:completar-manifiesto' manifest.pk %}" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
-                                </td>
-                            </tr>
+                                {% if  manifest.state == True %}
+                                <tr class="info">
+                                    <td>{{ manifest.car }}</td> 
+                                    <td>{{ manifest.driver }}</td>
+                                    <td>{{ manifest.origin }}</td>
+                                    <td>{{ manifest.destination }}</td>
+                                    <td>{{ manifest.date_shipping }}</td>
+                                    <td class="text-center">
+                                        <a href="{% url 'manifiesto_app:full-manifiesto' manifest.pk %}" class="btn btn-sm btn-success"><i class="fa fa-fw fa-check"></i></a>
+                                        <a href="{% url 'manifiesto_app:update-manifiesto' manifest.pk %}" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-pencil"></i></a>
+                                        <a href="{% url 'manifiesto_app:completar-manifiesto' manifest.pk %}" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td>{{ manifest.car }}</td> 
+                                    <td>{{ manifest.driver }}</td>
+                                    <td>{{ manifest.origin }}</td>
+                                    <td>{{ manifest.destination }}</td>
+                                    <td>{{ manifest.date_shipping }}</td>
+                                    <td class="text-center">
+                                        <a href="{% url 'manifiesto_app:full-manifiesto' manifest.pk %}" class="btn btn-sm btn-success"><i class="fa fa-fw fa-check"></i></a>
+                                        <a href="{% url 'manifiesto_app:update-manifiesto' manifest.pk %}" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-pencil"></i></a>
+                                        <a href="{% url 'manifiesto_app:completar-manifiesto' manifest.pk %}" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+                                    </td>
+                                </tr>
+                                {% endif %}
                         {% empty %} 
                                 <td colspan="7">Lo sentimos no hay manifiestos</td>
                         {% endfor %}
