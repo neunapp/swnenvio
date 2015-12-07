@@ -14,8 +14,21 @@
     <li>
         <a href="{% url 'salida_app:listar-egreso' %}"><i class="fa fa-fw fa-money"></i> Registro De Gastos</a>
     </li>
+
     <li>
-        <a href="{% url 'users_app:login-admin' user.pk %}"><i class="fa fa-fw fa-money"></i> Caja Chica</a>
+        <a href="javascript:;" data-toggle="collapse" data-target="#manifiesto">
+            <i class="fa fa-fw fa-bullseye"></i>
+            Caja Chica
+            <i class="fa fa-fw fa-caret-down"></i>
+        </a>
+        <ul id="manifiesto" class="collapse">
+            <li>
+                <a href="{% url 'users_app:login-admin' user.pk %}">Cuadrar Caja</a>
+            </li>
+            <li>
+                <a href="{% url 'salida_app:users-activos' %}">Consultar Agencias</a>
+            </li>
+        </ul>
     </li>
     
     <li>

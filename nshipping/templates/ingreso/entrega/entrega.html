@@ -1,23 +1,36 @@
 {% extends "ingreso/entrega/base_entrega.html" %}
 
 {% block sidenav %}
-                        
+
     <li>
-        <a href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
+        <a class="active" href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
+    </li>
+    <li>
+        <a href="{% url 'ingreso_app:lista_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envios</a>
+    </li>
+    <li>
+        <a href="{% url 'manifiesto_app:manifiesto-no-recepcionado' %}"><i class="fa fa-fw fa-cubes"></i> Recepcion de Paquetes</a>
+    </li>
+    <li>
+        <a href="{% url 'salida_app:listar-egreso' %}"><i class="fa fa-fw fa-money"></i> Registro de Egresos</a>
     </li>
 
     <li>
-        <a  class="active" href="{% url 'ingreso_app:lista_envio' %}"><i class="fa fa-fw fa-paper-plane-o"></i> Entrega De Envio</a>
+        <a href="javascript:;" data-toggle="collapse" data-target="#manifiesto">
+            <i class="fa fa-fw fa-bullseye"></i>
+            Caja Chica
+            <i class="fa fa-fw fa-caret-down"></i>
+        </a>
+        <ul id="manifiesto" class="collapse">
+            <li>
+                <a href="{% url 'users_app:login-admin' user.pk %}">Cuadrar Caja</a>
+            </li>
+            <li>
+                <a href="{% url 'salida_app:users-activos' %}">Consultar Agencias</a>
+            </li>
+        </ul>
     </li>
-
-    <li>
-        <a href="{% url 'manifiesto_app:manifiesto-no-recepcionado' %}"><i class="fa fa-fw fa-cubes"></i> Recepción De Envio</a>
-    </li>
-
-    <li>
-        <a href="{% url 'salida_app:listar-egreso' %}"><i class="fa fa-fw fa-money"></i> Registro De Gastos</a>
-    </li>
-
+        
     <li>
         <a href="javascript:;" data-toggle="collapse" data-target="#manifiesto">
             <i class="fa fa-fw fa-bullseye"></i>
@@ -63,9 +76,9 @@
             <h3 class="page-header title-entrega">Entrega De Envios</h3>
         </div>
     </div>
-    
+
     <form method="get" class="form-horizontal">{% csrf_token %}
-        
+
         <div class="row">
 
             <div class="col-xs-12 col-md-6">
@@ -108,7 +121,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="row">
             <div class="col-xs-6">
                 <div class="form-group">
@@ -158,15 +171,15 @@
 
                             <td class="text-center">
                                 <a href="{% url 'ingreso_app:detalle_envio' paquete.pk %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i> Detalle</a>
-                                
+
                             </td>
                         </tr>
-                    {% empty %} 
-                        <td colspan="6">Lo sentimos no hay resultados en la busqueda :(</td>    
+                    {% empty %}
+                        <td colspan="6">Lo sentimos no hay resultados en la busqueda :(</td>
                     {% endfor %}
-            
+
                 </tbody>
-          </table>  
+          </table>
         </div>
     </div>
 
