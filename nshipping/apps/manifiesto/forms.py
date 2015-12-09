@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+
 from django import forms
 from django.forms.models import ModelMultipleChoiceField
 
@@ -9,6 +10,9 @@ from apps.profiles.models import Profile
 
 
 class CarForm(forms.ModelForm):
+    '''
+    Formulario para agregar un carro.
+    '''
     class Meta:
         model = Car
         fields = ("__all__")

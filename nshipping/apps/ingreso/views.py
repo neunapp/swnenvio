@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 from braces.views import LoginRequiredMixin
 
-from django.views.generic import DetailView, UpdateView
+from django.views.generic import DetailView, UpdateView, TemplateView
 from django.views.generic.edit import CreateView, FormView, FormMixin
 from django.views.generic.list import ListView
 from django.contrib.messages.views import SuccessMessageMixin
@@ -194,7 +194,9 @@ class DeliverView(LoginRequiredMixin, ListView):
         return queryset
 
 
-class DetailDeliverView(LoginRequiredMixin, SuccessMessageMixin, FormMixin, DetailView):
+class DetailDeliverView(
+    LoginRequiredMixin, SuccessMessageMixin, FormMixin, DetailView
+):
     '''
     Detalle del envio y registro de la cuota
     si hay descuento se regitra en la tabla salida.
@@ -232,7 +234,7 @@ class DetailDeliverView(LoginRequiredMixin, SuccessMessageMixin, FormMixin, Deta
             return self.form_invalid(form)
 
     def form_valid(self, form):
-        #recuperamos la sesion
+        # recuperamos la sesion
         sesion = Sesion.objects.get(
             userstart=self.request.user,
             state=True,
@@ -272,3 +274,15 @@ class DetailDeliverView(LoginRequiredMixin, SuccessMessageMixin, FormMixin, Deta
             expenditur.save()
 
         return super(DetailDeliverView, self).form_valid(form)
+
+
+class EnvioPrintView(LoginRequiredMixin, DetailView):
+    '''
+    detalle para la impresion de un
+    '''
+    model = DepositSlip
+    template_name = 'ingreso/report/list_print_nota.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(EnvioPrintView, self).get_context_data(**kwargs)
+        return context

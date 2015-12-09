@@ -1,5 +1,7 @@
 {% extends "ingreso/nota_ingreso/base_nota.html" %}
 
+{% block title %}registro de nota de ingreso{% endblock title %}
+
 {% block sidenav %}
 
     <li>
@@ -21,7 +23,7 @@
             Caja Chica
             <i class="fa fa-fw fa-caret-down"></i>
         </a>
-        <ul id="caja" class="collapse">
+        <ul id="manifiesto" class="collapse">
             <li>
                 <a href="{% url 'users_app:login-admin' user.pk %}">Cuadrar Caja</a>
             </li>
@@ -74,60 +76,43 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <h3 class="page-header title-quilla">Lista de Manifiestos no Completos</h3>
+            <h3 class="page-header title-quilla">Nota de Ingreso Nro: {{ depositslip.serie }} - {{ depositslip.number }}</h3>
         </div>
     </div>
 
-    <div class="row">
-        <div class="clo-xs-12">
-            <div class="quilla-add">
-                <span class="quilla-cantitem">
-                    Tienes <span class="label label-warning">{{ cantidad }}</span> manifiestos no completos
-                </span>
-                <a class="btn btn-quilla pull-right" href="{% url 'manifiesto_app:agregar-manifiesto' %}">
-                    <span class="fa fa-plus"></span> Crear Nuevo Manifiesto
-                </a>
-            </div>
-
-        </div>
-    </div><!-- page-header -->
-
-    <div class="row">
+    <div class="row box-section">
         <div class="col-xs-12">
             <div class="table-responsive">
-
                 <table class="table table-bordered table-hover table-condensed table-quilla">
                     <thead>
                         <tr>
-                            <th>Vehículo</th>
-                            <th>Conductor</th>
-                            <th>Dirección Partida</th>
-                            <th>Dirección LLegada</th>
-                            <th>Fecha Traslado</th>
-                            <th class="text-center">Acción</th>
+                            <th>Nota de Ingreso</th>
+                            <th>Remitente</th>
+                            <th>Destinatario</th>
+                            <th>Origen</th>
+                            <th>Destino</th>
+                            <th class="text-center">Imprimir</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for manifest in  manifests %}
-                            <tr>
-                                <td>{{ manifest.car }}</td>
-                                <td>{{ manifest.driver }}</td>
-                                <td>{{ manifest.origin }}</td>
-                                <td>{{ manifest.destination }}</td>
-                                <td>{{ manifest.date_shipping }}</td>
-                                <td class="text-center">
-                                    <a href="{% url 'manifiesto_app:full-manifiesto' manifest.pk %}" class="btn btn-sm btn-success"><i class="fa fa-fw fa-check"></i></a>
-                                    <a href="{% url 'manifiesto_app:update-manifiesto' manifest.pk %}" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-pencil"></i></a>
-                                    <a href="{% url 'manifiesto_app:completar-manifiesto' manifest.pk %}" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
-                                </td>
-                            </tr>
-                        {% empty %}
-                                <td colspan="6">Lo sentimos no hay manifiestos a recepionar</td>
-                        {% endfor %}
+                        <tr>
+                            <td>{{ depositslip.serie }} - {{ depositslip.number }}</td>
+                            <td>{{ depositslip.sender }}</td>
+                            <td>{{ depositslip.addressee }}</td>
+                            <td>{{ depositslip.origin }}</td>
+                            <td>{{ depositslip.destination }}</td>
+
+                            <td class="text-center">
+                                <a href="{% url 'ingreso_app:detalle-branch' depositslip.pk %}" class="btn btn-sm btn-success" target="_blank" data-toggle="tooltip" title="Nota De Ingreso" data-placement="bottom"><i class="fa fa-print fa-lg"></i></a>
+                                <a href="{% url 'ingreso_app:actualizar-branch' depositslip.pk %}" class="btn btn-sm btn-warning" target="_blank" data-toggle="tooltip" title="Guia de Remisión" data-placement="bottom"><i class="fa fa fa-file-text-o fa-lg"></i></a>
+                                <a href="{% url 'ingreso_app:eliminar-branch' depositslip.pk %}" class="btn btn-sm btn-primary"  target="_blank" data-toggle="tooltip" title="Comprobante" data-placement="bottom"><i class="fa fa fa-file-o fa-lg"></i></a>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
+
 
 {% endblock content_panel %}

@@ -314,7 +314,8 @@ class RemissionView(LoginRequiredMixin, FormMixin, DetailView):
     login_url = reverse_lazy('users_app:login')
 
     def get_success_url(self):
-        return reverse_lazy('ingreso_app:nota-ingreso')
+        return reverse_lazy(
+            'ingreso_app:print-envio', kwargs={'pk': self.object.pk})
 
     def get_form_kwargs(self):
         kwargs = super(RemissionView, self).get_form_kwargs()
