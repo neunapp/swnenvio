@@ -169,6 +169,10 @@ class CountableCahs(LoginRequiredMixin, FormMixin, ListView):
         sesion.save()
         return super(CountableCahs, self).form_valid(form)
 
+    def form_invalid(self, form):
+        self.object_list = self.get_queryset()
+        return super(CountableCahs, self).form_invalid(form)
+
 
 class ListActives(LoginRequiredMixin, ListView):
     '''

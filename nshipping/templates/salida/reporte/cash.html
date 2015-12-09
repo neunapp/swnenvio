@@ -184,6 +184,11 @@
                     <label for="serie-numero" class="col-xs-3 control-label">Monto Real:</label>
                     <div class="input-group col-xs-9 box-nota">
                         {{ form.amount }}
+                        {% for error in form.amount.errors %}
+                            <p class="help-block text-error">
+                                {{ error|escape }}
+                            </p>
+                        {% endfor %}
                     </div>
                 </div>
             </div>

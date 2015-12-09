@@ -17,7 +17,7 @@ from django.http import HttpResponseRedirect
 from apps.ingreso.models import Dues, Branch, DepositSlip
 from apps.profiles.models import Profile
 
-from .models import Car, Driver, Manifest, SubContract
+from .models import Car, Driver, Manifest, SubContract, Observation
 from .forms import (
     CarForm,
     DriverForm,
@@ -202,9 +202,32 @@ class ManifestView(LoginRequiredMixin, FormView):
 class UpdateManifest(LoginRequiredMixin, UpdateView):
     template_name = 'manifiesto/manifest/update.html'
     model = Manifest
-    form_class = ManifestForm
+    form_class = ThirdManifestForm
     success_url = reverse_lazy('manifiesto_app:listar-manifiesto')
     login_url = reverse_lazy('users_app:login')
+
+    def get_initial(self):
+        # recuperamos el objeto Manifiesto
+        initial = super(UpdateManifest, self).get_initial()
+        manifest_pk = self.kwargs.get('pk', 0)
+        # recuperamos las observaciones
+        manifest_query = SubContract.objects.filter(manifest__pk=manifest_pk)
+        if manifest_query.count > 0:
+            manifest = manifest_query[0]
+            initial['full_name'] = manifest.full_name
+            initial['ruc'] = manifest.ruc
+            initial['observations'] = manifest.observation
+        return initial
+
+    def form_valid(self, form):
+        # recuperamos el manifiesto de formulario
+        manifest = form.cleaned_data['manifest']
+        # agregamos la nota de ingreso al manifest
+        manifest.deposit_slip.add(self.object)
+        # guardamos le Manifest
+        manifest.save()
+        return super(RemissionView, self).form_valid(form)
+        
 
 
 class AnulateManifestView(LoginRequiredMixin, DetailView):

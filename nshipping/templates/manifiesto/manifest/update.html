@@ -149,6 +149,45 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label for="{{ form.full_name.id_for_label }}" class="col-xs-12 col-sm-2 control-label label-envio">Full_name:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        {{ form.full_name }}
+                        {% for error in form.full_name.errors %}
+                            <div class="col-xs-12">
+                                <p class="help-block text-error">
+                                    {{ error|escape }}
+                                </p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.ruc.id_for_label }}" class="col-xs-12 col-sm-2 control-label label-envio">Fecha de Traslado:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        {{ form.ruc }}
+                        {% for error in form.ruc.errors %}
+                            <div class="col-xs-12">
+                                <p class="help-block text-error">
+                                    {{ error|escape }}
+                                </p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.observations.id_for_label }}" class="col-xs-12 col-sm-2 control-label label-envio">Fecha de Traslado:</label>
+                    <div class="col-xs-12 col-sm-8">
+                        {{ form.observations }}
+                        {% for error in form.observations.errors %}
+                            <div class="col-xs-12">
+                                <p class="help-block text-error">
+                                    {{ error|escape }}
+                                </p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <button type="submit" class="btn btn-quilla"><i class="fa fa-floppy-o fa-lg"></i> Guardar</button>
                         <a class="btn btn-default" role="button" href="{% url 'manifiesto_app:listar-manifiesto' %}" >Regresar a lista</a>

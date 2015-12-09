@@ -164,7 +164,7 @@ class ManifestForm(forms.ModelForm):
         )
 
 
-class ThirdManifestForm(forms.ModelForm):
+class ThirdManifestForm(ManifestForm):
     """
     Formulario para el Registro de Manifiesto
     """
@@ -196,7 +196,7 @@ class ThirdManifestForm(forms.ModelForm):
         ),
     )
 
-    class Meta:
+    class Meta(ManifestForm.Meta):
         model = Manifest
         fields = (
             'driver',
@@ -205,27 +205,6 @@ class ThirdManifestForm(forms.ModelForm):
             'origin',
             'date_shipping',
         )
-
-        widgets = {
-            'driver': forms.Select(
-                attrs={'class': 'form-control input-sm'}
-            ),
-            'car': forms.Select(
-                attrs={'class': 'form-control input-sm'}
-            ),
-            'destination': forms.Select(
-                attrs={'class': 'form-control input-sm'}
-            ),
-            'origin': forms.Select(
-                attrs={'class': 'form-control input-sm'}
-            ),
-            'date_shipping': forms.TextInput(
-                attrs={
-                    'class': 'form-control input-sm datepicker',
-                    'placeholder': 'Seleccione un fecha'
-                }
-            ),
-        }
 
     def __init__(self, *args, **kwargs):
         super(ThirdManifestForm, self).__init__(*args, **kwargs)
@@ -294,11 +273,11 @@ class ReceptionForm(forms.Form):
         self.fields['deposit_slip'].queryset = deposit_slip
         self.fields['deposit_slip'].label_from_instance = \
             lambda obj: "%s %s - %s - %s - %s - %s" % (
-            obj.number,
-            obj.serie,
-            obj.origin,
-            obj.sender,
-            obj.addressee,
-            obj.destination,
-        )
+                obj.number,
+                obj.serie,
+                obj.origin,
+                obj.sender,
+                obj.addressee,
+                obj.destination,
+            )
         print self.fields['deposit_slip']
