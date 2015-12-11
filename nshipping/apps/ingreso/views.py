@@ -153,6 +153,7 @@ class DepositSlipView(LoginRequiredMixin, FormView):
             depositslip=depositslip,
             amount=acuenta,
             user_created=user_created,
+            sesion=sesion,
         )
         dues.save()
 
@@ -188,9 +189,12 @@ class DeliverView(LoginRequiredMixin, ListView):
         # recuperamos el usuario
         user = self.request.user
         # Recuperamos la sucursal del usuario
-        user_profile = Profile.objects.get(user=user)
-
-        queryset = Dues.objects.search(q, r, s, t, user_profile.branch, u)
+        profile_query = Profile.objects.filter(user=user)
+        if profile_query.count() > 0:
+            user_profile = Profile.objects.filter(user=user)[0]
+            queryset = Dues.objects.search(q, r, s, t, user_profile.branch, u)
+        else:
+            queryset = None
         return queryset
 
 

@@ -74,6 +74,8 @@
 
 {% block content_panel %}
 
+{% if user.is_superuser %}
+    
     <div class="row">
         <div class="col-xs-12">
             <h3 class="page-header title-quilla">Modificar Vehículo</h3>
@@ -179,5 +181,8 @@
 
         </div>
     </div>
+{% else %}
+    <h3>Necesita Permisos de Adminitrador</h3>
+{% endif %}
 
 {% endblock content_panel %}

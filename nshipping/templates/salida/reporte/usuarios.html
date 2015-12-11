@@ -71,6 +71,9 @@
 {% endblock sidenav %}
 
 {% block content_panel %}
+
+{% if user.is_superuser %}
+
     <div class="row">
         <div class="col-xs-12">
             <h3 class="page-header title-entrega">Usuarios Activos</h3>
@@ -132,5 +135,7 @@
           </table>  
         </div>
     </div>
-
+{% else %}
+    <h3>Necesita Permisos de Administrador</h3>
+{% endif %}
 {% endblock content_panel %}

@@ -95,6 +95,27 @@ class Driver(models.Model):
         return self.full_name
 
 
+class ManangerManifest(models.Manager):
+
+    def manifest_by_user(self, branch):
+        #recuperamos la lista de manifiestos enviados
+        manifest_query = self.filter(reception=False, state=True)
+        # recorremos el manifiesto
+        lista = []
+        for manifest in manifest_query:
+            existe = False
+            for slip in manifest.deposit_slip.all():
+                if slip.destination == branch:
+                    print '======pertenece al manifiesto====='
+                    existe = True
+            # verificamos si se encontro alguna sucursal
+            if existe is True:
+                print '======se agrega el manifiesto======='
+                lista.append(manifest)
+        # devolvemos la lista
+        return lista
+
+
 class Manifest(TimeStampedModel):
     driver = models.ForeignKey(Driver)
     car = models.ForeignKey(Car)
@@ -129,6 +150,8 @@ class Manifest(TimeStampedModel):
         default=False,
         editable=False
     )
+
+    objects = ManangerManifest()
 
     class Meta:
         verbose_name = "Manifiesto"

@@ -72,6 +72,8 @@
 
 {% block content_panel %}
 
+{% if user.is_superuser %}
+
     <div class="row">
         <div class="col-xs-12">
             <h3 class="page-header title-quilla">Modificar Manifiesto</h3>
@@ -149,7 +151,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="{{ form.full_name.id_for_label }}" class="col-xs-12 col-sm-2 control-label label-envio">Full_name:</label>
+                    <label for="{{ form.full_name.id_for_label }}" class="col-xs-12 col-sm-2 control-label label-envio">Razon Social:</label>
                     <div class="col-xs-12 col-sm-8">
                         {{ form.full_name }}
                         {% for error in form.full_name.errors %}
@@ -162,7 +164,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="{{ form.ruc.id_for_label }}" class="col-xs-12 col-sm-2 control-label label-envio">Fecha de Traslado:</label>
+                    <label for="{{ form.ruc.id_for_label }}" class="col-xs-12 col-sm-2 control-label label-envio">Ruc:</label>
                     <div class="col-xs-12 col-sm-8">
                         {{ form.ruc }}
                         {% for error in form.ruc.errors %}
@@ -175,7 +177,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="{{ form.observations.id_for_label }}" class="col-xs-12 col-sm-2 control-label label-envio">Fecha de Traslado:</label>
+                    <label for="{{ form.observations.id_for_label }}" class="col-xs-12 col-sm-2 control-label label-envio">Observaciones:</label>
                     <div class="col-xs-12 col-sm-8">
                         {{ form.observations }}
                         {% for error in form.observations.errors %}
@@ -197,5 +199,8 @@
 
         </div>
     </div>
+{% else %}
+    <h3>Necesita Permisos de Administrador</h3>
+{% endif %}
 
 {% endblock content_panel %}

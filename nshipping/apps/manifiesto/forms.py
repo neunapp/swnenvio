@@ -174,6 +174,7 @@ class ThirdManifestForm(ManifestForm):
     """
     full_name = forms.CharField(
         label='Nombres/RazonSocial',
+        required=False,
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control input-detail',
@@ -183,6 +184,7 @@ class ThirdManifestForm(ManifestForm):
     )
     ruc = forms.CharField(
         label='Ruc',
+        required=False,
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control input-detail',
@@ -191,6 +193,7 @@ class ThirdManifestForm(ManifestForm):
         ),
     )
     observations = forms.CharField(
+        required=False,
         widget=forms.Textarea(
             attrs={
                 'class': 'form-control input-detail',
@@ -222,10 +225,10 @@ class ThirdManifestForm(ManifestForm):
 
     def clean_ruc(self):
         ruc = self.cleaned_data['ruc']
-        if not ruc.isdigit():
+        if (len(ruc) > 0) and (not ruc.isdigit()):
             msj = 'el Ruc solo deben contener numeros'
             self.add_error('ruc', msj)
-        elif len(ruc) != 11:
+        elif len(ruc) != 11 and len(ruc) > 0:
             msj = 'el Ruc solo puede tener 11 digitos'
             self.add_error('ruc', msj)
         else:
@@ -265,23 +268,27 @@ class ReceptionForm(forms.Form):
     def __init__(self, pk, user, *args, **kwargs):
         super(ReceptionForm, self).__init__(*args, **kwargs)
         # recupera sucursal
-        branch = Profile.objects.get(user=user).branch.id
-        print branch
-        # realizamos la consulta
-        deposit_slip = DepositSlip.objects.slip_by_manifest(
-            pk,
-            branch,
-        )
-        print deposit_slip
-        # asignamos la consulta
-        self.fields['deposit_slip'].queryset = deposit_slip
-        self.fields['deposit_slip'].label_from_instance = \
-            lambda obj: "%s %s - %s - %s - %s - %s" % (
-                obj.number,
-                obj.serie,
-                obj.origin,
-                obj.sender,
-                obj.addressee,
-                obj.destination,
+        profile_query = Profile.objects.filter(user=user)
+        if profile_query.count() > 0:
+            branch = profile_query[0].branch.id
+            # realizamos la consulta
+            deposit_slip = DepositSlip.objects.slip_by_manifest(
+                pk,
+                branch,
             )
-        print self.fields['deposit_slip']
+            # asignamos la consulta
+            self.fields['deposit_slip'].queryset = deposit_slip
+            self.fields['deposit_slip'].label_from_instance = \
+                lambda obj: "%s %s - %s - %s - %s - %s" % (
+                    obj.number,
+                    obj.serie,
+                    obj.origin,
+                    obj.sender,
+                    obj.addressee,
+                    obj.destination,
+                )
+            print '#######################'
+            print self.fields['deposit_slip']
+        else:
+            print '==================='
+            self.fields['deposit_slip'].queryset = None

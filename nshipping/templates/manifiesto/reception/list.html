@@ -1,5 +1,7 @@
 {% extends "ingreso/nota_ingreso/base_nota.html" %}
 
+{% load is_branch from filters %}
+
 {% block sidenav %}
 
     <li>
@@ -106,22 +108,13 @@
 
 {% block content_panel %}
 
+
     <div class="row">
         <div class="col-xs-12">
             <h3 class="page-header title-quilla">Manifiestos a Recepcionar</h3>
         </div>
     </div>
 
-    <div class="row">
-        <div class="clo-xs-12">
-            <div class="quilla-add">
-                <span class="quilla-cantitem">
-                    Tienes <span class="label label-warning">{{ cantidad }}</span> manifiestos no completos
-                </span>
-            </div>
-
-        </div>
-    </div><!-- page-header -->
 
     <div class="row">
         <div class="col-xs-12">
@@ -142,11 +135,11 @@
                             <tr>
                                 <td>{{ manifest.car }}</td>
                                 <td>{{ manifest.driver }}</td>
-                                <td>{{ manifest.origin }}</td>
+                                <td class="warning">{{ manifest.origin }}</td>
                                 <td>{{ manifest.destination }}</td>
                                 <td>{{ manifest.date_shipping }}</td>
                                 <td class="text-center">
-                                    <a href="{% url 'manifiesto_app:registrar-recepcion' manifest.pk %}" class="btn btn-sm btn-quilla"><i class="fa fa-fw fa-eye"></i>Recepcionar</a>
+                                    <a href="{% url 'manifiesto_app:registrar-recepcion' manifest.pk %}" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-ok"></i></a>
                                 </td>
                             </tr>
                         {% empty %}

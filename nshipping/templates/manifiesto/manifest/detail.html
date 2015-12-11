@@ -72,6 +72,8 @@
 
 {% block content_panel %}
 
+{% if user.is_superuser %}
+
     <form role="form" method="POST" class="form-horizontal">{% csrf_token %}
         <div class="row">
             <div class="col-xs-12">
@@ -118,5 +120,8 @@
         </div>
         </div>
     </form>
+{% else %}
+    <h3>Necesita Permisos de Administrador</h3>
+{% endif %}
 
 {% endblock content_panel %}

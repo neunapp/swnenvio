@@ -74,12 +74,12 @@
 
 {% block content_panel %}
 
-
     <div class="row">
         <div class="col-xs-12">
             <h3 class="page-header title-quilla">Productos Enviados</h3>
         </div>
     </div>
+{% if  form.deposit_slip.count > 0 %}
 <form role="form" method="POST" class="form-horizontal">{% csrf_token %}
     <div class="row">
         <div class="col-xs-12">
@@ -106,7 +106,9 @@
                             <td>
                                 {{slip.tag}}
                             </td>
-                        </tr>            
+                        </tr>  
+                        {% empty %}
+                            <td colspan="7">Lo sentimos ud ya no tiene nuevos envios :( </td>
                     {% endfor %}
                 </tbody>
             </table>
@@ -120,5 +122,8 @@
             </div>
     </div>
 </form>
+{% else %}
+    <h3>Ud. No Tiene Registrada una Sucursal</h3>
+{% endif %}
 
 {% endblock content_panel %}

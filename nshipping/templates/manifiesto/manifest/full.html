@@ -72,6 +72,9 @@
 
 {% block content_panel %}
 
+{% if user.is_superuser %}
+
+
     <div class="row">
         <div class="col-xs-12">
             <h3 class="page-header title-quilla">¿Desea marcar este manifiesto como enviado?</h3>
@@ -142,5 +145,8 @@
             </div>
         </div>
     </form>
+{% else %}
+    <h3>Necesita Permisos de Administrador</h3>
+{% endif %}
 
 {% endblock content_panel %}

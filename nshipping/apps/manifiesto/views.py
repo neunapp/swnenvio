@@ -212,7 +212,7 @@ class UpdateManifest(LoginRequiredMixin, UpdateView):
         manifest_pk = self.kwargs.get('pk', 0)
         # recuperamos las observaciones
         manifest_query = SubContract.objects.filter(manifest__pk=manifest_pk)
-        if manifest_query.count > 0:
+        if manifest_query.count() > 0:
             manifest = manifest_query[0]
             initial['full_name'] = manifest.full_name
             initial['ruc'] = manifest.ruc
@@ -220,14 +220,18 @@ class UpdateManifest(LoginRequiredMixin, UpdateView):
         return initial
 
     def form_valid(self, form):
-        # recuperamos el manifiesto de formulario
-        manifest = form.cleaned_data['manifest']
-        # agregamos la nota de ingreso al manifest
-        manifest.deposit_slip.add(self.object)
-        # guardamos le Manifest
-        manifest.save()
-        return super(RemissionView, self).form_valid(form)
-        
+        # guardamos el manifiesto
+        form.save()
+        # recuperamos las observacions
+        manifest_pk = self.kwargs.get('pk', 0)
+        manifest_query = SubContract.objects.filter(manifest__pk=manifest_pk)
+        if manifest_query.count() > 0:
+            subcontrac = manifest_query[0]
+            subcontrac.full_name = form.cleaned_data['full_name']
+            subcontrac.ruc = form.cleaned_data['ruc']
+            subcontrac.observation = form.cleaned_data['observations']
+            subcontrac.save()
+        return super(UpdateManifest, self).form_valid(form)
 
 
 class AnulateManifestView(LoginRequiredMixin, DetailView):
@@ -447,9 +451,23 @@ class ReportDetailManifest(LoginRequiredMixin, TemplateView):
 # lista de manifiestos no recepcionadoss
 class Manifest_no_Reception(LoginRequiredMixin, ListView):
     context_object_name = 'manifests'
-    queryset = Manifest.objects.filter(reception=False, state=True)
     template_name = 'manifiesto/reception/list.html'
     login_url = reverse_lazy('users_app:login')
+
+    def get_queryset(self):
+        # recuperamos sucursal del usuario
+        usuario = self.request.user
+        profile_query = Profile.objects.filter(user=usuario)
+        if profile_query.count() > 0:
+            # es usuario normal
+            branch = profile_query[0].branch
+            print('====no es superu user=====')
+            queryset = Manifest.objects.manifest_by_user(branch)
+        else:
+            # es superusuario
+            queryset = Manifest.objects.filter(reception=False, state=True)
+
+        return queryset
 
 
 # lista de notas de ingreso a recpcionar

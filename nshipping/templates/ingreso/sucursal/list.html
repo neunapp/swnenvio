@@ -3,7 +3,7 @@
 {% block title %}lista Sucursal{% endblock title %}
 
 {% block sidenav %}
-                        
+                                               
     <li>
         <a class="active" href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
     </li>
@@ -74,6 +74,8 @@
 
 {% block content_panel %}
 
+{% if user.is_superuser %}
+
     <div class="row">
         <div class="col-xs-12">
             <h3 class="page-header title-quilla">Lista de Sucursales</h3>
@@ -133,6 +135,9 @@
             </div>
         </div>
     </div>
+{% else %}
+    <h3>Necesita Permisos de Administrador</h3>
+{% endif %}
 
 {% endblock content_panel %}
 

@@ -72,6 +72,7 @@
 
 {% block content_panel %}
 
+{% if user.is_superuser %}
 
     <div class="row">
         <div class="col-xs-12">
@@ -81,8 +82,22 @@
     <form role="form" method="POST" class="form-horizontal">{% csrf_token %}
         <div class="row">
             <div class="col-xs-12">
-                <h5 class="text-danger">Conductor:</h5>{{object.driver}}
-                <h5 class="text-danger">Vehiculo: </h5>{{object.car}}
+                    <div class="row box-section">
+                    <div class="col-xs-12">
+                        <dl class="dl-horizontal">
+                            <dt>Vehículo:</dt>
+                            <dd>{{ object.car }}</dd>
+                            <dt>Conductor:</dt>
+                            <dd>{{ object.driver }}</dd>
+                            <dt>Partida:</dt>
+                            <dd>{{ object.origin }}</dd>
+                            <dt>Destino:</dt>
+                            <dd>{{ object.destination }}</dd>
+                            <dt>Fecha de Salida:</dt>
+                            <dd>{{ object.date_shipping }}</dd>
+                        </dl>
+                        </div>
+                    </div>
                 <h5 class="text-danger">Notas de Ingreso:</h5>
                 <table class="table table-bordered table-hover table-condensed table-quilla">
                 <thead>
@@ -103,10 +118,6 @@
                         {% endfor %}
                 </tbody>
                 </table>
-                <h5 class="text-danger">Direccion de Partida:</h5>{{object.origin}}
-                <h5 class="text-danger">Nro Direccion de LLegada:</h5> {{object.destination}}
-                <h5 class="text-danger">Fecha de Salida: </h5>{{object.date_shipping}}
-                <h5 class="text-danger">Estado: </h5>{{object.state}}
             </div>
         </div>
         <div class="row box-section">
@@ -114,10 +125,13 @@
                 <div class="form-group">
                     <div class="col-sm-12">
                         <button type="submit" class="btn btn-quilla">Completar</button>
+                        <a class="btn btn-default" role="button" href="{% url 'manifiesto_app:listar-manifiesto' %}" >Regresar a lista</a>
                     </div>
                 </div>
             </div>
         </div>
     </form>
-
+{% else %}
+    <h3>Necesita Permisos de Administrador</h3>
+{% endif %}
 {% endblock content_panel %}

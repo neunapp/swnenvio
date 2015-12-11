@@ -73,7 +73,7 @@
 {% block content_panel %}
     <div class="row">
         <div class="col-xs-12">
-            <h3 class="page-header title-entrega">CUDRAR CAJA</h3>
+            <h3 class="page-header title-entrega">Resultados Para: <span class="text-primary">{{ usuario.get_full_name }}</span></h3>
         </div>    
     </div>
     <div class="row col-xs-12">
@@ -103,23 +103,48 @@
             </div>
         </div>
     </div>
-    <div class="row col-xs-12">
-        <div class="alert alert-info" role="alert">
-            <h6 class="text-info">Monto por Nota de Ingreso:
-                <span class="label label-primary">S/.{{resultados.amount_slip}}</span>
-            </h6>
-            <h6 class="text-info">Monto Entrega de Envio:
-                <span class="label label-primary">S/.{{resultados.amount_deliver}}</span>
-            </h6>
-            <h6 class="text-info">Monto por Salidas: 
-                <span class="label label-primary">S/.{{resultados.amount_egresos}}</span>
-            </h6>
-            <h6>Monto Anulados: 
-                <span class="label label-primary">S/.{{resultados.amount_canceled}}</span>
-            </h6>
-        </div>
-    </div>                  
+    <div class="row">
+        <div class="row col-xs-12">
+                <div class="col-md-3">
+                    <div class="alert text-center" role="alert">
+                        <h5>Monto por Nota de Ingreso:</h5>
+                        </h3>
+                            <span class="label label-primary">S/.{{resultados.amount_slip}}</span>
+                        </h3>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="alert text-center" role="alert">
+                        <h5>Monto Entrega de Envio:</h5>
+                        </h3>
+                            <span class="label label-primary">S/.{{resultados.amount_deliver}}</span>
+                        </h3>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="alert text-center" role="alert">
+                        <h5>Monto por Salidas:</h5>
+                        </h3>
+                            <span class="label label-primary">S/.{{resultados.amount_egresos}}</span>
+                        </h3>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="alert text-center" role="alert">
+                        <h5>Monto Anulados:</h5>
+                        </h3>
+                            <span class="label label-primary">S/.{{resultados.amount_canceled}}</span>
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        </div>               
 
+    <div class="row">
+        <div class="col-xs-12">
+            <h3 class="page-header title-entrega">Lista de Movimientos</h3>
+        </div>    
+    </div>
     <form method="get" class="form-horizontal">{% csrf_token %}
         <div class="row">
 
@@ -192,7 +217,7 @@
                     </div>
                 </div>
             </div>
-        
+        {% if user.is_superuser %}
         <div class="row">
             <div class="col-xs-6">
                 <div class="form-group">
@@ -202,6 +227,7 @@
                 </div>
             </div>
         </div>
+        {% endif %}
     </form>
 
 

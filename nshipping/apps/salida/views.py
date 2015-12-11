@@ -109,8 +109,15 @@ class CountableCahs(LoginRequiredMixin, FormMixin, ListView):
         userno = User.objects.get(id=user_pk)
         sesion = Sesion.objects.get(userstart=userno, state=True)
         # recuperamos las notas de ingreso creadas y entregdas
-        slip_sesion = Dues.objects.filter(depositslip__sesion=sesion)
-        deliver_sesion = Dues.objects.filter(sesion=sesion)
+        slip_sesion = Dues.objects.filter(
+            depositslip__sesion=sesion,
+            sesion=sesion,
+        )
+        deliver_sesion = Dues.objects.filter(
+            sesion=sesion,
+        ).exclude(
+            depositslip__sesion=sesion,
+        )
         expenditur_sesion = Expenditur.objects.filter(sesion=sesion)
         # enviamos resultados al contexto
         context['resultados'] = resul_proces(
@@ -120,6 +127,7 @@ class CountableCahs(LoginRequiredMixin, FormMixin, ListView):
         )
         context['tipo'] = FilterForm
         context['form'] = self.get_form()
+        context['usuario'] = userno
         return context
 
     def get_queryset(self):
@@ -128,8 +136,14 @@ class CountableCahs(LoginRequiredMixin, FormMixin, ListView):
         userno = User.objects.get(id=user_pk)
         sesion = Sesion.objects.get(userstart=userno, state=True)
         #realizamos las consultas
-        slip_sesion = Dues.objects.filter(depositslip__sesion=sesion)
-        deliver_sesion = Dues.objects.filter(sesion=sesion)
+        slip_sesion = Dues.objects.filter(
+            depositslip__sesion=sesion,
+            sesion=sesion,
+        )
+        deliver_sesion = Dues.objects.filter(
+            sesion=sesion,
+            depositslip__state='3'
+        )
         expenditur_sesion = Expenditur.objects.filter(sesion=sesion)
         #procesamos las listas
         a, b, c, d = list_slip(slip_sesion)

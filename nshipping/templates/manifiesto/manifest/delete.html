@@ -72,7 +72,8 @@
 
 {% block content_panel %}
 
-
+{% if user.is_superuser %}
+    
     <div class="row">
         <div class="col-xs-12">
             <h3 class="text-danger">¿Esta Seguro de Anular Este Manifiesto?</h3>
@@ -119,5 +120,8 @@
             </div>
         </div>
     </form>
+{% else %}
+    <h3>Necesita Permisos de Administrador</h3>
+{% endif %}
 
 {% endblock content_panel %}
