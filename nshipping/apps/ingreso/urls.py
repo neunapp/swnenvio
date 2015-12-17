@@ -12,21 +12,21 @@ urlpatterns = [
         views.EnvioPrintView.as_view(),
         name='print-envio'
     ),
-    # url(
-    #     r'^panel/imprimir/nota-ingreso/(?P<pk>\d+)/$',
-    #     views.DepositSlipView.as_view(),
-    #     name='print-nota-ingreso'
-    # ),
-    # url(
-    #     r'^panel/imprimir/manifiesto/(?P<pk>\d+)/$',
-    #     views.DepositSlipView.as_view(),
-    #     name='print-manifiesto'
-    # ),
-    # url(
-    #     r'^panel/imprimir/comprobante/(?P<pk>\d+)/$',
-    #     views.DepositSlipView.as_view(),
-    #     name='print-comprobante'
-    # ),
+    url(
+        r'^panel/imprimir/nota-ingreso/(?P<pk>\d+)/$',
+        views.ReportNotaView.as_view(),
+        name='print-nota-ingreso'
+    ),
+    url(
+        r'^panel/imprimir/guia/(?P<pk>\d+)/$',
+        views.ReportGuiaView.as_view(),
+        name='print-guia'
+    ),
+    url(
+        r'^panel/imprimir/comprobante/(?P<pk>\d+)/$',
+        views.ReportComprobanteView.as_view(),
+        name='print-comprobante'
+    ),
     url(
         r'^panel/entregar-envio/$',
         views.DeliverView.as_view(),

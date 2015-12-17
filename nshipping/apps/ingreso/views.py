@@ -1,7 +1,8 @@
 # -*- encoding: utf-8 -*-
 from braces.views import LoginRequiredMixin
 
-from django.views.generic import DetailView, UpdateView, TemplateView
+from django.views.generic import DetailView, UpdateView, TemplateView, View
+from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import CreateView, FormView, FormMixin
 from django.views.generic.list import ListView
 from django.contrib.messages.views import SuccessMessageMixin
@@ -10,7 +11,7 @@ from django.core.urlresolvers import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
 
 # local.
-from .functions import ClientGetOrCreate
+from .functions import ClientGetOrCreate, generar_pdf
 from .models import Branch, Dues, DepositSlip
 from apps.profiles.models import Profile
 from apps.salida.models import Expenditur, Sesion
@@ -290,3 +291,36 @@ class EnvioPrintView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(EnvioPrintView, self).get_context_data(**kwargs)
         return context
+
+
+class ReportNotaView(LoginRequiredMixin, SingleObjectMixin, View):
+    model = DepositSlip
+
+    def get(self, request, *args, **kwargs):
+        notaingreso = self.get_object()
+        return generar_pdf(
+            'ingreso/report/print_nota.html',
+            {'pagesize' : 'A4', 'minombre' : 'hennry joel'}
+        )
+
+
+class ReportGuiaView(LoginRequiredMixin, SingleObjectMixin, View):
+    model = DepositSlip
+
+    def get(self, request, *args, **kwargs):
+        notaingreso = self.get_object()
+        return generar_pdf(
+            'ingreso/report/print_guia.html',
+            {'pagesize' : 'A4', 'minombre' : 'hennry joel'}
+        )
+
+
+class ReportComprobanteView(LoginRequiredMixin, SingleObjectMixin, View):
+    model = DepositSlip
+
+    def get(self, request, *args, **kwargs):
+        notaingreso = self.get_object()
+        return generar_pdf(
+            'ingreso/report/print_comprobante.html',
+            {'pagesize' : 'A4', 'minombre' : 'hennry joel'}
+        )

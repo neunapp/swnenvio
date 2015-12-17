@@ -103,9 +103,9 @@
                             <td>{{ depositslip.destination }}</td>
 
                             <td class="text-center">
-                                <a href="{% url 'ingreso_app:detalle-branch' depositslip.pk %}" class="btn btn-sm btn-success" target="_blank" data-toggle="tooltip" title="Nota De Ingreso" data-placement="bottom"><i class="fa fa-print fa-lg"></i></a>
-                                <a href="{% url 'ingreso_app:actualizar-branch' depositslip.pk %}" class="btn btn-sm btn-warning" target="_blank" data-toggle="tooltip" title="Guia de Remisión" data-placement="bottom"><i class="fa fa fa-file-text-o fa-lg"></i></a>
-                                <a href="{% url 'ingreso_app:eliminar-branch' depositslip.pk %}" class="btn btn-sm btn-primary"  target="_blank" data-toggle="tooltip" title="Comprobante" data-placement="bottom"><i class="fa fa fa-file-o fa-lg"></i></a>
+                                <a href="{% url 'ingreso_app:print-nota-ingreso' depositslip.pk %}" class="btn btn-sm btn-success" target="_blank" data-toggle="tooltip" title="Nota De Ingreso" data-placement="bottom"><i class="fa fa-print fa-lg"></i></a>
+                                <a href="{% url 'ingreso_app:print-guia' depositslip.pk %}" class="btn btn-sm btn-warning" target="_blank" data-toggle="tooltip" title="Guia de Remisión" data-placement="bottom"><i class="fa fa fa-file-text-o fa-lg"></i></a>
+                                <a href="{% url 'ingreso_app:print-comprobante' depositslip.pk %}" class="btn btn-sm btn-primary"  target="_blank" data-toggle="tooltip" title="Comprobante" data-placement="bottom"><i class="fa fa fa-file-o fa-lg"></i></a>
                             </td>
                         </tr>
                     </tbody>

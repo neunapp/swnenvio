@@ -16,6 +16,6 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "nshipping.settings.staging")
 # modo local
 application = get_wsgi_application()
 
-#modo produccion
-#from dj_static import Cling
-#application = Cling(get_wsgi_application())
+# modo produccion
+# from dj_static import Cling
+# application = Cling(get_wsgi_application())
