@@ -287,8 +287,5 @@ class ReceptionForm(forms.Form):
                     obj.addressee,
                     obj.destination,
                 )
-            print '#######################'
-            print self.fields['deposit_slip']
         else:
-            print '==================='
             self.fields['deposit_slip'].queryset = None

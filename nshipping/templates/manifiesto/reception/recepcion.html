@@ -3,7 +3,7 @@
 {% load filters %}
 
 {% block sidenav %}
-                        
+
     <li>
         <a class="active" href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
     </li>
@@ -32,7 +32,7 @@
             </li>
         </ul>
     </li>
-        
+
     <li>
         <a href="javascript:;" data-toggle="collapse" data-target="#manifiesto">
             <i class="fa fa-fw fa-bullseye"></i>
@@ -79,7 +79,7 @@
             <h3 class="page-header title-quilla">Productos Enviados</h3>
         </div>
     </div>
-{% if  form.deposit_slip.count > 0 %}
+{% if not form.deposit_slip == None %}
 <form role="form" method="POST" class="form-horizontal">{% csrf_token %}
     <div class="row">
         <div class="col-xs-12">
@@ -101,12 +101,12 @@
                             {% for label in slip.choice_label|split_label %}
                                 <td>
                                     {{label}}
-                                </td>  
+                                </td>
                             {% endfor %}
                             <td>
                                 {{slip.tag}}
                             </td>
-                        </tr>  
+                        </tr>
                         {% empty %}
                             <td colspan="7">Lo sentimos ud ya no tiene nuevos envios :( </td>
                     {% endfor %}

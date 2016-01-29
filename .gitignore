@@ -55,28 +55,23 @@ docs/_build/
 
 # PyBuilder
 target/
+
 nshipping/secrets.json
 
-nshipping/nshipping/settings
-
-nshipping/nshipping/wsgi.py
-
-nshipping/requirements.txt
-
-nshipping/Procfile/
-
-nshipping/apps/ingreso/migrations/
+nshipping/nshipping/settings/*
 
 nshipping/apps/ingreso/migrations/*
 
-nshipping/apps/manifiesto/migrations/
+nshipping/apps/ingreso/migrations/*
 
 nshipping/apps/manifiesto/migrations/*
 
-nshipping/apps/salida/migrations/
+nshipping/apps/manifiesto/migrations/*
 
 nshipping/apps/salida/migrations/*
 
-nshipping/apps/users/migrations/
+nshipping/apps/salida/migrations/*
+
+nshipping/apps/users/migrations/*
 
 nshipping/apps/users/migrations/*

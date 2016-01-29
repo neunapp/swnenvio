@@ -11,7 +11,6 @@ def ClientGetOrCreate(dniorruc, full_name, business_name):
     '''
     recuperar o crar cliente.
     '''
-    print dniorruc + "dni or ruc"
     if len(dniorruc) == 11:
         # creamos el objecto cliente y su estad de creacion
         obj, created = Client.objects.get_or_create(

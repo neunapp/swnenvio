@@ -150,6 +150,10 @@ class Manifest(TimeStampedModel):
         default=False,
         editable=False
     )
+    arrive = models.BooleanField(
+        'arrivo',
+        default=False,
+    )
 
     objects = ManangerManifest()
 

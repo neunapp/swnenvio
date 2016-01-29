@@ -503,8 +503,16 @@ class Slip_Reception(LoginRequiredMixin, FormMixin, DetailView):
 
     def form_valid(self, form):
         # recuperamos el manifiesto de formulario
+        manifest = self.get_object()
+        print '========== Manifeisto =========='
+        print manifest
         deposit_slip = form.cleaned_data['deposit_slip']
         for slip in deposit_slip:
             slip.state = '2'
             slip.save()
+            #verificamos si esta en el destino final del manifiesto
+            if slip.destination == manifest.destination:
+                print '======== el Manifiesto Arrivo ==========='
+                manifest.arrive = True
+                manifest.save()
         return super(Slip_Reception, self).form_valid(form)

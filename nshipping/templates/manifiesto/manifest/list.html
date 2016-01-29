@@ -73,7 +73,6 @@
 {% block content_panel %}
 
 {% if user.is_superuser %}
-    
 
     <div class="row">
         <div class="col-xs-12">
@@ -109,8 +108,8 @@
                     </thead>
                     <tbody>
                         {% for manifest in  manifests %}
-                            {% if manifest.state == True %}
-                                <tr class="success">
+                            {% if manifest.arrive == True  %}
+                                <tr class="warning">
                                     <td>{{ manifest.car }}</td>
                                     <td>{{ manifest.driver }}</td>
                                     <td>{{ manifest.origin }}</td>
@@ -123,7 +122,8 @@
                                     </td>
                                 </tr>
                             {% else %}
-                                <tr>
+                              {% if manifest.state == True %}
+                                <tr class="success">
                                     <td>{{ manifest.car }}</td>
                                     <td>{{ manifest.driver }}</td>
                                     <td>{{ manifest.origin }}</td>
@@ -135,8 +135,22 @@
                                         <a href="{% url 'manifiesto_app:completar-manifiesto' manifest.pk %}" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-thumbs-up"></i></a>
                                     </td>
                                 </tr>
+                                {% else %}
+                                  <tr>
+                                    <td>{{ manifest.car }}</td>
+                                    <td>{{ manifest.driver }}</td>
+                                    <td>{{ manifest.origin }}</td>
+                                    <td>{{ manifest.destination }}</td>
+                                    <td>{{ manifest.date_shipping }}</td>
+                                    <td class="text-center">
+                                        <a href="{% url 'manifiesto_app:full-manifiesto' manifest.pk %}" class="btn btn-sm btn-success"><i class="fa fa-fw fa-check"></i></a>
+                                        <a href="{% url 'manifiesto_app:update-manifiesto' manifest.pk %}" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-pencil"></i></a>
+                                        <a href="{% url 'manifiesto_app:completar-manifiesto' manifest.pk %}" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-thumbs-up"></i></a>
+                                    </td>
+                                  </tr>
+                                {% endif %}
                             {% endif %}
-                        {% empty %}
+                            {% empty %}
                                 <td colspan="6">Lo sentimos no hay manifiestos a recepionar</td>
                         {% endfor %}
                     </tbody>

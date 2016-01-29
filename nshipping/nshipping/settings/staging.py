@@ -1,16 +1,16 @@
 from .base import *
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd8kdgkppql4g7r',
-        'USER': 'kgiwsnwewtgmxe',
-        'PASSWORD': 'CQJgaeInizSYx42vTYCnzhW0zj',
-        'HOST': 'ec2-54-83-53-120.compute-1.amazonaws.com',
+        'NAME': 'd8amskmu4j5fet',
+        'USER': 'xicedsyhbpwirk',
+        'PASSWORD': 'VTUxbK5boYTqXChP1gtQRGCuSq',
+        'HOST': 'ec2-54-204-39-67.compute-1.amazonaws.com',
         'PORT': '5432',
 
     }
