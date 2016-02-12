@@ -77,7 +77,8 @@ class NotaIngresoForm(forms.ModelForm):
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control input-sm',
-                'placeholder': 'Ingrese Dni o Ruc'
+                'placeholder': 'Ingrese Dni o Ruc',
+                'ng-model':'vm.dni',
             }
         )
     )
@@ -87,7 +88,9 @@ class NotaIngresoForm(forms.ModelForm):
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control input-sm',
-                'placeholder': 'Ingrese nombres completos'
+                'ng-click':'vm.RecuperarCliente(vm.dni,"sender")',
+                'ng-model':'vm.name',
+                'placeholder': 'Ingrese nombres completos',
             }
         )
     )
@@ -98,7 +101,9 @@ class NotaIngresoForm(forms.ModelForm):
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control input-sm',
-                'placeholder': 'Ingrese nombre de la empresa'
+                'ng-click':'vm.RecuperarCliente(vm.dni,"sender")',
+                'ng-model':'vm.rs',
+                'placeholder': 'Ingrese nombre de la empresa',
             }
         )
     )
@@ -110,7 +115,8 @@ class NotaIngresoForm(forms.ModelForm):
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control input-sm',
-                'placeholder': 'Ingrese Dni o Ruc'
+                'placeholder': 'Ingrese Dni o Ruc',
+                'ng-model':'vm.addr_id',
             }
         )
     )
@@ -120,6 +126,8 @@ class NotaIngresoForm(forms.ModelForm):
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control input-sm',
+                'ng-click':'vm.RecuperarCliente(vm.addr_id,"addr")',
+                'ng-model':'vm.addr_name',
                 'placeholder': 'Ingrese nombres completos'
             }
         )
@@ -131,6 +139,8 @@ class NotaIngresoForm(forms.ModelForm):
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control input-sm',
+                'ng-click':'vm.RecuperarClienteD(vm.addr_id,"addr")',
+                'ng-model':'vm.addr_rs',
                 'placeholder': 'Ingrese nombre de la empresa'
             }
         )

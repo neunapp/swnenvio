@@ -1,0 +1,24 @@
+.titulo{
+    color: steelblue;
+}
+.banner{
+    height: 200px;
+}
+.title{
+    color: lightskyblue;
+}
+.banner-small{
+    height: 100px;
+}
+.fecha{
+    font-size: small;
+    color:darkgray;
+    float: left;
+}
+.footer{
+    font-size: 15px;
+    color: darkgray;
+}
+.center{
+    text-align: center;
+}

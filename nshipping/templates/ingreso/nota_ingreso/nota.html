@@ -81,7 +81,7 @@
     </div>
 
     <form role="form" method="POST" class="form-horizontal">{% csrf_token %}
-
+      <div ng-app= "ClientApp"><!-- Inicio aplicacion angular-->
         {% if form.errors %}
             <div class="row box-section">
                 <div class="col-xs-12">
@@ -190,13 +190,14 @@
         </div>
 
 
-        <div class="row">
+        <div class="row" ng-controller= "ClientCtrl as vm">
             <div class="col-xs-12 col-sm-6">
                 <h4 class="title-cliente">Remitente</h4>
                 <div class="form-group">
                     <label for="{{ form.sender_id.id_for_label }}" class="col-xs-3 control-label label-envio">Ruc/Dni (*)</label>
                     <div class="col-xs-9">
                         {{ form.sender_id }}
+                        {$ vm.clientes $}
                         {% for error in form.sender_id.errors %}
                             <p class="help-block text-error">
                                 {{ error|escape }}
@@ -322,7 +323,7 @@
             </div>
 
         </div>
-
+    </div><!-- fin de aplicacion angular-->
         <div class="row box-section">
             <div class="col-xs-12">
                 <div class="form-group">

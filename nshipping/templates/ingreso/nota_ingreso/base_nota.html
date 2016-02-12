@@ -3,6 +3,7 @@
 {% load staticfiles %}
 
 {% block css %}
+
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
     <link rel="stylesheet" href="{% static 'css/sb-admin.css' %}">
     <link href='http://fonts.googleapis.com/css?family=Ubuntu:400,700' rel='stylesheet' type='text/css'>
@@ -15,6 +16,15 @@
 {% block js %}
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="{% static 'js/vendor/bootstrap.min.js' %}"></script>
+
+    <script src="{% static 'js/angular.min.js' %}"></script>
+    <script src="{% static 'AngularApp/app.js' %}"></script>
+    <!-- seccion de archivos Angularjs-->
+    <script src="{% static 'AngularApp/app/cliente/clientCtrl.js' %}"></script>
+    <script src="{% static 'AngularApp/common/common.services.js' %}"></script>
+    <script src="{% static 'AngularApp/common/cliente/clientservices.js' %}"></script>
+    <script src="{% static 'AngularApp/app/manifest/manifestCtrl.js' %}"></script>
+    <!--fin de seccion de archivos angularjs-->
     <script src="{% static 'js/main.js' %}"></script>
 
 {% endblock js %}

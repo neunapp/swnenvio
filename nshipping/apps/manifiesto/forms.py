@@ -242,6 +242,8 @@ class RemissionForm(forms.Form):
         widget=forms.Select(
             attrs={
                 'class': 'form-control input-sm',
+                'ng-model':'vm.remission',
+                'ng-change':'vm.change(vm.remission)',
                 'placeholder': 'Pulse para Seleccionar',
             }
         ),

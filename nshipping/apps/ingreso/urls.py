@@ -1,7 +1,14 @@
-from django.conf.urls import url
+from django.conf.urls import url, patterns, include
+from rest_framework import routers
 from . import views
+from .viewsets import ClientViewSet, ClienteViewSet
+from .models import Client
 
+router = routers.SimpleRouter()
+router.register(r'clientes',ClienteViewSet)
+router.register(r'cliente', ClientViewSet,base_name = Client)
 urlpatterns = [
+    url(r'^api/',include(router.urls)),
     url(
         r'^panel/nota-ingreso/$',
         views.DepositSlipView.as_view(),

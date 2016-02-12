@@ -1,7 +1,16 @@
+from django.conf.urls import url, patterns, include
+from rest_framework import routers
 from django.conf.urls import url
+from .models import Manifest
+from .viewsets import ManifestViewSet
 from . import views
 
+
+router = routers.SimpleRouter()
+router.register(r'manifiesto', ManifestViewSet,base_name = Manifest)
+
 urlpatterns = [
+    url(r'^api/',include(router.urls)),
     url(
         r'^manifiesto/car/listar/$',
         views.ListCarView.as_view(),

@@ -30,7 +30,7 @@
             </li>
         </ul>
     </li>
-        
+
     <li>
         <a href="javascript:;" data-toggle="collapse" data-target="#caja">
             <i class="fa fa-fw fa-bullseye"></i>
@@ -91,7 +91,7 @@
                 <dd>{{ object.origin.provincia }}</dd>
                 <dt>Departamento:</dt>
                 <dd>{{ object.origin.departamento }}</dd>
-            </dl>   
+            </dl>
         </div>
 
         <div class="col-xs-12 col-sm-6">
@@ -132,11 +132,11 @@
                 <dt>Dni:</dt>
                 <dd>{{ object.addressee.dni }}</dd>
             </dl>
-        </div> 
+        </div>
     </div>
 
     <form role="form" method="POST" class="form-horizontal">{% csrf_token %}
-
+      <div ng-app="ClientApp"><!--inicio del la aplicacion angularjs-->
         <div class="row box-section">
             <div class="col-xs-3 label-detail-cant">
                 <span>Cantidad (*)</span>
@@ -152,7 +152,7 @@
                 <div class="panel-body">{{ object.description }}</div>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group" ng-controller="ManifestCtrl as vm">
             <h4 class="title-cliente">Unidad de Trasporte y Conductor:</h4>
             <div class="col-xs-12">
                 {{ form.manifest }}
@@ -161,6 +161,7 @@
                         {{ error|escape }}
                     </p>
                 {% endfor %}
+                <p class="text-primary">Hay <span class="label label-primary">{$ vm.deposit_count $}</span>  paquetes en el Vehiculo</p>
             </div>
         </div>
         <div class="row">
@@ -172,6 +173,7 @@
                 </div>
             </div>
         </div>
+      </div><!--fin de la aplicacion angulajs-->
     </form>
 
 {% endblock content_panel %}
