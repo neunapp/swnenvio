@@ -1,3 +1,6 @@
+.error-shipping{
+    border: 2px solid red;
+}
 .title-quilla {
     margin: 0.3em 0 0 0;
 }
@@ -62,7 +65,7 @@
 }
 
 .label-detail-cant {
-    border-top-left-radius: 10px; 
+    border-top-left-radius: 10px;
 }
 
 .label-detail-desc {
@@ -91,8 +94,8 @@
 
 .table-curved tr:last-child td
 {
-    border-bottom-left-radius: 25px;    
-    border-bottom-right-radius: 25px;   
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
 }
 
 .table-quilla {
@@ -160,8 +163,8 @@
 
 .modal-quilla {
     background-color: #2694ED;
-    border-top-left-radius: 5px;    
-    border-top-right-radius: 5px;   
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
 
 .tiulo-danger {

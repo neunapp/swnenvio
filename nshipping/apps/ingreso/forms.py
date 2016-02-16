@@ -77,6 +77,8 @@ class NotaIngresoForm(forms.ModelForm):
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control input-sm',
+                'ng-class':'vm.classender',
+                'ng-change':'vm.ValidarID(vm.dni, "sender")',
                 'placeholder': 'Ingrese Dni o Ruc',
                 'ng-model':'vm.dni',
             }
@@ -115,6 +117,8 @@ class NotaIngresoForm(forms.ModelForm):
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control input-sm',
+                'ng-class':'vm.clasaddr',
+                'ng-change':'vm.ValidarID(vm.addr_id,"addr")',
                 'placeholder': 'Ingrese Dni o Ruc',
                 'ng-model':'vm.addr_id',
             }
@@ -151,6 +155,8 @@ class NotaIngresoForm(forms.ModelForm):
         widget=forms.NumberInput(
             attrs={
                 'class': 'form-control',
+                'ng-model':'vm.acuenta',
+                'ng-change':'vm.CalcularMonto(vm.amount)',
                 'placeholder': '0.0'
             }
         )
@@ -201,6 +207,8 @@ class NotaIngresoForm(forms.ModelForm):
             'total_amount': forms.NumberInput(
                 attrs={
                     'class': 'form-control',
+                    'ng-model':'vm.amount',
+                    'ng-change':'vm.CalcularMonto(vm.amount)',
                     'placeholder': '0.00',
                 }
             ),

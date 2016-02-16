@@ -1,5 +1,5 @@
 (function(){
-    var app = angular.module("ClientApp",[
+    var app = angular.module("ShippingApp",[
                             'common.services',
         ])
         .config(

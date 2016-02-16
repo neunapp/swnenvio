@@ -1,13 +1,30 @@
 (function(){
-  angular.module("ClientApp")
+  angular.module("ShippingApp")
       .controller("ClientCtrl", ['$http',ClientCtrl]);
   function ClientCtrl($http){
       var me = this;
-/*      me.Recuperarlista = function(){
-        clienteService.then(function(response){
-          me.clientes = response.data;
-        });
-      }*/
+      me.ValidarID = function(value, id){
+          //metodo para validar casilla id__sender
+          if (id == "sender"){
+              if ((value.length != 8) && (value.length != 11)) {
+                  console.log("el id es incorrecto");
+                  me.classender = "error-shipping";
+              }
+              else {
+                  me.classender = "default";
+              }
+          }
+          else {
+            if ((value.length != 8) && (value.length != 11)) {
+                console.log("el id es incorrecto");
+                me.clasaddr = "error-shipping";
+            }
+            else {
+                me.clasaddr = "default";
+            }
+          }
+      }
+
       me.RecuperarCliente = function(value,id){
           //lamamos al servicio a recuprara
           console.log("funcion de RecuperarCliente");
@@ -22,7 +39,9 @@
                 me.addr_rs = respuesta.business_name;
               }
 
-          });
+          }).error(function(respuesta) {
+                console.log('Error:' + respuesta);
+            });
       }
   }
 }());

@@ -1,5 +1,5 @@
 (function(){
-  angular.module("ClientApp")
+  angular.module("ShippingApp")
       .controller("ManifestCtrl", ['$http',ManifestCtrl]);
   function ManifestCtrl($http){
       var me = this;

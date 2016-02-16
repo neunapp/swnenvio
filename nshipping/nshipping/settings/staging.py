@@ -3,14 +3,14 @@ from .base import *
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
+#configuracion de bd
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd8amskmu4j5fet',
-        'USER': 'xicedsyhbpwirk',
-        'PASSWORD': 'VTUxbK5boYTqXChP1gtQRGCuSq',
-        'HOST': 'ec2-54-204-39-67.compute-1.amazonaws.com',
+        'NAME': 'd4e4qqitffoqpc',
+        'USER': 'dfbzblewnwmixv',
+        'PASSWORD': 'Ht07CgFYbixXBHns8ALyC_3NrA',
+        'HOST': 'ec2-107-20-136-89.compute-1.amazonaws.com',
         'PORT': '5432',
 
     }

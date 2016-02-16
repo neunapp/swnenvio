@@ -22,7 +22,9 @@
                 me.addr_rs = respuesta.business_name;
               }
 
-          });
+          }).error(function(respuesta) {
+                console.log('Error:' + respuesta);
+            });
       }
   }
 }());
