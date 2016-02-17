@@ -101,7 +101,8 @@
                     <h4 class="titulo-numeracion">NOTA DE INGRESO</h4>
                     <div class="contenido-numeracion">
                         <div class="form-group">
-
+                          <div ng-app = "ShippingApp"><!--inicio de la aplicacion angular slip-->
+                            <div ng-controller = "SlipCtrl as vm">
                             <label class="sr-only control-label label-hidden" for="{{ form.serie.id_for_label }}">serie</label>
                             <div class="col-xs-4">
                                 {{ form.serie }}
@@ -125,7 +126,9 @@
                                     </p>
                                 </div>
                             {% endfor %}
-                        </div>
+                          </div>
+                        </div><!--fin de la aplicaicon angulajs slip-->
+                      </div>
                     </div>
                 </div>
             </div>
@@ -146,6 +149,8 @@
                 </div>
             </div>
             <div class="col-xs-12 col-sm-6">
+              <div ng-app = "ShippingApp"><!--inicio de la aplicacion angular slip-->
+               <div ng-controller = "SlipCtrl as vm">
                 <div class="form-group">
                     <label for="{{ form.guide.id_for_label }}" class="col-xs-3 control-label label-envio">Nro. Guia (*)</label>
                     <div class="col-xs-9">
@@ -157,6 +162,8 @@
                         {% endfor %}
                     </div>
                 </div>
+              </div><!--fin del controlador slip-->
+            </div><!--fin de la apliacion angularjs para numero de guia-->
             </div>
         </div>
 

@@ -180,12 +180,18 @@ class NotaIngresoForm(forms.ModelForm):
             'serie': forms.TextInput(
                 attrs={
                     'class': 'form-control input-sm',
+                    'ng-class':'vm.classerie',
+                    'ng-model':'vm.serie',
+                    'ng-change':'vm.VelidarSerie(vm.serie, "serie")',
                     'placeholder': 'Serie'
                 }
             ),
             'number': forms.TextInput(
                 attrs={
                     'class': 'form-control input-sm',
+                    'ng-class':'vm.clasnumero',
+                    'ng-model':'vm.numero',
+                    'ng-change':'vm.VelidarSerie(vm.numero, "numero")',
                     'placeholder': 'Numero'
                 }
             ),
@@ -195,6 +201,9 @@ class NotaIngresoForm(forms.ModelForm):
             'guide': forms.TextInput(
                 attrs={
                     'class': 'form-control input-sm',
+                    'ng-class':'vm.clasguide',
+                    'ng-model':'vm.guide',
+                    'ng-change':'vm.VelidarSerie(vm.guide, "guide")',
                     'placeholder': 'Nro de guia remitente'
                 }
             ),
