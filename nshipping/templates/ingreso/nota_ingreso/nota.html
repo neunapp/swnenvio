@@ -332,6 +332,7 @@
       </div>
     </div><!-- fin de aplicacion angular-->
         <div class="row box-section">
+          {% if manifiestos.count > 0 %}
             <div class="col-xs-12">
                 <div class="form-group">
                     <div class="col-sm-12">
@@ -339,6 +340,16 @@
                     </div>
                 </div>
             </div>
+          {% else %}
+          <div class="col-xs-12">
+              <div class="form-group">
+                  <div class="col-sm-12">
+                      <button type="submit" class="btn btn-quilla" disabled="disabled">Guardar</button>
+                      <span class="help-block text-error"> No se Encontro Manifiesto Para Esta Sucursal</span>
+                  </div>
+              </div>
+          </div>
+          {% endif %}
         </div>
     </form>
 

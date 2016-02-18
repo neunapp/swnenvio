@@ -11,6 +11,8 @@ from django.core.urlresolvers import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
 
 # local.
+from apps.manifiesto.models import Manifest
+from apps.profiles.models import Profile
 from .functions import ClientGetOrCreate, generar_pdf
 from .models import Branch, Dues, DepositSlip
 from apps.profiles.models import Profile
@@ -88,6 +90,17 @@ class DepositSlipView(LoginRequiredMixin, FormView):
     template_name = 'ingreso/nota_ingreso/nota.html'
     success_url = reverse_lazy('users_app:panel')
     login_url = reverse_lazy('users_app:login')
+
+    def get_context_data(self, **kwargs):
+        context = super(DepositSlipView, self).get_context_data(**kwargs)
+        user = self.request.user
+        sucursal = Profile.objects.get(user=user).branch
+        context['manifiestos'] = Manifest.objects.filter(
+            state=False,
+            origin=sucursal,
+            canceled=False,
+        )
+        return context
 
     def get_form_kwargs(self):
         kwargs = super(DepositSlipView, self).get_form_kwargs()
