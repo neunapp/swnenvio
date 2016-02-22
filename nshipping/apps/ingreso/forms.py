@@ -289,21 +289,6 @@ class NotaIngresoForm(forms.ModelForm):
         else:
             return ide
 
-    def clean_acuenta(self):
-        acuenta = self.cleaned_data['acuenta']
-        total = self.cleaned_data['total_amount']
-        if not is_number(acuenta):
-            msj = 'Debe ser un numero'
-            self.add_error('acuenta', msj)
-        elif float(acuenta) < 0:
-            msj = 'No puede ser negativo'
-            self.add_error('acuenta', msj)
-        elif float(acuenta) > float(total):
-            msj = 'No puede ser mayor al total'
-            self.add_error('acuenta', msj)
-        else:
-            return acuenta
-
     def clean_total_amount(self):
         total = self.cleaned_data['total_amount']
         if not is_number(total):
@@ -314,6 +299,24 @@ class NotaIngresoForm(forms.ModelForm):
             self.add_error('total_amount', msj)
         else:
             return total
+
+    def clean_acuenta(self):
+        acuenta = self.cleaned_data['acuenta']
+        if self.cleaned_data.get('total_amount'):
+            total = self.cleaned_data['total_amount']
+            if not is_number(acuenta):
+                msj = 'Debe ser un numero'
+                self.add_error('acuenta', msj)
+            elif float(acuenta) < 0:
+                msj = 'No puede ser negativo'
+                self.add_error('acuenta', msj)
+            elif float(acuenta) > float(total):
+                msj = 'No puede ser mayor al total'
+                self.add_error('acuenta', msj)
+            else:
+                return acuenta
+        else:
+            self.add_error('acuenta','No Existe Monto Total')
 
 
 class SearchForm(forms.Form):
