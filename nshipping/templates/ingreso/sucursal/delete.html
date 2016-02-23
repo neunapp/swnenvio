@@ -3,7 +3,7 @@
 {% block title %}Eliminar Sucursal{% endblock title %}
 
 {% block sidenav %}
-                        
+
     <li>
         <a class="active" href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
     </li>
@@ -32,7 +32,7 @@
             </li>
         </ul>
     </li>
-        
+
     <li>
         <a href="javascript:;" data-toggle="collapse" data-target="#manifiesto">
             <i class="fa fa-fw fa-bullseye"></i>
@@ -44,7 +44,7 @@
                 <a href="{% url 'manifiesto_app:listar-manifiesto' %}">Manifiesto En Curso</a>
             </li>
             <li>
-                <a href="{% url 'manifiesto_app:agregar-manifiesto' %}">Manifiesto Quilla Cargo</a>
+                <a href="{% url 'manifiesto_app:agregar-manifiesto' %}">Manifiesto Empresa</a>
             </li>
             <li>
                 <a href="{% url 'manifiesto_app:agregar-sub_contrata' %}">Manifiesto por Sub-Contrata</a>
@@ -83,7 +83,7 @@
     </div>
 
     <div class="row box-section">
-            
+
         <div class="col-md-12">
 
             <form role="form" action="{% url 'ingreso_app:eliminar-branch' branch.id %}" method="POST">{% csrf_token %}

@@ -3,7 +3,7 @@
 {% block title %}lista Sucursal{% endblock title %}
 
 {% block sidenav %}
-                                               
+
     <li>
         <a class="active" href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
     </li>
@@ -32,7 +32,7 @@
             </li>
         </ul>
     </li>
-        
+
     <li>
         <a href="javascript:;" data-toggle="collapse" data-target="#manifiesto">
             <i class="fa fa-fw fa-bullseye"></i>
@@ -44,7 +44,7 @@
                 <a href="{% url 'manifiesto_app:listar-manifiesto' %}">Manifiesto En Curso</a>
             </li>
             <li>
-                <a href="{% url 'manifiesto_app:agregar-manifiesto' %}">Manifiesto Quilla Cargo</a>
+                <a href="{% url 'manifiesto_app:agregar-manifiesto' %}">Manifiesto Empresa</a>
             </li>
             <li>
                 <a href="{% url 'manifiesto_app:agregar-sub_contrata' %}">Manifiesto por Sub-Contrata</a>
@@ -90,12 +90,12 @@
                 </span>
                 <a class="btn btn-quilla pull-right" href="{% url 'ingreso_app:agregar-branch' %}">
                     <span class="fa fa-plus"></span> Crear Nueva Sucursal
-                </a>    
+                </a>
             </div>
-            
+
         </div>
     </div><!-- page-header -->
-    
+
     <div class="row">
         <div class="col-xs-12">
             <div class="table-responsive">
@@ -114,9 +114,9 @@
                     <tbody>
                         {% for sucursal in  sucursales %}
                             <tr>
-                                <td>{{ sucursal.name }}</td> 
-                                <td>{{ sucursal.address }}</td> 
-                                <td>{{ sucursal.departamento }}</td> 
+                                <td>{{ sucursal.name }}</td>
+                                <td>{{ sucursal.address }}</td>
+                                <td>{{ sucursal.departamento }}</td>
                                 <td>{{ sucursal.provincia }}</td>
                                 <td>{{ sucursal.distrito }}</td>
                                 <td>{{ sucursal.phone }}</td>
@@ -127,8 +127,8 @@
                                     <a href="{% url 'ingreso_app:eliminar-branch' sucursal.pk %}" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
                                 </td>
                             </tr>
-                        {% empty %} 
-                            <td colspan="7">Lo sentimos no hay sucurales disponibles</td>     
+                        {% empty %}
+                            <td colspan="7">Lo sentimos no hay sucurales disponibles</td>
                         {% endfor %}
                     </tbody>
                 </table>
@@ -140,6 +140,3 @@
 {% endif %}
 
 {% endblock content_panel %}
-
-
-

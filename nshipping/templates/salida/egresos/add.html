@@ -1,7 +1,7 @@
 {% extends "ingreso/nota_ingreso/base_nota.html" %}
 
 {% block sidenav %}
-                        
+
     <li>
         <a class="active" href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
     </li>
@@ -30,7 +30,7 @@
             </li>
         </ul>
     </li>
-        
+
     <li>
         <a href="javascript:;" data-toggle="collapse" data-target="#manifiesto">
             <i class="fa fa-fw fa-bullseye"></i>
@@ -42,7 +42,7 @@
                 <a href="{% url 'manifiesto_app:listar-manifiesto' %}">Manifiesto En Curso</a>
             </li>
             <li>
-                <a href="{% url 'manifiesto_app:agregar-manifiesto' %}">Manifiesto Quilla Cargo</a>
+                <a href="{% url 'manifiesto_app:agregar-manifiesto' %}">Manifiesto Empresa</a>
             </li>
             <li>
                 <a href="{% url 'manifiesto_app:agregar-sub_contrata' %}">Manifiesto por Sub-Contrata</a>
@@ -79,7 +79,7 @@
     </div>
 
     <form role="form" method="POST" class="form-horizontal">{% csrf_token %}
-        
+
         {% if form.errors %}
             <div class="row box-section">
                 <div class="col-xs-12">
@@ -89,7 +89,7 @@
                     </div>
                 </div>
             </div>
-            
+
         {% endif %}
 
         <div class="row">
@@ -108,14 +108,14 @@
                 <div class="form-group">
                     <label for="{{ form.sender_name.is_for_label }}" class="col-xs-3 control-label label-envio">Importe o Monto:</label>
                     <div class="col-xs-9">
-                        {{ form.amount }}                        
+                        {{ form.amount }}
                         {% for error in form.sender_name.errors %}
                             <p class="help-block text-error">
                                 {{ error|escape }}
                             </p>
                         {% endfor %}
                     </div>
-                </div> 
+                </div>
             </div>
 
         </div>

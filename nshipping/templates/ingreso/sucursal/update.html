@@ -3,7 +3,7 @@
 {% block title %}Modifcar Sucursal{% endblock title %}
 
 {% block sidenav %}
-                        
+
     <li>
         <a class="active" href="{% url 'ingreso_app:nota-ingreso' %}"><i class="fa fa-fw fa-truck"></i> Nota De Ingreso</a>
     </li>
@@ -32,7 +32,7 @@
             </li>
         </ul>
     </li>
-        
+
     <li>
         <a href="javascript:;" data-toggle="collapse" data-target="#manifiesto">
             <i class="fa fa-fw fa-bullseye"></i>
@@ -44,7 +44,7 @@
                 <a href="{% url 'manifiesto_app:listar-manifiesto' %}">Manifiesto En Curso</a>
             </li>
             <li>
-                <a href="{% url 'manifiesto_app:agregar-manifiesto' %}">Manifiesto Quilla Cargo</a>
+                <a href="{% url 'manifiesto_app:agregar-manifiesto' %}">Manifiesto Empresa</a>
             </li>
             <li>
                 <a href="{% url 'manifiesto_app:agregar-sub_contrata' %}">Manifiesto por Sub-Contrata</a>
@@ -86,7 +86,7 @@
         <div class="col-xs-12">
             <form role="form" method="POST" class="form-horizontal">{% csrf_token %}
                 <p class="lead"><span class="glyphicon glyphicon-info-sign"></span> Ingresa los datos a modificar de la Sucursal.</p>
-                    
+
                 <div class="form-group">
                     <label for="{{ form.name.id_for_label }}" class="col-xs-12 col-sm-2 control-label label-envio">Nombre:</label>
                     <div class="col-xs-12 col-sm-8">
@@ -151,7 +151,7 @@
                             </div>
                         {% endfor %}
                     </div>
-                </div> 
+                </div>
                 <div class="form-group">
                     <label for="{{ form.phone.id_for_label }}" class="col-xs-12 col-sm-2 control-label label-envio">Télefono:</label>
                     <div class="col-xs-12 col-sm-8">
@@ -173,7 +173,7 @@
                     </div>
                 </div>
             </form>
-            
+
         </div>
     </div>
 {% else %}
